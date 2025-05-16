@@ -1,0 +1,37 @@
+@startuml domain-modeling
+
+Class Cliente
+Class Administrador
+Class Cocina
+Class Pedido
+Class Reporte
+Class Turno {
+	int horario
+}
+Class Insumo {
+	bool disponibilidad
+}
+Class Menu {
+	bool disponibilidad
+}
+
+Insumo "*..*" -o Menu : Contiene
+Insumo "1..*" -- Administrador : < Maneja
+Insumo "*..1" -- Reporte
+
+Menu "*..*" -- Cliente : < Selecciona
+
+Administrador "1..*" -- Turno : Asigna >
+Administrador "1..*" - Menu : Gestiona >
+Administrador "1..*" -- Reporte : Genera >
+
+Cliente "*" -- "0..1" Turno : Tiene asignado >
+Cliente -- Pedido : Realiza >
+
+Pedido *-- "*" Menu : Incluye
+Pedido "*..1" -- Reporte
+
+Cocina "1..*" ..> Pedido : Prepara >
+Turno -- Reporte
+
+@enduml
