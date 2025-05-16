@@ -9,7 +9,7 @@ Class Turno {
 	int horario
 }
 Class Insumo {
-	bool disponibilidad
+	float cantidad 
 }
 Class Menu {
 	bool disponibilidad
