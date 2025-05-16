@@ -7,9 +7,9 @@ This document provides guidelines for the project development. For more details,
 
 ## Development Team
 
-| [![Druxorey](https://github.com/druxorey.png?size=100)](https://github.com/druxorey) | [![Apurejose](https://github.com/Apurejose.png?size=10)](https://github.com/Apurejose) | [![Renzower](https://github.com/Renzower.png?size=100)](https://github.com/Renzower) |
-| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| [Druxorey](https://github.com/druxorey)                                              | [Apurejose](https://github.com/Apurejose)                                              | [Renzower](https://github.com/Renzower)                                              |
+| [![Druxorey](https://github.com/druxorey.png?size=400)](https://github.com/druxorey) | [![Apurejose](https://github.com/Apurejose.png?size=1)](https://github.com/Apurejose) | [![Renzower](https://github.com/Renzower.png?size=100)](https://github.com/Renzower) | [![LuiDL314](https://github.com/LuiDL314.png?size=100)](https://github.com/LuiDL314) |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| [Druxorey](https://github.com/druxorey)                                              | [Apurejose](https://github.com/Apurejose)                                             | [Renzower](https://github.com/Renzower)                                              | [LuiDL314](https://github.com/LuiDL314)                                              |
 
 ## License
 
