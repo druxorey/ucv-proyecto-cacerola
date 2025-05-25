@@ -1,8 +1,9 @@
-@startuml
+@startuml domain-modeling
 
 state a <<choice>>
 state b <<choice>>
 state c <<choice>>
+
 [*]-->Preparado : Preparando
 Preparado-->a : Trabajar?
 a-->b : Yes
@@ -19,4 +20,5 @@ Suministros_Verificados-->Cantidades_anotadas : Anotando cantidades
 Cantidades_anotadas-->c : Continuar trabajando?
 c-->b : Yes
 c-->Irse : No
+
 @enduml
