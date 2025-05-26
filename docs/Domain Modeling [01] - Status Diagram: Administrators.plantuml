@@ -1,13 +1,10 @@
 @startuml domain-modeling
 
-state a <<choice>>
 state b <<choice>>
 state c <<choice>>
 
 [*]-->Preparado : Preparando
-Preparado-->a : Trabajar?
-a-->b : Yes
-a-->Irse : No
+Preparado-->b
 Irse-->[*]
 b-->Reporte_redactado : Redactando reporte
 Reporte_redactado-->Reporte_presentado : Presentando reporte
@@ -18,7 +15,7 @@ Menu_presentado-->c : Continuar trabajando?
 b-->Suministros_Verificados : Verificando suministros
 Suministros_Verificados-->Cantidades_anotadas : Anotando cantidades
 Cantidades_anotadas-->c : Continuar trabajando?
-c-->b : Yes
+c-->b : Si
 c-->Irse : No
 
 @enduml
