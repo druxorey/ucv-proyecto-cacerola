@@ -1,21 +1,23 @@
 @startuml domain-modeling
 
-state b <<choice>>
-state c <<choice>>
+state eleccionElegirActividad <<choice>>
+state eleccionTrabajar <<choice>>
 
-[*]-->Preparado : Preparando
-Preparado-->b
-Irse-->[*]
-b-->Reporte_redactado : Redactando reporte
-Reporte_redactado-->Reporte_presentado : Presentando reporte
-Reporte_presentado-->c : Continuar trabajando?
-b-->Menu_modificado : Modificando menu
-Menu_modificado-->Menu_presentado : Presentado menu
-Menu_presentado-->c : Continuar trabajando?
-b-->Suministros_Verificados : Verificando suministros
-Suministros_Verificados-->Cantidades_anotadas : Anotando cantidades
-Cantidades_anotadas-->c : Continuar trabajando?
-c-->b : Si
-c-->Irse : No
+[*] --> eleccionElegirActividad : iniciandoJornada
+
+eleccionElegirActividad --> reporteRedactado : redactandoReporte
+reporteRedactado --> reportePresentado : presentandoReporte
+reportePresentado --> eleccionTrabajar : continuarTrabajando?
+
+eleccionElegirActividad --> menuModificado : modificandoMenu
+menuModificado --> menuPresentado : presentandoMenu
+menuPresentado --> eleccionTrabajar : continuarTrabajando?
+
+eleccionElegirActividad --> suministrosVerificados : verificandoSuministros
+suministrosVerificados --> cantidadesAnotadas : anotandoCantidades
+cantidadesAnotadas --> eleccionTrabajar : continuarTrabajando?
+
+eleccionTrabajar --> eleccionElegirActividad : si
+eleccionTrabajar --> [*] : terminandoJornada
 
 @enduml
