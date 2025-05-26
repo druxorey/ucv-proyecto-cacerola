@@ -1,12 +1,15 @@
-@startuml domain-modeling
+@startuml v
 
-Class Cliente
 Class Administrador
 Class Cocina
 Class Pedido
 Class Reporte
+Class Cliente {
+	string tipoDeCliente
+}
 Class Turno {
 	int horario
+	int capacidadMaxima
 }
 Class Insumo {
 	float cantidad 
@@ -15,23 +18,25 @@ Class Menu {
 	bool disponibilidad
 }
 
-Insumo "*..*" -o Menu : Contiene
-Insumo "1..*" -- Administrador : < Maneja
-Insumo "*..1" -- Reporte
+Insumo "0..*" -o Menu
+Insumo -- Administrador : < Maneja
+Insumo "1..*" --> Reporte 
 
-Menu "*..*" -- Cliente : < Selecciona
+Menu --  Cliente : < Selecciona
 
-Administrador "1..*" -- Turno : Asigna >
-Administrador "1..*" - Menu : Gestiona >
-Administrador "1..*" -- Reporte : Genera >
+Administrador -- Turno : Asigna >
+Administrador - Menu : Gestiona >
+Administrador -- Reporte : Genera >
 
-Cliente "*" -- "0..1" Turno : Tiene asignado >
-Cliente -- Pedido : Realiza >
+Cliente "1..*" --> Turno
+Cliente --o Pedido
 
-Pedido *-- "*" Menu : Incluye
-Pedido "*..1" -- Reporte
+Turno "0..1" o-- "1..*" Menu
 
-Cocina "1..*" ..> Pedido : Prepara >
-Turno -- Reporte
+Pedido *-- Menu
+Pedido "1..*" --> Reporte
+
+Cocina -- Pedido : Prepara >
+Turno --> Reporte
 
 @enduml
