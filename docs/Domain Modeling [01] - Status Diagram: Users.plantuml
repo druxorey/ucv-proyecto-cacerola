@@ -1,0 +1,30 @@
+@startuml domain-modeling
+
+[*] --> Haciendo_cola : formarse en la fila
+state a <<choice>>
+
+Haciendo_cola --> a : fin de la fila
+
+a --> Haciendo_cola : no
+a --> Entrando_al_comedor : si
+
+Entrando_al_comedor --> Haciendo_otra_cola :formarse en la fila
+
+state b <<choice>>
+
+Haciendo_otra_cola --> b : fin de la fila
+
+b --> Haciendo_otra_cola : no
+b --> Tomando_bandeja : si
+
+Tomando_bandeja --> Buscando_asiento : bandeja tomada
+
+Buscando_asiento --> Comiendo : asiento encontrado
+
+Comiendo --> Devolviendo_bandeja : comida terminada
+
+Devolviendo_bandeja --> Saliendo_del_comedor :bandeja devuelta
+
+Saliendo_del_comedor --> [*]
+
+@enduml
