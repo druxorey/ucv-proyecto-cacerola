@@ -1,0 +1,30 @@
+@startuml Requeriments
+left to right direction
+
+:Cliente:
+:Administrador:
+:BaseDeDatos:
+
+rectangle "MiComedorUCV" {
+	usecase IniciarSesion
+	usecase GestionarMenu
+	usecase VerMenú
+	usecase RealizarReporte
+	usecase VerificarSuministros
+	usecase AccederComoUsuario
+	usecase AccederComoAdministrador
+}
+
+Administrador -- IniciarSesion
+Cliente -- IniciarSesion
+BaseDeDatos -- IniciarSesion
+
+IniciarSesion <.. AccederComoAdministrador : <<include>>
+IniciarSesion <.. AccederComoUsuario : <<include>>
+
+AccederComoAdministrador <.. RealizarReporte : <<extend>>
+AccederComoAdministrador <.. VerificarSuministros : <<extend>>
+AccederComoAdministrador <.. GestionarMenu : <<extend>>
+AccederComoUsuario <.. VerMenú : <<extend>>
+
+@enduml
