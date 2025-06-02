@@ -1,0 +1,32 @@
+@startuml context-diagram
+state DecisionTipoUsuario <<choice>>
+
+[*] --> Registro
+Registro --> SesiónIniciada : RegistrarUsuario
+[*] --> SesiónIniciada
+SesiónIniciada --> DecisionTipoUsuario : IniciarSesion
+
+' Etiqueta para el choice usando un note
+note right of DecisionTipoUsuario
+  ¿Qué tipo de usuario?
+end note
+
+
+DecisionTipoUsuario --> ModoUsuario : EntrarModoUsuario
+DecisionTipoUsuario --> ModoAdmin : EntrarModoAdmin
+
+ModoUsuario --> MenúConsultado : ConsultarMenu
+ModoUsuario --> TurnoConsultado : ConsultarTurnos
+MenúConsultado --> [*]
+TurnoConsultado --> [*]
+
+ModoAdmin --> MenúGestionado : GestionarMenu
+ModoAdmin --> TurnoGestionado : GestionarTurnos
+ModoAdmin --> SuministrosVerificados : VerificarSuministros
+ModoAdmin --> ReporteRealizado : RealizarReporte
+MenúGestionado --> [*]
+TurnoGestionado --> [*]
+SuministrosVerificados --> [*]
+ReporteRealizado --> [*]
+
+@enduml
