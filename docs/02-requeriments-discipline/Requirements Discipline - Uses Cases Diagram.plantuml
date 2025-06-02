@@ -1,9 +1,9 @@
-@startuml Requeriments
+@startuml use-cases
 left to right direction
 
-:Cliente:
+:Usuario:
+:BaseDeDatosUCV:
 :Administrador:
-:BaseDeDatos:
 
 rectangle "MiComedorUCV" {
 	usecase IniciarSesión
@@ -12,22 +12,24 @@ rectangle "MiComedorUCV" {
 	usecase VerTurnos
 	usecase RealizarReporte
 	usecase VerificarSuministros
-	usecase AccederComoUsuario
-	usecase AccederComoAdministrador
+	usecase Registrarse
+	usecase GestionarTurnos
 }
 
+
+Usuario -- VerTurnos
+VerMenú <. VerTurnos : <<include>>
+
+Registrarse .> IniciarSesión : <<extend>>
+Usuario -- Registrarse
+
+Usuario -- IniciarSesión
+BaseDeDatosUCV -- IniciarSesión
 Administrador -- IniciarSesión
-Cliente -- IniciarSesión
-BaseDeDatos -- IniciarSesión
 
-IniciarSesión <.. AccederComoAdministrador : <<include>>
-IniciarSesión <.. AccederComoUsuario : <<include>>
-AccederComoUsuario <. VerMenú : <<extend>>
-VerMenú .> VerTurnos : <<include>>
-
-AccederComoAdministrador <.. RealizarReporte : <<extend>>
-AccederComoAdministrador <.. VerificarSuministros : <<extend>>
-AccederComoAdministrador <. GestionarMenú : <<extend>>
-
+Administrador -- RealizarReporte
+Administrador -- VerificarSuministros
+Administrador -- GestionarMenú
+Administrador -- GestionarTurnos
 
 @enduml
