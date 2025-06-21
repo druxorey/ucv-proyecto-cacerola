@@ -1,11 +1,40 @@
-<h1 align="center">Proyecto Cacerola</h1>
+<h1 align="center">MiComedorUCV</h1>
 
-> _"La Universidad Central de Venezuela (UCV) enfrenta desafíos en la gestión manual de su comedor universitario, lo que genera ineficiencias en el registro, asignación de turnos, control de consumo e inventario. Para abordar este problema, la Facultad de Ingeniería ha encargado el desarrollo de un sistema para sistematizar y automatizar estas tareas, con el objetivo de ofrecer una experiencia eficiente para estudiantes, empleados y administradores, mientras se optimizan los recursos del comedor."_
+<p align="center">Sistema para la gestión eficiente del comedor universitario</p>
 
-## Guía de Desarrollo
-Este documento proporciona pautas para el desarrollo del proyecto. Para más detalles, consulte el [Documento de Desarrollo](docs/DEVELOPMENT.md).
+<p align="center">
+<a href="docs/DEVELOPMENT.md"><img src="https://img.shields.io/badge/development%20guide-BD93F9?style=for-the-badge"></a>
 
-## Equipo de Desarrollo - Grupo 2
+## Estructura del Repositorio
+
+- `docs/`: Contiene documentación técnica y diagramas relacionados con el proyecto.
+- `src/`: Código fuente del proyecto (Java).
+- `tests/`: Pruebas unitarias y de integración.
+
+## Instalación
+
+1. Clona el repositorio:
+	```bash
+	git clone https://github.com/druxorey/ucv-proyecto-cacerola.git
+	cd ucv-proyecto-cacerola
+	```
+
+2. Compila el proyecto:
+	```bash
+	./javac MiComedorUCV.java
+	```
+
+3. Ejecuta el proyecto:
+	```bash
+	java -jar MiComedorUCV.jar
+	```
+
+4. Alternativamente, descarga el ejecutable desde la sección [Releases](https://github.com/<usuario>/MiComedorUCV/releases) del repositorio.
+
+## Equipo de Desarrollo
+
+<p align="center">Equipo 2</p>
+
 
 | [![Druxorey](https://github.com/druxorey.png?size=400)](https://github.com/druxorey) | [![Apurejose](https://github.com/Apurejose.png?size=1)](https://github.com/Apurejose) | [![Renzower](https://github.com/Renzower.png?size=100)](https://github.com/Renzower) | [![LuiDL314](https://github.com/LuiDL314.png?size=100)](https://github.com/LuiDL314) |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
