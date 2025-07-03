@@ -16,6 +16,7 @@
 
 \setlength{\parskip}{1em} % Space between paragraphs
 \setlength{\parindent}{0pt} % Without indentation for paragraphs
+\usepackage{enumitem} % To customize lists
 
 % Definition of colors for source code
 \definecolor{COLOR_COMMENTS}{HTML}{888888}
@@ -68,7 +69,7 @@
 	{\large {Escuela de Computación}\par}
 	{\large {Ingeniería de Software}\par}
 	\vspace{6cm}
-	{\LARGE \textbf{Planificación de Lanzamiento}\par}
+	{\LARGE \textbf{Planificación de Lanzamiento \\ (Product Backlog)}\par}
 	\vspace{0.25cm}
 	{\Large \textbf{Entrega 3}\par}
 	\vfill
@@ -88,9 +89,593 @@
 	{\large \today\par}
 \end{titlepage}
 
-\section{Historias de Usuario}
+\section{Requisitos del Sistema}
+
+Este apartado detalla los requisitos necesarios para el desarrollo del Sistema de Gestión de Cuentas Universitarias (SGCU). Los requisitos están organizados en forma de un Product Backlog, que incluye las funcionalidades esenciales para garantizar el correcto funcionamiento del sistema y satisfacer las necesidades de los usuarios.
+
+\textbf{Requisitos Generales Iniciales (Épicas)}:
+\begin{itemize}
+	\item \textbf{Gestión de Usuarios:} Permitir a los usuarios registrados (estudiantes, profesores y empleados) iniciar sesión en el sistema SGCU con sus credenciales.
+	\item \textbf{Gestión de Menús e Insumos:} Permitir a los administradores gestionar los menús del comedor universitario, incluyendo la adición, edición y eliminación de platos y sus insumos.
+	\item \textbf{Gestión del Monedero Virtual:} Permitir a los usuarios consultar su saldo, recargarlo y realizar transacciones de pago en el comedor.
+	\item \textbf{Gestión de Costos Operacionales:} Permitir a los administradores registrar y consultar los costos operativos del comedor, incluyendo la compra de insumos y el pago a proveedores.
+\end{itemize}
 
 \pagebreak
+
+\section{Historias de Usuario}
+
+\textbf{Historia de Usuario}: [HU001] - Inicio de Sesión.
+
+Como usuario registrado (estudiante, profesor o empleado), quiero iniciar sesión en el sistema SGCU ingresando mis credenciales válidas, para poder acceder a las funcionalidades disponibles según mi rol.
+
+\begin{itemize}
+	\item \textbf{Prioridad:} Alta
+	\item \textbf{Estimación} 13
+\end{itemize}
+
+\textbf{Criterios de Aceptación:}
+\begin{itemize}
+	\item \textbf{Escenario: Inicio de sesión exitoso.}
+	\begin{itemize}
+		\item \textbf{Dado} que el usuario ha hecho clic en el botón de inicio de sesión,
+		\item \textbf{Cuando} el sistema reconoce correctamente la cara del usuario,
+		\item \textbf{Entonces} el sistema debe autenticar al usuario y redirigirlo a la página principal del SGCU.
+	\end{itemize}
+
+	\item \textbf{Escenario: Inicio de sesión fallido por reconocimiento facial incorrecto.}
+	\begin{itemize}
+		\item \textbf{Dado} que el usuario ha hecho clic en el botón de inicio de sesión,
+		\item \textbf{Cuando} el sistema no puede reconocer correctamente la cara del usuario,
+		\item \textbf{Entonces} el sistema debe mostrar un mensaje de error indicando que no se pudo reconocer la cara y permitir al usuario intentar nuevamente.
+	\end{itemize}
+
+	\item \textbf{Escenario: Inicio de sesión fallido tras múltiples intentos.}
+	\begin{itemize}
+		\item \textbf{Dado} que el usuario ha hecho clic en el botón de inicio de sesión y ha fallado en tres intentos consecutivos de reconocimiento facial,
+		\item \textbf{Cuando} el sistema detecta que no se puede autenticar al usuario tras los intentos fallidos,
+		\item \textbf{Entonces} el sistema debe sugerir al usuario contactar al soporte técnico para resolver el problema.
+	\end{itemize}
+\end{itemize}
+
+\pagebreak
+
+\textbf{Historia de Usuario}: [HU002] - Solicitud de Cita para Registro.
+
+Como usuario no registrado, quiero completar un formulario con mis datos personales para enviar una solicitud de cita a la Secretaría, para poder iniciar el proceso de registro físico por identificación biométrica facial para el servicio de comedor universitario.
+
+\begin{itemize}
+    \item \textbf{Prioridad:} Alta
+    \item \textbf{\textbf{Estimación:}} 8
+\end{itemize}
+
+\textbf{Criterios de Aceptación:}
+\begin{itemize}
+    \item \textbf{Escenario: Envío exitoso de la solicitud de registro.}
+    \begin{itemize}
+        \item \textbf{Dado} que el usuario no registrado ha accedido al formulario de solicitud de registro,
+        \item \textbf{Cuando} el usuario completa todos los campos obligatorios (nombre, apellido, cédula de identidad, tipo de usuario, email) y los campos condicionales (carrera/facultad según tipo de usuario) con datos válidos, y hace clic en el botón de «Enviar Solicitud»,
+        \item \textbf{Entonces} el sistema debe mostrar un mensaje de éxito indicando que la solicitud ha sido enviada, y que la Secretaría se pondrá en contacto para agendar la cita física de registro biométrico.
+    \end{itemize}
+
+    \item \textbf{Escenario: Envío fallido por datos inválidos.}
+    \begin{itemize}
+        \item \textbf{Dado} que el usuario no registrado ha accedido al formulario de solicitud de registro,
+        \item \textbf{Cuando} el usuario ingresa datos erroneos y hace clic en «Enviar Solicitud»,
+        \item \textbf{Entonces} el sistema debe mostrar un mensaje de error específico junto a cada campo que contenga datos inválidos (ej. «Formato de correo electrónico inválido», «La cédula debe contener 8 dígitos numéricos») y no permitir el envío del formulario hasta que los datos sean corregidos.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Notas Adicionales (Requisitos No Funcionales):}
+\begin{itemize}
+    \item \textbf{Validación de Correo Electrónico:} El sistema debe validar que el correo \\ electrónico ingresado sea de un formato válido y pertenezca a uno de los dominios permitidos (institucional, gmail, outlook, proton).
+    \item \textbf{Validación de Cédula de Identidad:} La cédula de identidad debe ser un campo numérico y tener una longitud exacta de 8 dígitos.
+    \item \textbf{Campos Condicionales:} Al seleccionar «Estudiante» o «Profesor» en el tipo de usuario, se deben habilitar campos adicionales para «Carrera» y «Facultad». Para «Personal Obrero», estos campos no deben ser requeridos.
+\end{itemize}
+
+\pagebreak
+
+\textbf{Historia de Usuario}: [HU003] - Registro Físico de Usuario por Administrador.
+
+Como administrador de la Secretaría, quiero validar los datos de una solicitud de registro, realizar el escaneo facial biométrico y guardar la información del usuario en la base de datos, para finalizar el proceso de registro y otorgar acceso a la aplicación.
+
+\begin{itemize}
+    \item \textbf{Prioridad:} Alta
+    \item \textbf{\textbf{Estimación:}} 13
+\end{itemize}
+
+\textbf{Criterios de Aceptación:}
+\begin{itemize}
+    \item \textbf{Escenario: Registro exitoso de un usuario.}
+    \begin{itemize}
+        \item \textbf{Dado} que el administrador ha accedido a la sección de «Solicitudes Pendientes de Registro» y ha seleccionado una solicitud para procesar,
+        \item \textbf{Cuando} el administrador visualiza los datos del formulario de solicitud, los valida, hace clic en el botón «Realizar Escaneo Facial», y la API de escaneo facial confirma un registro exitoso,
+        \item \textbf{Entonces} el sistema debe guardar los datos validados del usuario y la información biométrica asociada en la base de datos, y mostrar una notificación de «Usuario Registrado Exitosamente».
+    \end{itemize}
+
+    \item \textbf{Escenario: Registro fallido por escaneo facial incorrecto.}
+    \begin{itemize}
+        \item \textbf{Dado} que el administrador está procesando una solicitud de registro y ha intentado realizar el escaneo facial,
+        \item \textbf{Cuando} la API de escaneo facial devuelve un error indicando que no se pudo completar el registro biométrico (ej. calidad insuficiente, error de lectura),
+        \item \textbf{Entonces} el sistema debe mostrar un mensaje de error claro y permitir al administrador reiniciar el proceso de escaneo facial.
+    \end{itemize}
+
+    \item \textbf{Escenario: Actualización de datos de solicitud antes del registro.}
+    \begin{itemize}
+        \item \textbf{Dado} que el administrador ha seleccionado una solicitud de registro pendiente,
+        \item \textbf{Cuando} el administrador identifica la necesidad de corregir o actualizar alguno de los datos personales previamente enviados en el formulario de solicitud (ej. error en el nombre, cambio de email),
+        \item \textbf{Entonces} el sistema debe permitir al administrador editar los campos pertinentes antes de proceder con el escaneo facial y el registro final.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Notas Adicionales (Requisitos No Funcionales):}
+\begin{itemize}
+    \item \textbf{Integración con API Biométrica:} El sistema debe interactuar con una API externa para realizar el escaneo y registro facial, manejando tanto respuestas exitosas como errores de la API.
+    \item \textbf{Consistencia de Datos:} La información personal del usuario debe ser consistente entre el formulario de solicitud y el registro final en la base de datos.
+    \item \textbf{Notificación Visual:} El sistema debe proporcionar feedback visual claro al administrador durante el proceso de escaneo y al finalizar el registro (éxito/falla).
+    \item \textbf{Reintento Automático/Manual:} En caso de fallas en el escaneo facial, el sistema debe facilitar un reintento del proceso de escaneo, idealmente sin reiniciar todo el flujo, es decir sin perder los datos del formulario.
+\end{itemize}
+
+\subsection{Gestión de Turnos}
+
+\textbf{Historia de Usuario}: [HU004] - Gestión de Horarios y Asignación de Menús.
+
+Como administrador del comedor, quiero agregar, modificar y visualizar los horarios de atención y asignar los menús específicos para cada turno y día de la semana, para asegurar que los usuarios conozcan la disponibilidad del servicio y las opciones de comida.
+
+\begin{itemize}
+    \item \textbf{Prioridad:} Alta
+    \item \textbf{\textbf{Estimación:}} 8
+\end{itemize}
+
+\textbf{Criterios de Aceptación:}
+\begin{itemize}
+    \item \textbf{Escenario: Creación de un nuevo turno de comedor y asignación de menú.}
+    \begin{itemize}
+        \item \textbf{Dado} que el administrador ha accedido a la vista semanal de horarios en la sección de administración,
+        \item \textbf{Cuando} el administrador selecciona un día y una opción para agregar turno, especifica la hora de inicio y fin del turno (ej. «Almuerzo: 12:00 PM - 2:00 PM»), y luego agrega el menú disponible para ese turno (nombre del plato y descripción de sus componentes, ej. «Pabellón: arroz, caraotas, carne mechada y tajadas»),
+        \item \textbf{Entonces} el sistema debe guardar el nuevo turno y su menú asociado, y este debe ser visible en la vista semanal.
+    \end{itemize}
+
+    \item \textbf{Escenario: Modificación de un turno existente y/o su menú.}
+    \begin{itemize}
+        \item \textbf{Dado} que el administrador ha accedido a la vista semanal de horarios y selecciona un turno existente,
+        \item \textbf{Cuando} el administrador modifica la hora de inicio/fin del turno o edita el menú asociado (añadiendo, quitando o modificando platos y sus descripciones), y guarda los cambios,
+        \item \textbf{Entonces} el sistema debe actualizar el turno y el menú en la base de datos, reflejando los cambios inmediatamente en la vista semanal y para los usuarios finales.
+    \end{itemize}
+
+    \item \textbf{Escenario: Eliminación de un turno de comedor.}
+    \begin{itemize}
+        \item \textbf{Dado} que el administrador ha accedido a la vista semanal de horarios y selecciona un turno existente,
+        \item \textbf{Cuando} el administrador elige la opción eliminar el turno y confirma la acción,
+        \item \textbf{Entonces} el sistema debe remover el turno y su menú asociado de la vista semanal y de la disponibilidad para los usuarios.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Historia de Usuario}: [HU005] - Generación y Exportación de Reportes Operacionales.
+
+Como administrador, quiero generar reportes de datos del comedor para un período seleccionado (diario, semanal o mensual) y exportarlos en formato de hoja de cálculo, para analizar la demanda, el consumo y planificar mejor los recursos.
+
+\begin{itemize}
+    \item \textbf{Prioridad:} Baja
+    \item \textbf{\textbf{Estimación:}} 2
+\end{itemize}
+
+\textbf{Criterios de Aceptación:}
+\begin{itemize}
+    \item \textbf{Escenario: Generación y exportación exitosa de un reporte.}
+    \begin{itemize}
+        \item \textbf{Dado} que el administrador ha accedido a la sección de «Generación de \\ Reportes» y ha seleccionado un tipo de período (diario, semanal, mensual) y un rango de fechas con datos operativos disponibles (ej. consumos, turnos),
+        \item \textbf{Cuando} el administrador hace clic en el botón «Generar Reporte»,
+        \item \textbf{Entonces} el sistema debe procesar los datos, generar el reporte correspondiente al período seleccionado y ofrecer al administrador la descarga de un archivo en formato de hoja de cálculo (ej. .xlsx o .csv) que contenga la información.
+    \end{itemize}
+
+    \item \textbf{Escenario: No se puede generar el reporte por falta de datos.}
+    \begin{itemize}
+        \item \textbf{Dado} que el administrador ha accedido a la sección de «Generación de Reportes» y ha seleccionado un tipo de período y un rango de fechas donde no existen datos operativos registrados (ej. no se programaron turnos, ni hubo consumo),
+        \item \textbf{Cuando} el administrador hace clic en el botón «Generar Reporte»,
+        \item \textbf{Entonces} el sistema debe mostrar un mensaje claro informando al administrador que no hay datos disponibles para el período seleccionado y, por lo tanto, no se puede generar el reporte.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Notas Adicionales (Requisitos No Funcionales):}
+\begin{itemize}
+    \item \textbf{Formatos de Exportación:} El reporte debe ser exportable en al menos un formato de hoja de cálculo ampliamente utilizado (ej. .xlsx o .csv).
+    \item \textbf{Disponibilidad de Periodos:} El sistema debe permitir seleccionar rangos de fechas flexibles para la generación de reportes (ej. un día específico, una semana específica, o un mes completo).
+\end{itemize}
+
+\pagebreak
+
+\textbf{Historia de Usuario}: [HU006] - Visualización del Menú Diario.
+
+Como usuario del SGCU (estudiante, profesor o personal obrero), quiero poder ver los menús disponibles para el día actual, incluyendo los platos, sus ingredientes y los turnos en los que se servirán, para decidir si deseo hacer uso del servicio de comedor.
+
+\begin{itemize}
+    \item \textbf{Prioridad:} Alta
+    \item \textbf{\textbf{Estimación:}} 2
+\end{itemize}
+
+\textbf{Criterios de Aceptación:}
+\begin{itemize}
+    \item \textbf{Escenario: Visualización exitosa del menú del día.}
+    \begin{itemize}
+        \item \textbf{Dado} que el usuario ha iniciado sesión en la aplicación SGCU y ha navegado a la pestaña «Menú Diario»,
+        \item \textbf{Cuando} el sistema carga la información del menú para la fecha actual,
+        \item \textbf{Entonces} el sistema debe mostrar una lista clara de los turnos disponibles (ej. «Desayuno», «Almuerzo», «Cena») y, para cada turno, los platos ofrecidos con su nombre y una descripción detallada de sus componentes/ingredientes (ej. «Pabellón: arroz, caraotas, carne mechada y tajadas»).
+    \end{itemize}
+
+    \item \textbf{Escenario: No hay menús disponibles para el día.}
+    \begin{itemize}
+        \item \textbf{Dado} que el usuario ha iniciado sesión en la aplicación SGCU y ha navegado a la pestaña «Menú Diario«,
+        \item \textbf{Cuando} el sistema no encuentra menús programados para la fecha actual,
+        \item \textbf{Entonces} el sistema debe mostrar un mensaje informando al usuario que no hay menús disponibles para el día o que el comedor no está en servicio en esa fecha.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Notas Adicionales (Requisitos No Funcionales):}
+\begin{itemize}
+    \item \textbf{Actualización en Tiempo Real:} El menú visible para el usuario debe reflejar cualquier cambio realizado por el administrador de forma casi instantánea.
+    \item \textbf{Claridad y Usabilidad:} La presentación del menú debe ser limpia y fácil de leer, con información bien organizada.
+\end{itemize}
+
+\pagebreak
+
+\textbf{Historia de Usuario}: [HU007] - Consulta de Saldo y Movimientos del Monedero Virtual.
+
+Como usuario del SGCU (estudiante, profesor o personal obrero), quiero poder consultar el saldo actual de mi monedero virtual y ver un historial de mis gastos del mes, para gestionar mi presupuesto y saber cuánto dinero tengo disponible para el servicio de comedor.
+
+\begin{itemize}
+    \item \textbf{Prioridad:} Alta
+    \item \textbf{\textbf{Estimación:}} 5
+\end{itemize}
+
+\textbf{Criterios de Aceptación:}
+\begin{itemize}
+    \item \textbf{Escenario: Visualización exitosa del saldo y movimientos.}
+    \begin{itemize}
+        \item \textbf{Dado} que el usuario ha iniciado sesión en la aplicación SGCU y ha navegado a la pestaña «Mi Saldo»,
+        \item \textbf{Cuando} el sistema carga la información de su cuenta,
+        \item \textbf{Entonces} el sistema debe mostrar claramente el saldo disponible actual del monedero virtual del usuario y una lista de los movimientos (gastos y recargas) realizados durante el mes actual, incluyendo la fecha, descripción (ej. «Comida Almuerzo», «Recarga»), y el monto de cada transacción.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Historia de Usuario}: [HU008] - Visualización de Datos para Recarga por Pago Móvil.
+
+Como usuario del SGCU (estudiante, profesor o personal obrero), quiero visualizar los datos de cuenta necesarios para afiliar mi monedero virtual a una aplicación bancaria y realizar pagos móviles, para poder recargar saldo de forma conveniente y anticipada para el servicio de comedor.
+
+\begin{itemize}
+    \item \textbf{Prioridad:} Alta
+    \item \textbf{\textbf{Estimación:}} 8
+\end{itemize}
+
+\textbf{Criterios de Aceptación:}
+\begin{itemize}
+    \item \textbf{Escenario: Visualización exitosa de los datos de recarga por pago móvil.}
+    \begin{itemize}
+        \item \textbf{Dado} que el usuario ha iniciado sesión en la aplicación SGCU y ha navegado a la pestaña «Recargar Monedero» o «Añadir Saldo«,
+        \item \textbf{Cuando} el sistema carga la interfaz de recarga,
+        \item \textbf{Entonces} el sistema debe mostrar claramente los datos requeridos para realizar una recarga a través de pago móvil, tales como el número de teléfono asociado al monedero virtual, el RIF del Servicio de Comedor Universitario (o entidad receptora), el nombre del titular de la cuenta (ej. UCV - Comedor Universitario) y el nombre del banco receptor.
+    \end{itemize}
+
+\end{itemize}
+
+\textbf{Notas Adicionales (Requisitos No Funcionales):}
+\begin{itemize}
+    \item \textbf{Límite de Saldo del Monedero:} El saldo máximo que una cuenta de monedero virtual puede tener es de 5000 BS. Si una recarga intentara elevar el saldo por encima de este límite, el monto excedente debe ser rechazado y devuelto a la cuenta bancaria emisora.
+\end{itemize}
+
+\textbf{Historia de Usuario}: [HU009] - Pago Seguro de Comida y Generación de Código QR para Retiro.
+
+Como usuario del SGCU (estudiante, profesor o personal obrero), seleccionar mi menú, realizar un pago seguro y obtener un código QR único para el retiro de mi bandeja, para poder consumir mi comida de manera eficiente y segura.
+
+\begin{itemize}
+    \item \textbf{Prioridad:} Alta
+    \item \textbf{\textbf{Estimación:}} 8
+\end{itemize}
+
+\textbf{Criterios de Aceptación:}
+\begin{itemize}
+    \item \textbf{Escenario: Proceso de pago exitoso y generación de QR.}
+    \begin{itemize}
+        \item \textbf{Dado} que el usuario ha accedido a la pestaña de pago de comida y tiene saldo suficiente en su monedero virtual para el menú seleccionado,
+        \item \textbf{Cuando} el usuario confirma su identidad mediante reconocimiento facial, selecciona un menú disponible y la transacción se completa exitosamente,
+        \item \textbf{Entonces} el sistema debe descontar el costo del menú del monedero virtual del usuario, generar un código QR único e irrepetible asociado exclusivamente a ese pago y mostrar dicho QR en pantallae.
+    \end{itemize}
+
+    \item \textbf{Escenario: Pago cancelado durante el procesamiento.}
+    \begin{itemize}
+        \item \textbf{Dado} que el usuario ha iniciado el proceso de pago y se muestra el indicador de «Procesando Pago»,
+        \item \textbf{Cuando} el usuario hace clic en el botón «Cancelar» dentro de los 3 segundos de procesamiento,
+        \item \textbf{Entonces} el sistema debe abortar la transacción, no realizar ningún descuento del monedero virtual y regresar al inicio sin generar un QR.
+    \end{itemize}
+
+    \item \textbf{Escenario: Pago rechazado por saldo insuficiente.}
+    \begin{itemize}
+        \item \textbf{Dado} que el usuario ha confirmado su identidad y ha seleccionado un menú,
+        \item \textbf{Cuando} el usuario procede al pago, pero el saldo de su monedero virtual es inferior al costo del menú seleccionado,
+        \item \textbf{Entonces} el sistema debe mostrar un mensaje de error claro (ej. «Saldo insuficiente para completar la transacción») y no permitir el avance al procesamiento del pago ni generar un QR.
+    \end{itemize}
+
+    \item \textbf{Escenario: Reembolso automático por QR no utilizado al fin del turno.}
+    \begin{itemize}
+        \item \textbf{Dado} que el usuario ha realizado un pago exitoso y se ha generado un código QR para un turno de comida específico,
+        \item \textbf{Cuando} el sistema detecta que el turno de comida asociado a ese QR ha finalizado (ej. hora de cierre del turno), y el QR no ha sido escaneado o utilizado para el retiro de la bandeja,
+        \item \textbf{Entonces} el sistema debe automáticamente revertir el monto total del pago al monedero virtual del usuario y marcar el QR como inválido/desechado, notificando al usuario del reembolso.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Notas Adicionales (Requisitos No Funcionales):}
+\begin{itemize}
+    \item \textbf{Doble Confirmación:} A la hora de realizar el pago, el sistema deberá pedir una confirmación adicional del usuario antes de proceder con el procesamiento del pago, para evitar errores.
+    \item \textbf{Velocidad de Procesamiento:} El procesamiento del pago (los 3 segundos) debe ser una simulación controlada y no debe reflejar latencia real de red. La finalización real de la transacción debe ser rápida una vez confirmada.
+    \item \textbf{Generación de QR Seguro:} El algoritmo para generar el QR debe asegurar que sea único, irrepetible y a prueba de fraude. Debe ser de un solo uso.
+	\item \textbf{Notificaciones:} El sistema debe notificar al usuario sobre el éxito/fracaso del pago, la generación del QR y los reembolsos automáticos (ej. vía notificaciones push o en la aplicación).
+    \item \textbf{Sincronización de Turnos:} El sistema debe tener una forma precisa de determinar el inicio y fin de cada turno de comida para la lógica de reinicio de QR y reembolsos.
+    \item \textbf{Disponibilidad del QR:} El QR debe ser fácilmente accesible para el usuario en el momento de la entrega de la bandeja, incluso si la aplicación se cierra y se vuelve a abrir.
+\end{itemize}
+
+\subsection{Requisitos No Funcionales Detallados para Precios y Costos}
+
+\begin{itemize}
+    \item \textbf{Cálculo del Costo Cubierto de la Bandeja (CCB):}
+    \begin{itemize}
+        \item \textbf{Fórmula de Cálculo:} El sistema debe implementar la fórmula exacta para el CCB: $CCB=[(CF+CV)/NB]^{*}(1+\%Merma)$.
+        \item \textbf{Componentes del Cálculo:}
+        \begin{itemize}
+            \item \textbf{Costos Fijos (CF):} El sistema debe permitir la entrada y gestión de los costos fijos totales del servicio, que incluyen la mano de obra del personal de cocina y administrativo, el mantenimiento de equipos e instalaciones, entre otros.
+            \item \textbf{Costos Variables (CV):} El sistema debe permitir la entrada y gestión de los costos variables totales por servicio, que fluctúan con el número de bandejas servidas, incluyendo el precio de los insumos (proteínas, lípidos y carbohidratos, considerando la distribución típica y las porciones recomendadas por el Instituto Nacional de Nutrición de Venezuela), los materiales de empaque y limpieza, y la energía consumida (electricidad, gas, etc.).
+            \item \textbf{Número de Bandejas (NB):} El sistema debe considerar el número de bandejas proyectadas o servidas en un período para el cálculo del CCB.
+            \item \textbf{Porcentaje de Merma (\%\_Merma):} El sistema debe incorporar un factor de desecho o merma inherente a la manipulación y preparación de los alimentos, expresado como porcentaje.
+        \end{itemize}
+        \item \textbf{Actualización de Componentes:} El sistema debe permitir a los administradores actualizar los valores de los costos fijos, costos variables y el porcentaje de merma para recalcular el CCB periódicamente.
+    \end{itemize}
+
+    \item \textbf{Aplicación de Tarifas Diferenciadas:}
+    \begin{itemize}
+        \item \textbf{Estructura de Tarifas:} El sistema debe aplicar una estructura de tarifas diferenciadas basada en el tipo de usuario y el CCB.
+        \item \textbf{Tarifa para Estudiantes:} La tarifa para estudiantes debe ser calculada y aplicada como un porcentaje entre el 20\% y el 30\% del CCB.
+        \item \textbf{Tarifa para Profesores:} La tarifa para profesores debe ser calculada y aplicada como un porcentaje entre el 70\% y el 90\% del CCB.
+        \item \textbf{Tarifa para Empleados:} La tarifa para empleados debe ser calculada y aplicada como un porcentaje entre el 90\% y el 110\% del CCB.
+        \item \textbf{Asignación Automática:} El sistema debe asignar automáticamente la tarifa correcta al usuario al momento de la verificación de saldo y el descuento, basándose en su tipo de usuario registrado.
+		\item \textbf{Flexibilidad de Configuración:} El sistema debe permitir a los administradores configurar los porcentajes exactos dentro de los rangos especificados para cada tipo de usuario (20-30\%, 70-90\%, 90-110\%).
+    \end{itemize}
+
+    \item \textbf{Distribución de Ingresos (Contabilización):}
+    \begin{itemize}
+        \item \textbf{División de Pagos:} El sistema debe registrar y categorizar los ingresos obtenidos por el pago de las tarifas, distribuyendo un porcentaje (entre 25\% y 30\%) a la ganancia del concesionario y el porcentaje restante a los ingresos propios del servicio del comedor universitario.
+        \item \textbf{Reporte de Distribución:} El sistema debe poder generar reportes que muestren esta distribución de ingresos para fines administrativos y de reinversión.
+    \end{itemize}
+\end{itemize}
+
+\pagebreak
+
 \section{Planificación del Sprint}
+
+\subsection{Planificación del Sprint 1 (30/06/2025 - 06/07/2025)}
+
+\subsubsection{Objetivos del Sprint 1}
+\begin{itemize}
+	\item Establecer la infraestructura inicial del sistema (base de datos, configuración de proyecto).
+	\item Implementar la funcionalidad base de inicio de sesión (HU001) y la solicitud de cita para registro de usuarios (HU002).
+	\item Definir los roles básicos de usuario y administrador.
+\end{itemize}
+
+\subsubsection{Tareas del Sprint 1}
+\textbf{Tareas de Infraestructura y Configuración}
+\begin{itemize}
+	\item Configuración inicial del proyecto (estructura de directorios, configuración Maven, gestión de dependencias). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 4 horas
+	\item Diseño y creación del esquema inicial de la base de datos (tablas de Usuarios, Roles, Solicitudes de Registro). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 8 horas
+	\item Implementación del Servicio de Reconocimiento Facial. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 4 horas
+\end{itemize}
+
+\textbf{Historia de Usuario: HU001 - Inicio de Sesión}
+\begin{itemize}
+	\item Escribir y ejecutar pruebas unitarias para la funcionalidad de inicio de sesión. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 5 horas
+	\item Diseñar y prototipar la interfaz de usuario para el inicio de sesión. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 4 horas
+	\item Implementar la lógica de autenticación y diferenciación de roles de usuario/administrador. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 8 horas
+\end{itemize}
+
+\textbf{Historia de Usuario: HU002 - Solicitud de Cita para Registro}
+\begin{itemize}
+	\item Escribir y ejecutar pruebas unitarias para la funcionalidad de solicitud de cita. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 5 horas
+	\item Diseñar y prototipar el formulario de solicitud de cita. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 4 horas
+	\item Implementar la lógica de validación de campos del formulario (incluyendo NFRs: email válido, cédula de 8 dígitos, campos condicionales). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 8 horas
+	\item Implementar el envío de datos de la solicitud al backend y manejo de respuestas. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 6 horas
+\end{itemize}
+
+\subsection{Planificación del Sprint 2 (07/07/2025 - 13/07/2025)}
+
+\subsubsection{Objetivos del Sprint 2}
+\begin{itemize}
+	\item Completar el flujo de registro de usuarios desde la perspectiva del administrador (HU003).
+	\item Habilitar la gestión de horarios y menús por parte del administrador (HU004).
+	\item Sentar las bases para el cálculo del Costo Cubierto de la Bandeja (CCB) y la aplicación de tarifas diferenciadas.
+\end{itemize}
+
+\subsubsection{Tareas del Sprint 2}
+\textbf{Historia de Usuario: HU003 - Registro Físico de Usuario por Administrador}
+\begin{itemize}
+	\item Escribir y ejecutar pruebas unitarias para la funcionalidad de registro por administrador. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 7 horas
+	\item Diseñar y prototipar la interfaz de administración para el procesamiento de solicitudes de registro. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 5 horas
+	\item Implementar la lógica de visualización, validación y modificación de datos de solicitud por parte del administrador. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 8 horas
+	\item Integración con la simulación de API de escaneo facial para el proceso de registro biométrico. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 10 horas
+	\item Implementar la lógica de persistencia de usuarios registrados en la base de datos (actualización de solicitud a usuario activo). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 6 horas
+\end{itemize}
+
+\textbf{Historia de Usuario: HU004 - Gestión de Horarios y Asignación de Menús}
+\begin{itemize}
+	\item Escribir y ejecutar pruebas unitarias para la funcionalidad de gestión de horarios y menús. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 8 horas
+	\item Diseñar y prototipar la vista semanal de horarios y la interfaz de gestión de menús (agregar/modificar platos, componentes). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 8 horas
+	\item Implementar la lógica para agregar, modificar y eliminar turnos de comedor y sus menús asociados. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 12 horas
+	\item Diseño y extensión de la base de datos para Horarios, Menús, Platos, Componentes. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 6 horas
+	\item Implementar NFR: Lógica de validación de superposición de turnos. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 4 horas
+\end{itemize}
+
+\textbf{Tareas Adicionales del Sprint 2}
+\begin{itemize}
+    \item Implementación inicial de la estructura de datos y lógica para el cálculo de Costo Cubierto de la Bandeja (CCB) y sus componentes (CF, CV, \%Merma). \\
+    \textbf{Responsable:} None \\
+    \textbf{Estimación:} 8 horas
+    \item Implementación de la configuración de porcentajes para tarifas diferenciadas según tipo de usuario (estudiante, profesor, empleado). \\
+    \textbf{Responsable:} None \\
+    \textbf{Estimación:} 6 horas
+\end{itemize}
+
+\subsection{Planificación del Sprint 3 (14/07/2025 - 20/07/2025)}
+
+\subsubsection{Objetivos del Sprint 3}
+\begin{itemize}
+	\item Permitir a los usuarios visualizar los menús disponibles (HU006).
+	\item Habilitar la consulta de saldo y movimientos del monedero virtual (HU007).
+	\item Proporcionar la información necesaria para la recarga del monedero virtual (HU008), incluyendo la aplicación del límite de saldo.
+\end{itemize}
+
+\subsubsection{Tareas del Sprint 3}
+\textbf{Historia de Usuario: HU006 - Visualización del Menú Diario}
+\begin{itemize}
+	\item Escribir y ejecutar pruebas unitarias para la funcionalidad de visualización del menú. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 6 horas
+	\item Diseñar y prototipar la interfaz de usuario para el menú diario. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 4 horas
+	\item Implementar la lógica para cargar y mostrar los menús disponibles del día desde el backend. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 8 horas
+\end{itemize}
+
+\textbf{Historia de Usuario: HU007 - Consulta de Saldo y Movimientos del Monedero Virtual}
+\begin{itemize}
+	\item Diseñar y prototipar la interfaz de usuario para la consulta de saldo y el historial de movimientos. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 5 horas
+	\item Diseño y creación del esquema de base de datos para Monederos y Transacciones. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 5 horas
+	\item Implementar la lógica para cargar y mostrar el saldo actual y los movimientos del monedero desde la base de datos. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 10 horas
+	\item Desarrollo de API REST para la consulta de monedero (saldo y movimientos). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 8 horas
+\end{itemize}
+
+\textbf{Historia de Usuario: HU008 - Visualización de Datos para Recarga por Pago Móvil}
+\begin{itemize}
+	\item Diseñar y prototipar la interfaz de usuario para la sección de recarga por pago móvil. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 4 horas
+	\item Implementar la lógica para mostrar los datos de recarga (número, RIF, banco, etc.). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 6 horas
+	\item Implementar NFR: Lógica de validación del límite de saldo de 5000 BS y simulación del «rebote» del dinero excedente. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 8 horas
+	\item Escribir y ejecutar pruebas unitarias para la funcionalidad de recarga (visualización y validación de límite). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 6 horas
+\end{itemize}
+
+\subsection{Planificación del Sprint 4 (21/07/2025 - 27/07/2025)}
+
+\subsubsection{Objetivos del Sprint 4}
+\begin{itemize}
+	\item Implementar el proceso completo de pago de comida y la generación/gestión de códigos QR (HU009).
+	\item Desarrollar la funcionalidad de generación y exportación de reportes operacionales para administradores (HU005).
+\end{itemize}
+
+\subsubsection{Tareas del Sprint 4}
+\textbf{Historia de Usuario: HU009 - Pago Seguro de Comida y Generación de Código QR para Retiro}
+\begin{itemize}
+	\item Diseñar y prototipar la interfaz de usuario para el proceso de pago (reconocimiento facial, selección de menú, confirmaciones, indicador, QR). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 10 horas
+	\item Diseño y extensión de la base de datos para registrar QRs generados, su estado y pagos asociados. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 4 horas
+	\item Implementar la lógica de procesamiento de pago (descuento de saldo, múltiples confirmaciones, indicador de procesamiento con cancelación). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 15 horas
+	\item Implementar la generación del código QR único e irrepetible y su persistencia hasta el uso o fin del turno. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 12 horas
+	\item Implementar NFR: Lógica de reembolso automático por QR no utilizado al fin del turno y reinicio de QRs. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 10 horas
+	\item Escribir y ejecutar pruebas unitarias exhaustivas para la funcionalidad de pago y QR. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 12 horas
+\end{itemize}
+
+\textbf{Historia de Usuario: HU005 - Generación y Exportación de Reportes Operacionales}
+\begin{itemize}
+	\item Escribir y ejecutar pruebas unitarias para la funcionalidad de generación de reportes. \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 7 horas
+	\item Diseñar y prototipar la interfaz de administración para la generación de reportes (selección de período, opciones de exportación). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 5 horas
+	\item Implementar la lógica para la agregación y procesamiento de datos para los diferentes tipos de reportes (diario, semanal, mensual). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 10 horas
+	\item Implementar la funcionalidad de exportación de reportes a formato de hoja de cálculo (ej. CSV o XLSX). \\
+	\textbf{Responsable:} None \\
+	\textbf{Estimación:} 8 horas
+\end{itemize}
+
+
+\pagebreak
+\pagebreak
+
+\subsection{Definición de Hecho (Definition of Done)}
+
+Para este Sprint, una historia de usuario se considerará «hecha» cuando se cumplan todos los siguientes criterios:
+
+\begin{itemize}
+	\item El código de la funcionalidad ha sido implementado y cumple con todos los criterios de aceptación de la historia de usuario.
+	\item Todas las pruebas unitarias asociadas a la funcionalidad han sido escritas y pasan el 100\%.
+	\item El código ha sido revisado por al menos otro miembro del equipo (Pair Programming o Code Review).
+	\item El código ha sido integrado exitosamente en la rama principal del repositorio.
+	\item La funcionalidad es demostrable al Grupo Docente.
+\end{itemize}
 
 \end{document}
