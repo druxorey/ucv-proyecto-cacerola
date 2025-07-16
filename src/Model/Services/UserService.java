@@ -28,7 +28,9 @@ public class UserService {
 				}
 			}
 		} catch (IOException e) {
-			// Archivo no encontrado o error de lectura
+			System.err.println("Error loading users: " + e.getMessage());
+		} catch (Exception e) {
+			System.err.println("Unexpected error: " + e.getMessage());
 		}
 		return users;
 	}
