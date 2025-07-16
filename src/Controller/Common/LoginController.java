@@ -21,6 +21,12 @@ public class LoginController {
 			public void actionPerformed(ActionEvent e) {
 				String userId = view.userIdField.getText();
 				String password = new String(view.passwordField.getPassword());
+
+				if (userId.isEmpty() || password.isEmpty()) {
+					JOptionPane.showMessageDialog(view, "Por favor, complete todos los campos");
+					return;
+				}
+
 				if (service.authenticate(userId, password)) {
 					JOptionPane.showMessageDialog(view, "Login exitoso");
 				} else {
