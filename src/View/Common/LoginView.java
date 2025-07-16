@@ -23,7 +23,7 @@ public class LoginView extends JFrame {
 	public JTextField userIdField;
 	public JPasswordField passwordField;
 	public JButton loginButton;
-	public JButton registerButton;
+	public JButton registerButton;	
 
 	public LoginView() {
 		createWindow();
