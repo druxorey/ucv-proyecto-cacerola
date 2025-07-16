@@ -34,5 +34,13 @@ public class LoginController {
 				}
 			}
 		});
+
+		view.registerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				View.Common.RegisterView registerView = new View.Common.RegisterView();
+				RegisterController registerController = new RegisterController(registerView);
+				registerView.setVisible(true);
+			}
+		});
 	}
 }
