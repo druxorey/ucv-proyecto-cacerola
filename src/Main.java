@@ -3,7 +3,7 @@ public class Main {
 		javax.swing.SwingUtilities.invokeLater(() -> {
 			View.Start.LoginView view = new View.Start.LoginView();
 			Model.Services.UserService service = new Model.Services.UserService();
-			Controller.Common.LoginController controller = new Controller.Common.LoginController(view, service);
+			new Controller.Common.LoginController(view, service);
 			view.setVisible(true);
 		});
 	}

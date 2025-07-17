@@ -17,12 +17,13 @@ public class LoginController {
 	}
 
 	private void initController() {
-		view.loginButton.addActionListener(new ActionListener() {
+		view.loginActionButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String userId = view.userIdField.getText();
 				String password = new String(view.passwordField.getPassword());
 
 				if (userId.isEmpty() || password.isEmpty()) {
+					System.err.println("[LoginController] Login attempt failed: One or more fields are empty.");
 					JOptionPane.showMessageDialog(view, "Por favor, complete todos los campos");
 					return;
 				}
@@ -30,19 +31,26 @@ public class LoginController {
 				int authenticated = service.authenticate(userId, password);
 
 				if (authenticated == 1) {
+					System.out.println("[LoginController] User login successful. UserID: '" + userId + "' (Role: User)");
 					JOptionPane.showMessageDialog(view, "Login exitoso");
 				} else if (authenticated == 2) {
-					JOptionPane.showMessageDialog(view, "Login exitoso como administrador");
+					System.out.println("[LoginController] Admin login successful. UserID: '" + userId + "' (Role: Admin)");
+					view.dispose();
+					View.Admin.AdminView adminView = new View.Admin.AdminView();
+					new Controller.Admin.AdminController(adminView);
+					adminView.setVisible(true);
 				} else {
+					System.err.println("[LoginController] Login failed: Incorrect ID or password.");
 					JOptionPane.showMessageDialog(view, "Cédula o contraseña incorrectos");
 				}
 			}
 		});
 
-		view.registerButton.addActionListener(new ActionListener() {
+		view.registerActionButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("[LoginController] Opening registration view for new user.");
 				View.Start.RegisterView registerView = new View.Start.RegisterView();
-				RegisterController registerController = new RegisterController(registerView);
+				new RegisterController(registerView);
 				registerView.setVisible(true);
 			}
 		});

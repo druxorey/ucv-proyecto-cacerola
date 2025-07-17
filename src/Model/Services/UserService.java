@@ -35,8 +35,8 @@ public class UserService {
 	public int authenticate(String userId, String password) {
 		List<User> users = loadUsers();
 		for (User user : users) {
-			if (user.getUserId().equals(userId) && user.getPassword().equals(password)) {
-				if (user.getType() == 0) {
+			if (user.getUserId().equals(userId) && user.getUserPassword().equals(password)) {
+				if (user.getUserType() == 0) {
 					return 2;
 				}
 				return 1;
@@ -52,12 +52,14 @@ public class UserService {
 			String line;
 			while ((line = br.readLine()) != null) {
 				String[] parts = line.split(",");
-				if (parts.length == 4) {
+				if (parts.length == 6) {
 					String userId = parts[0];
 					String password = parts[1];
 					int type = Integer.parseInt(parts[2]);
 					String email = parts[3];
-					users.add(new User(userId, password, type, email));
+					String nombre = parts[4];
+					String apellido = parts[5];
+					users.add(new User(userId, password, type, email, nombre, apellido));
 				}
 			}
 		} catch (IOException e) {
@@ -65,7 +67,18 @@ public class UserService {
 		} catch (Exception e) {
 			System.err.println("Unexpected error: " + e.getMessage());
 		}
-
 		return users;
+	}
+
+	public boolean addUserToDatabase(User user) {
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(USERS_FILE, true))) {
+			String line = String.format("%s,%s,%d,%s,%s,%s", user.getUserId(), user.getUserPassword(), user.getUserType(), user.getUserEmail(), user.getUserFirstName(), user.getUserLastName());
+			bw.write(line);
+			bw.newLine();
+			return true;
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error al guardar usuario: " + e.getMessage());
+			return false;
+		}
 	}
 }

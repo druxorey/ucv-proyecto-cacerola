@@ -6,37 +6,139 @@ import View.Common.UIStyles;
 import View.Common.UIElements;
 
 public class LoginView extends JFrame {
-	public static final int WINDOW_WIDTH = 800;
-	public static final int WINDOW_HEIGHT = 550;
 	public static final int LOGO_HEIGHT = 40;
 	public static final int LOGO_WIDTH = 40;
 	
 	public JTextField userIdField;
 	public JPasswordField passwordField;
-	public JButton loginButton;
-	public JButton registerButton;	
+	public JButton loginActionButton;
+	public JButton registerActionButton;	
 
-	public LoginView() {
-		createWindow();
+
+	private JPanel createLeftPanel() {
+		// Create the left panel with a vertical box layout
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		leftPanel.setBorder(BorderFactory.createEmptyBorder(
+			UIStyles.PANEL_PADDING,
+			UIStyles.PANEL_PADDING,
+			UIStyles.PANEL_PADDING,
+			UIStyles.PANEL_PADDING));
+		leftPanel.setBackground(UIStyles.BG_PRIMARY_COLOR);
+
+		// Add logo
+		java.net.URL logoPath = getClass().getResource("/Utils/ucvLogo.png");
+		JLabel logoLabel = logoPath != null ? new JLabel(new ImageIcon(logoPath)) : new JLabel();
+		logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		logoLabel.setPreferredSize(new Dimension(LOGO_WIDTH, LOGO_HEIGHT));
+
+		// Add login title
+		JLabel loginTitle = new JLabel("MiComedorUCV");
+		loginTitle.setFont(UIStyles.TITLE_FONT);
+		loginTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		// Add user ID field
+		JLabel loginUserIdLabel = new JLabel("Cédula de Identidad");
+		loginUserIdLabel.setFont(UIStyles.MAIN_FONT);
+		loginUserIdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		userIdField = (JTextField) UIElements.createInputField(false, evt -> loginActionButton.doClick());
+		
+		// Add password field
+		JLabel loginPasswordLabel = new JLabel("Contraseña");
+		loginPasswordLabel.setFont(UIStyles.MAIN_FONT);
+		loginPasswordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		passwordField = (JPasswordField) UIElements.createInputField(true, evt -> loginActionButton.doClick());
+		
+		// Add login and register buttons
+		loginActionButton = UIElements.createButton(
+			"Iniciar sesión",
+			UIStyles.ACCENT_COLOR,
+			Color.WHITE,
+			false,
+			UIStyles.BUTTON_WIDTH_SMALL
+		);
+		
+		registerActionButton = UIElements.createButton(
+			"Registrarse",
+			UIStyles.FG_SECONDARY_COLOR,
+			UIStyles.BG_SECONDARY_COLOR,
+			false,
+			UIStyles.BUTTON_WIDTH_SMALL
+		);
+		
+		// Add components to the left panel
+		leftPanel.add(logoLabel);
+		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+		leftPanel.add(loginTitle);
+		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		leftPanel.add(loginUserIdLabel);
+		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+		leftPanel.add(userIdField);
+		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		leftPanel.add(loginPasswordLabel);
+		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+		leftPanel.add(passwordField);
+		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		leftPanel.add(loginActionButton);
+		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+		leftPanel.add(registerActionButton);
+		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+
+		return leftPanel;
 	}
 
-	private void createWindow() {
+
+	private JPanel createRightPanel() {
+		// Create the right panel with a background image
+		return new JPanel(new BorderLayout()) {
+			@Override
+			// Override the paintComponent method to draw the background image
+			protected void paintComponent(Graphics canvasGraphics) {
+				super.paintComponent(canvasGraphics);
+				java.net.URL backgroundImagePath = getClass().getResource("/Utils/loginBackground.jpg");
+
+				if (backgroundImagePath != null) {
+					ImageIcon backgroundImageIcon = new ImageIcon(backgroundImagePath);
+					Image img = backgroundImageIcon.getImage();
+					
+					int panelWidth = getWidth();
+					int panelHeight = getHeight();
+					int imgWidth = img.getWidth(null);
+					int imgHeight = img.getHeight(null);
+
+					// If the image dimensions are valid, scale it to fit the panel
+					if (imgWidth > 0 && imgHeight > 0) {
+						// Scale the image to fit the panel while maintaining aspect ratio
+						float scale = Math.max((float) panelWidth / imgWidth, (float) panelHeight / imgHeight);
+						int newImgWidth = (int) (imgWidth * scale);
+						int newImgHeight = (int) (imgHeight * scale);
+						int x = (panelWidth - newImgWidth) / 2;
+						int y = (panelHeight - newImgHeight) / 2;
+						canvasGraphics.drawImage(img, x, y, newImgWidth, newImgHeight, this);
+					}
+
+				} else {
+					System.err.println("[LoginView] Background image not found at path: " + backgroundImagePath);
+					canvasGraphics.setColor(UIStyles.BG_PRIMARY_COLOR);
+				}
+			}
+		};
+	}
+
+
+	public LoginView() {
 		setTitle("Login");
-		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		setSize(UIStyles.WINDOW_WIDTH_LOGIN, UIStyles.WINDOW_HEIGHT_LOGIN);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-
+	
 		JPanel leftPanel = createLeftPanel();
 		JPanel rightPanel = createRightPanel();
-
+	
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
 		splitPane.setEnabled(false);
 		splitPane.setDividerSize(0);
 		splitPane.setBorder(BorderFactory.createEmptyBorder());
-		javax.swing.plaf.basic.BasicSplitPaneDivider divider = ((javax.swing.plaf.basic.BasicSplitPaneUI) splitPane.getUI()).getDivider();
-		if (divider != null) {
-			divider.setBackground(UIStyles.DEBUG_COLOR);
-		}
 		add(splitPane);
 
 		addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -50,92 +152,11 @@ public class LoginView extends JFrame {
 		});
 	}
 
-	private JPanel createRightPanel() {
-		JPanel leftPanel = new JPanel(new BorderLayout()) {
-			@Override
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				java.net.URL imgUrl = getClass().getResource("/Utils/loginImage.jpg");
-				if (imgUrl != null) {
-					ImageIcon icon = new ImageIcon(imgUrl);
-					Image img = icon.getImage();
-					int panelWidth = getWidth();
-					int panelHeight = getHeight();
-					int imgWidth = img.getWidth(null);
-					int imgHeight = img.getHeight(null);
 
-					if (imgWidth > 0 && imgHeight > 0) {
-						// Scale the image to fit the panel while maintaining aspect ratio
-						float scale = Math.max((float) panelWidth / imgWidth, (float) panelHeight / imgHeight);
-						int newImgWidth = (int) (imgWidth * scale);
-						int newImgHeight = (int) (imgHeight * scale);
-						int x = (panelWidth - newImgWidth) / 2;
-						int y = (panelHeight - newImgHeight) / 2;
-						g.drawImage(img, x, y, newImgWidth, newImgHeight, this);
-					}
-				}
-			}
-		};
-		leftPanel.setBackground(Color.RED);
-		return leftPanel;
-	}
-
-	private JPanel createLeftPanel() {
-		JPanel rightPanel = new JPanel();
-		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		rightPanel.setBorder(BorderFactory.createEmptyBorder(UIStyles.PANEL_PADDING, UIStyles.PANEL_PADDING, UIStyles.PANEL_PADDING, UIStyles.PANEL_PADDING));
-		rightPanel.setBackground(UIStyles.BG_PRIMARY_COLOR);
-
-		java.net.URL logoUrl = getClass().getResource("/Utils/ucvLogo.png");
-		JLabel logoLabel = logoUrl != null ? new JLabel(new ImageIcon(logoUrl)) : new JLabel();
-		logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		logoLabel.setPreferredSize(new Dimension(LOGO_WIDTH, LOGO_HEIGHT));
-		rightPanel.add(logoLabel);
-		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
-
-		JLabel appName = new JLabel("MiComedorUCV");
-		appName.setFont(UIStyles.TITLE_FONT);
-		appName.setAlignmentX(Component.CENTER_ALIGNMENT);
-		rightPanel.add(appName);
-
-		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
-		JLabel userIdLabel = new JLabel("Cédula de Identidad");
-		userIdLabel.setFont(UIStyles.MAIN_FONT);
-		userIdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		rightPanel.add(userIdLabel);
-		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
-
-		userIdField = (JTextField) UIElements.createInputField(false, evt -> loginButton.doClick());
-		rightPanel.add(userIdField);
-
-		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
-		JLabel passwordLabel = new JLabel("Contraseña");
-		passwordLabel.setFont(UIStyles.MAIN_FONT);
-		passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		rightPanel.add(passwordLabel);
-		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
-		
-		passwordField = (JPasswordField) UIElements.createInputField(true, evt -> loginButton.doClick());
-		rightPanel.add(passwordField);
-
-		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
-		loginButton = UIElements.createStyledButton(
-			"Iniciar sesión",
-			UIStyles.ACCENT_COLOR,
-			Color.WHITE,
-			false
-		);
-		rightPanel.add(loginButton);
-
-		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
-		registerButton = UIElements.createStyledButton(
-			"Registrarse",
-			UIStyles.BG_SECONDARY_COLOR,
-			UIStyles.FG_SECONDARY_COLOR,
-			false
-		);
-		rightPanel.add(registerButton);
-
-		return rightPanel;
+	public static void main(String[] args) {
+		javax.swing.SwingUtilities.invokeLater(() -> {
+			LoginView view = new LoginView();
+			view.setVisible(true);
+		});
 	}
 }
