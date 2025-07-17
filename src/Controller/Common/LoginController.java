@@ -17,7 +17,7 @@ public class LoginController {
 	}
 
 	private void initController() {
-		view.loginButton.addActionListener(new ActionListener() {
+		view.loginActionButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String userId = view.userIdField.getText();
 				String password = new String(view.passwordField.getPassword());
@@ -46,7 +46,7 @@ public class LoginController {
 			}
 		});
 
-		view.registerButton.addActionListener(new ActionListener() {
+		view.registerActionButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("[LoginController] Opening registration view for new user.");
 				View.Start.RegisterView registerView = new View.Start.RegisterView();
