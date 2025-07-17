@@ -101,8 +101,8 @@ private JPanel createShiftsPanel() {
 	shiftsPanel.add(saveButton);
 
 	// Cargar valores al iniciar
-	Model.Services.CostosOperacionalesService costosService = new Model.Services.CostosOperacionalesService();
-	org.json.JSONObject costos = costosService.loadCostos();
+	Model.Services.OperationalCostsService costosService = new Model.Services.OperationalCostsService();
+	org.json.JSONObject costos = costosService.loadOperationalCosts();
 	costosFijosField.setText(String.valueOf(costos.optDouble("costosFijosTotales", 0)));
 	costosVariablesField.setText(String.valueOf(costos.optDouble("costosVariables", 0)));
 	cantidadBandejasField.setText(String.valueOf(costos.optInt("cantidadBandejas", 0)));
@@ -114,7 +114,7 @@ private JPanel createShiftsPanel() {
 			double costosVariables = Double.parseDouble(costosVariablesField.getText());
 			int cantidadBandejas = Integer.parseInt(cantidadBandejasField.getText());
 			double porcentajeMerma = Double.parseDouble(porcentajeMermaField.getText());
-			boolean ok = costosService.saveCostos(costosFijos, costosVariables, cantidadBandejas, porcentajeMerma);
+			boolean ok = costosService.saveOperationalCosts(costosFijos, costosVariables, cantidadBandejas, porcentajeMerma);
 			if (ok) {
 				JOptionPane.showMessageDialog(this, "Costos guardados correctamente.");
 			} else {
