@@ -15,7 +15,7 @@ public class RegisterController {
 	private static final String[] ALLOWED_DOMAINS = {"@gmail.com", "@ciens.ucv.ve"};
 	private static final String EMAIL_RECIPIENT = "guillermogalavisg@gmail.com";
 
-	private boolean checkFields(String email, String userId, String password, String confirmPassword) {
+	public boolean checkFields(String email, String userId, String password, String confirmPassword) {
 		if (email.isEmpty() || userId.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
 			System.err.println("[RegisterController] Registration failed: One or more fields are empty. Email: '" + email + "', UserID: '" + userId + "'");
 			JOptionPane.showMessageDialog(registerView, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);

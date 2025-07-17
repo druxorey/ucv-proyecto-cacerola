@@ -19,8 +19,8 @@ public class UIStyles {
     public static final int VERTICAL_STRUT_MEDIUM = 20;
     public static final int WINDOW_WIDTH_LOGIN = 820;
     public static final int WINDOW_HEIGHT_LOGIN = 570;
-    public static final int WINDOW_WIDTH_INTERFACE = 1000;
-    public static final int WINDOW_HEIGHT_INTERFACE = 600;
+    public static final int WINDOW_WIDTH_INTERFACE = 1366;
+    public static final int WINDOW_HEIGHT_INTERFACE = 768;
 
     // Fonts
     public static final Font MAIN_FONT = new Font("Segoe UI", Font.BOLD, 14);

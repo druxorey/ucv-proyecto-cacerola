@@ -1,36 +1,44 @@
 package Model.Entities;
 
+
 public class User {
 	private String userId;
-	private String password;
-	private int type;
-	private String email;
+	private String userPassword;
+	private int userType;
+	private String userEmail;
+	private String userFirstName;
+	private String userLastName;
 
-	public User(String userId, String password) {
+	public User(String userId, String password, int type, String email, String firstName, String lastName) {
 		this.userId = userId;
-		this.password = password;
-	}
-
-	public User(String userId, String password, int type, String email) {
-		this.userId = userId;
-		this.password = password;
-		this.type = type;
-		this.email = email;
+		this.userPassword = password;
+		this.userType = type;
+		this.userEmail = email;
+		this.userFirstName = firstName;
+		this.userLastName = lastName;
 	}
 
 	public String getUserId() {
 		return userId;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getUserPassword() {
+		return userPassword;
 	}
 
-	public int getType() {
-		return type;
+	public int getUserType() {
+		return userType;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public String getUserFirstName() {
+		return userFirstName;
+	}
+
+	public String getUserLastName() {
+		return userLastName;
 	}
 }

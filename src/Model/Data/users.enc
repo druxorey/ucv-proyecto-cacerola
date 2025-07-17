@@ -1,2 +1,2 @@
-12345678,adminpassword,0,admin@mail.com
-87654321,userpassword,1,admin@gmail.com
+12345678,adminpassword,0,admin@mail.com,,
+87654321,userpassword,1,admin@gmail.com,,
