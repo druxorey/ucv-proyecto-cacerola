@@ -32,7 +32,10 @@ public class LoginController {
 				if (authenticated == 1) {
 					JOptionPane.showMessageDialog(view, "Login exitoso");
 				} else if (authenticated == 2) {
-					JOptionPane.showMessageDialog(view, "Login exitoso como administrador");
+					view.dispose();
+					View.Admin.AdminView adminView = new View.Admin.AdminView();
+					Controller.Admin.AdminController adminController = new Controller.Admin.AdminController(adminView);
+					adminView.setVisible(true);
 				} else {
 					JOptionPane.showMessageDialog(view, "Cédula o contraseña incorrectos");
 				}
