@@ -1,7 +1,7 @@
 package Controller.Common;
 
-import View.Common.LoginView;
 import Model.Services.UserService;
+import View.Start.LoginView;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -37,7 +37,7 @@ public class LoginController {
 
 		view.registerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				View.Common.RegisterView registerView = new View.Common.RegisterView();
+				View.Start.RegisterView registerView = new View.Start.RegisterView();
 				RegisterController registerController = new RegisterController(registerView);
 				registerView.setVisible(true);
 			}

@@ -1,9 +1,14 @@
-package View.Common;
+package View.Start;
 
 import javax.swing.*;
 import java.awt.*;
+import View.Common.UIStyles;
+import View.Common.UIElements;
 
 public class RegisterView extends JFrame {
+	public static final int WINDOW_WIDTH = 500;
+    public static final int WINDOW_HEIGHT = 700;
+
 	public JTextField emailField;
 	public JTextField userIdField;
 	public JPasswordField passwordField;
@@ -12,34 +17,34 @@ public class RegisterView extends JFrame {
 
 	public RegisterView() {
 		setTitle("Registro de Usuario");
-		setSize(500, 700);
+		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 
 		JPanel formPanel = new JPanel();
 		formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
-		formPanel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
-		formPanel.setBackground(UIColors.BG_PRIMARY_COLOR);
+		formPanel.setBorder(BorderFactory.createEmptyBorder(UIStyles.PANEL_PADDING, UIStyles.PANEL_PADDING * 2, UIStyles.PANEL_PADDING, UIStyles.PANEL_PADDING * 2));
+		formPanel.setBackground(UIStyles.BG_PRIMARY_COLOR);
 		
-		formPanel.add(Box.createVerticalStrut(20));
+		formPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
 		JLabel registerTitle = new JLabel("Solicitud de Registro");
-		registerTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
+		registerTitle.setFont(UIStyles.TITLE_FONT);
 		registerTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		formPanel.add(registerTitle);
-		formPanel.add(Box.createVerticalStrut(20));
+		formPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
 
 		JLabel infoLabel = new JLabel("<html>Esta es una solicitud para crear una cuenta en el sistema. Una vez enviada, será revisada por el departamento de registro. Si es aprobada, recibirás un correo con la hora de tu cita para completar el registro físico.</html>");
-		infoLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		infoLabel.setFont(UIStyles.FIELD_FONT);
 		infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		infoLabel.setForeground(Color.DARK_GRAY);
 		formPanel.add(infoLabel);
-		formPanel.add(Box.createVerticalStrut(30));
+		formPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM + 10));
 
-		emailField = new JTextField(20);
-		userIdField = new JTextField(20);
-		passwordField = new JPasswordField(20);
-		confirmPasswordField = new JPasswordField(20);
+		emailField = (JTextField) UIElements.createInputField(false, null);
+		userIdField = (JTextField) UIElements.createInputField(false, null);
+		passwordField = (JPasswordField) UIElements.createInputField(true, null);
+		confirmPasswordField = (JPasswordField) UIElements.createInputField(true, null);
 
 		addField(formPanel, "Correo Electrónico", emailField,
 			"<html>Debe ser un correo @gmail.com, institucional (@ucv.ve) o de facultad (@ciens.ucv.ve, etc.)</html>");
@@ -51,9 +56,12 @@ public class RegisterView extends JFrame {
 			"<html>Repita la contraseña para confirmar.</html>");
 
 		formPanel.add(Box.createVerticalStrut(20));
-		submitRegistrationButton = new JButton("Enviar Solicitud");
-		submitRegistrationButton.setBackground(UIColors.ACCENT_COLOR);
-		submitRegistrationButton.setForeground(UIColors.FG_SECONDARY_COLOR);
+		submitRegistrationButton = UIElements.createStyledButton(
+			"Enviar Solicitud",
+			UIStyles.ACCENT_COLOR,
+			Color.WHITE,
+			false
+		);
 		submitRegistrationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		formPanel.add(submitRegistrationButton);
 
@@ -66,7 +74,6 @@ public class RegisterView extends JFrame {
 		label.setFont(new Font("Segoe UI", Font.BOLD, 15));
 		panel.add(label);
 
-		field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
 		panel.add(field);
 
 		JLabel helpLabel = new JLabel(helpText);

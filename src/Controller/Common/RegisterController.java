@@ -1,10 +1,10 @@
 package Controller.Common;
 
-import View.Common.RegisterView;
 import javax.swing.*;
 
 import Model.Services.EmailSender;
 import Model.Services.UserService;
+import View.Start.RegisterView;
 
 import java.util.List;
 import java.awt.event.ActionEvent;

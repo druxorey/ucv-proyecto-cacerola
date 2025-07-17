@@ -1,25 +1,16 @@
-package View.Common;
+package View.Start;
 
 import javax.swing.*;
 import java.awt.*;
+import View.Common.UIStyles;
+import View.Common.UIElements;
 
 public class LoginView extends JFrame {
-	// Global style constants
-	private static final int WINDOW_WIDTH = 800;
-	private static final int WINDOW_HEIGHT = 500;
-	private static final int FIELD_HEIGHT = 30;
-	private static final int FIELD_COLUMNS = 20;
-	private static final int PANEL_PADDING = 30;
-	private static final int LOGO_HEIGHT = 40;
-	private static final int LOGO_WIDTH = 40;
-	private static final int VERTICAL_STRUT_SMALL = 10;
-	private static final int VERTICAL_STRUT_MEDIUM = 20;
-
-	// Global fonts
-	private static final Font MAIN_FONT = new Font("Segoe UI", Font.BOLD, 14);
-	private static final Font FIELD_FONT = new Font("Segoe UI", Font.PLAIN, 14);
-	private static final Font TITLE_FONT = new Font("Segoe UI", Font.BOLD, 26);
-
+	public static final int WINDOW_WIDTH = 800;
+	public static final int WINDOW_HEIGHT = 550;
+	public static final int LOGO_HEIGHT = 40;
+	public static final int LOGO_WIDTH = 40;
+	
 	public JTextField userIdField;
 	public JPasswordField passwordField;
 	public JButton loginButton;
@@ -44,7 +35,7 @@ public class LoginView extends JFrame {
 		splitPane.setBorder(BorderFactory.createEmptyBorder());
 		javax.swing.plaf.basic.BasicSplitPaneDivider divider = ((javax.swing.plaf.basic.BasicSplitPaneUI) splitPane.getUI()).getDivider();
 		if (divider != null) {
-			divider.setBackground(new Color(0xff00ff));
+			divider.setBackground(UIStyles.DEBUG_COLOR);
 		}
 		add(splitPane);
 
@@ -52,7 +43,7 @@ public class LoginView extends JFrame {
 			@Override
 			public void componentResized(java.awt.event.ComponentEvent e) {
 				int w = getWidth();
-				double relation = 0.40; // 60% width for left panel
+				double relation = 0.40; // 40% width for left panel
 				int divider = (int) (w * relation);
 				splitPane.setDividerLocation(divider);
 			}
@@ -85,67 +76,64 @@ public class LoginView extends JFrame {
 				}
 			}
 		};
-		leftPanel.setBackground(Color.WHITE);
+		leftPanel.setBackground(Color.RED);
 		return leftPanel;
 	}
 
 	private JPanel createLeftPanel() {
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		rightPanel.setBorder(BorderFactory.createEmptyBorder(PANEL_PADDING, PANEL_PADDING, PANEL_PADDING, PANEL_PADDING));
-		rightPanel.setBackground(UIColors.BG_PRIMARY_COLOR);
+		rightPanel.setBorder(BorderFactory.createEmptyBorder(UIStyles.PANEL_PADDING, UIStyles.PANEL_PADDING, UIStyles.PANEL_PADDING, UIStyles.PANEL_PADDING));
+		rightPanel.setBackground(UIStyles.BG_PRIMARY_COLOR);
 
 		java.net.URL logoUrl = getClass().getResource("/Utils/ucvLogo.png");
 		JLabel logoLabel = logoUrl != null ? new JLabel(new ImageIcon(logoUrl)) : new JLabel();
 		logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		logoLabel.setPreferredSize(new Dimension(LOGO_WIDTH, LOGO_HEIGHT));
 		rightPanel.add(logoLabel);
-		rightPanel.add(Box.createVerticalStrut(VERTICAL_STRUT_SMALL));
+		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
 
 		JLabel appName = new JLabel("MiComedorUCV");
-		appName.setFont(TITLE_FONT);
+		appName.setFont(UIStyles.TITLE_FONT);
 		appName.setAlignmentX(Component.CENTER_ALIGNMENT);
 		rightPanel.add(appName);
 
-		rightPanel.add(Box.createVerticalStrut(VERTICAL_STRUT_MEDIUM));
+		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
 		JLabel userIdLabel = new JLabel("Cédula de Identidad");
-		userIdLabel.setFont(MAIN_FONT);
+		userIdLabel.setFont(UIStyles.MAIN_FONT);
 		userIdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		rightPanel.add(userIdLabel);
-		userIdField = new JTextField(FIELD_COLUMNS);
-		userIdField.setFont(FIELD_FONT);
-		userIdField.setMaximumSize(new Dimension(Integer.MAX_VALUE, FIELD_HEIGHT));
-		userIdField.addActionListener(e -> loginButton.doClick());
+		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+
+		userIdField = (JTextField) UIElements.createInputField(false, evt -> loginButton.doClick());
 		rightPanel.add(userIdField);
 
-		rightPanel.add(Box.createVerticalStrut(VERTICAL_STRUT_SMALL));
+		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
 		JLabel passwordLabel = new JLabel("Contraseña");
-		passwordLabel.setFont(MAIN_FONT);
+		passwordLabel.setFont(UIStyles.MAIN_FONT);
 		passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		rightPanel.add(passwordLabel);
-		passwordField = new JPasswordField(FIELD_COLUMNS);
-		passwordField.setFont(FIELD_FONT);
-		passwordField.setMaximumSize(new Dimension(Integer.MAX_VALUE, FIELD_HEIGHT));
-		passwordField.setEchoChar('*');
-		passwordField.addActionListener(e -> loginButton.doClick());
+		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+		
+		passwordField = (JPasswordField) UIElements.createInputField(true, evt -> loginButton.doClick());
 		rightPanel.add(passwordField);
 
-		rightPanel.add(Box.createVerticalStrut(VERTICAL_STRUT_MEDIUM));
-		loginButton = new JButton("Iniciar sesión");
-		loginButton.setFont(MAIN_FONT);
-		loginButton.setBackground(UIColors.ACCENT_COLOR);
-		loginButton.setForeground(Color.WHITE);
-		loginButton.setFocusPainted(false);
-		loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		loginButton = UIElements.createStyledButton(
+			"Iniciar sesión",
+			UIStyles.ACCENT_COLOR,
+			Color.WHITE,
+			false
+		);
 		rightPanel.add(loginButton);
 
-		rightPanel.add(Box.createVerticalStrut(VERTICAL_STRUT_SMALL));
-		registerButton = new JButton("Registrarse");
-		registerButton.setFont(MAIN_FONT);
-		registerButton.setBackground(UIColors.BG_SECONDARY_COLOR);
-		registerButton.setForeground(UIColors.FG_SECONDARY_COLOR);
-		registerButton.setFocusPainted(false);
-		registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+		registerButton = UIElements.createStyledButton(
+			"Registrarse",
+			UIStyles.BG_SECONDARY_COLOR,
+			UIStyles.FG_SECONDARY_COLOR,
+			false
+		);
 		rightPanel.add(registerButton);
 
 		return rightPanel;
