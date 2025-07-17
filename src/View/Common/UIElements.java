@@ -19,13 +19,16 @@ public class UIElements {
 		return field;
 	}
 
-	public static JButton createStyledButton(String text, Color bgColor, Color fgColor, boolean focusPainted) {
+	public static JButton createButton(String text, Color bgColor, Color fgColor, boolean focusPainted, int width) {
 		JButton button = new JButton(text);
 		button.setFont(UIStyles.MAIN_FONT);
 		button.setBackground(bgColor);
 		button.setForeground(fgColor);
 		button.setFocusPainted(focusPainted);
+		button.setBorder(BorderFactory.createEmptyBorder()); // Transparent border
 		button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button.setMaximumSize(new Dimension(width, 30));
+		button.setPreferredSize(new Dimension(width, 30));
 		return button;
 	}
 }

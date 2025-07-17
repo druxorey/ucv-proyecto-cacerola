@@ -17,6 +17,8 @@ public class UIStyles {
     public static final int PANEL_PADDING = 30;
     public static final int VERTICAL_STRUT_SMALL = 10;
     public static final int VERTICAL_STRUT_MEDIUM = 20;
+    public static final int BUTTON_WIDTH_SMALL = 120;
+    public static final int BUTTON_WIDTH_MEDIUM = 150;
     public static final int WINDOW_WIDTH_LOGIN = 820;
     public static final int WINDOW_HEIGHT_LOGIN = 570;
     public static final int WINDOW_WIDTH_INTERFACE = 1366;
