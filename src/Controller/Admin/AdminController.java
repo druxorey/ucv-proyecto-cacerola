@@ -24,13 +24,13 @@ public class AdminController {
         return userService.addUserToDatabase(user);
     }
 
-    public void handleAddUser(JTextField nombreField, JTextField apellidoField, JTextField userIdField, JPasswordField passwordField, JTextField emailField, JComboBox<String> tipoCombo) {
+    public void handleAddUser(JTextField nombreField, JTextField apellidoField, JTextField userIdField, JPasswordField passwordField, JTextField emailField, JComboBox<String> userType) {
         String nombre = nombreField.getText().trim();
         String apellido = apellidoField.getText().trim();
         String userId = userIdField.getText().trim();
         String password = new String(passwordField.getPassword());
         String email = emailField.getText().trim();
-        int type = tipoCombo.getSelectedIndex();
+        int type = userType.getSelectedIndex() + 1;
 
         if (nombre.isEmpty() || apellido.isEmpty() || userId.isEmpty() || password.isEmpty() || email.isEmpty()) {
             JOptionPane.showMessageDialog(view, "Todos los campos son obligatorios.");
@@ -45,7 +45,7 @@ public class AdminController {
             userIdField.setText("");
             passwordField.setText("");
             emailField.setText("");
-            tipoCombo.setSelectedIndex(0);
+            userType.setSelectedIndex(0);
         } else {
             JOptionPane.showMessageDialog(view, "Error al agregar usuario.");
         }
