@@ -1,0 +1,9 @@
+{
+	"java.project.sourcePaths": [
+		"."
+	],
+	"java.project.referencedLibraries": [
+		"/home/druxorey/Workspace/Academic/proyecto-cacerola/lib/javax.activation.jar",
+		"/home/druxorey/Workspace/Academic/proyecto-cacerola/lib/javax.mail.jar"
+	]
+}
