@@ -12,7 +12,7 @@ public class RegisterView extends JFrame {
 
 	public RegisterView() {
 		setTitle("Registro de Usuario");
-		setSize(500, 550);
+		setSize(500, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
@@ -21,19 +21,20 @@ public class RegisterView extends JFrame {
 		formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
 		formPanel.setBorder(BorderFactory.createEmptyBorder(20, 60, 20, 60));
 		formPanel.setBackground(UIColors.BG_PRIMARY_COLOR);
-
+		
+		formPanel.add(Box.createVerticalStrut(20));
 		JLabel registerTitle = new JLabel("Solicitud de Registro");
 		registerTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
 		registerTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		formPanel.add(registerTitle);
-		formPanel.add(Box.createVerticalStrut(10));
+		formPanel.add(Box.createVerticalStrut(20));
 
 		JLabel infoLabel = new JLabel("<html>Esta es una solicitud para crear una cuenta en el sistema. Una vez enviada, será revisada por el departamento de registro. Si es aprobada, recibirás un correo con la hora de tu cita para completar el registro físico.</html>");
 		infoLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		infoLabel.setForeground(Color.DARK_GRAY);
 		formPanel.add(infoLabel);
-		formPanel.add(Box.createVerticalStrut(20));
+		formPanel.add(Box.createVerticalStrut(30));
 
 		emailField = new JTextField(20);
 		userIdField = new JTextField(20);

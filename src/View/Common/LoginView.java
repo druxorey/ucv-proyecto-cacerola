@@ -64,7 +64,7 @@ public class LoginView extends JFrame {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				java.net.URL imgUrl = getClass().getResource("/Model/Utils/loginImage.jpg");
+				java.net.URL imgUrl = getClass().getResource("/Utils/loginImage.jpg");
 				if (imgUrl != null) {
 					ImageIcon icon = new ImageIcon(imgUrl);
 					Image img = icon.getImage();
@@ -95,7 +95,7 @@ public class LoginView extends JFrame {
 		rightPanel.setBorder(BorderFactory.createEmptyBorder(PANEL_PADDING, PANEL_PADDING, PANEL_PADDING, PANEL_PADDING));
 		rightPanel.setBackground(UIColors.BG_PRIMARY_COLOR);
 
-		java.net.URL logoUrl = getClass().getResource("/Model/Utils/ucvLogo.png");
+		java.net.URL logoUrl = getClass().getResource("/Utils/ucvLogo.png");
 		JLabel logoLabel = logoUrl != null ? new JLabel(new ImageIcon(logoUrl)) : new JLabel();
 		logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		logoLabel.setPreferredSize(new Dimension(LOGO_WIDTH, LOGO_HEIGHT));
