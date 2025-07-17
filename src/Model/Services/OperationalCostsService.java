@@ -4,16 +4,22 @@ import java.io.*;
 import org.json.JSONObject;
 
 public class OperationalCostsService {
-    private static final String FILE_PATH = "Model/Data/operationalCosts.json";
+    private static final String FILE_PATH = "/Model/Data/operationalCosts.json";
 
     public JSONObject loadOperationalCosts() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
+        try (InputStream in = getClass().getResourceAsStream(FILE_PATH)) {
+            if (in != null) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                return new JSONObject(sb.toString());
+            } else {
+                System.err.println("Operational costs file not found in resources: " + FILE_PATH);
+                return new JSONObject();
             }
-            return new JSONObject(sb.toString());
         } catch (Exception e) {
             return new JSONObject();
         }

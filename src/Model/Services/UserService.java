@@ -7,17 +7,22 @@ import java.util.*;
 import javax.swing.JOptionPane;
 
 public class UserService {
-	private static final String USERS_FILE = "Model/Data/users.enc";
+private static final String USERS_FILE = "/Model/Data/users.enc";
 
 	public int getUserCount() {
 		int count = 0;
-		try (BufferedReader br = new BufferedReader(new FileReader(USERS_FILE))) {
-			while (br.readLine() != null) {
-				count++;
-			}
-		} catch (IOException e) {
-			System.err.println("Error reading user file: " + e.getMessage());
-		}
+	   try (InputStream in = getClass().getResourceAsStream(USERS_FILE)) {
+		   if (in != null) {
+			   BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			   while (br.readLine() != null) {
+				   count++;
+			   }
+		   } else {
+			   System.err.println("User file not found in resources: " + USERS_FILE);
+		   }
+	   } catch (IOException e) {
+		   System.err.println("Error reading user file: " + e.getMessage());
+	   }
 		return count;
 	}
 
@@ -48,25 +53,30 @@ public class UserService {
 
 	private List<User> loadUsers() {
 		List<User> users = new ArrayList<>();
-		try (BufferedReader br = new BufferedReader(new FileReader(USERS_FILE))) {
-			String line;
-			while ((line = br.readLine()) != null) {
-				String[] parts = line.split(",");
-				if (parts.length == 6) {
-					String userId = parts[0];
-					String password = parts[1];
-					int type = Integer.parseInt(parts[2]);
-					String email = parts[3];
-					String nombre = parts[4];
-					String apellido = parts[5];
-					users.add(new User(userId, password, type, email, nombre, apellido));
-				}
-			}
-		} catch (IOException e) {
-			System.err.println("Error loading users: " + e.getMessage());
-		} catch (Exception e) {
-			System.err.println("Unexpected error: " + e.getMessage());
-		}
+	   try (InputStream in = getClass().getResourceAsStream(USERS_FILE)) {
+		   if (in != null) {
+			   BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			   String line;
+			   while ((line = br.readLine()) != null) {
+				   String[] parts = line.split(",");
+				   if (parts.length == 6) {
+					   String userId = parts[0];
+					   String password = parts[1];
+					   int type = Integer.parseInt(parts[2]);
+					   String email = parts[3];
+					   String nombre = parts[4];
+					   String apellido = parts[5];
+					   users.add(new User(userId, password, type, email, nombre, apellido));
+				   }
+			   }
+		   } else {
+			   System.err.println("User file not found in resources: " + USERS_FILE);
+		   }
+	   } catch (IOException e) {
+		   System.err.println("Error loading users: " + e.getMessage());
+	   } catch (Exception e) {
+		   System.err.println("Unexpected error: " + e.getMessage());
+	   }
 		return users;
 	}
 
