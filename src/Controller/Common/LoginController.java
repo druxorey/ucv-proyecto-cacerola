@@ -37,7 +37,7 @@ public class LoginController {
 					System.out.println("[LoginController] Admin login successful. UserID: '" + userId + "' (Role: Admin)");
 					view.dispose();
 					View.Admin.AdminView adminView = new View.Admin.AdminView();
-					Controller.Admin.AdminController adminController = new Controller.Admin.AdminController(adminView);
+					new Controller.Admin.AdminController(adminView);
 					adminView.setVisible(true);
 				} else {
 					System.err.println("[LoginController] Login failed: Incorrect ID or password.");
@@ -50,7 +50,7 @@ public class LoginController {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("[LoginController] Opening registration view for new user.");
 				View.Start.RegisterView registerView = new View.Start.RegisterView();
-				RegisterController registerController = new RegisterController(registerView);
+				new RegisterController(registerView);
 				registerView.setVisible(true);
 			}
 		});
