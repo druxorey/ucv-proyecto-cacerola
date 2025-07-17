@@ -27,8 +27,12 @@ public class LoginController {
 					return;
 				}
 
-				if (service.authenticate(userId, password)) {
+				int authenticated = service.authenticate(userId, password);
+
+				if (authenticated == 1) {
 					JOptionPane.showMessageDialog(view, "Login exitoso");
+				} else if (authenticated == 2) {
+					JOptionPane.showMessageDialog(view, "Login exitoso como administrador");
 				} else {
 					JOptionPane.showMessageDialog(view, "Cédula o contraseña incorrectos");
 				}

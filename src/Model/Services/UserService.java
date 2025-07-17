@@ -4,6 +4,8 @@ import Model.Entities.User;
 import java.io.*;
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 public class UserService {
 	private static final String USERS_FILE = "Model/Data/users.enc";
 
@@ -30,14 +32,17 @@ public class UserService {
 	}
 
 
-	public boolean authenticate(String userId, String password) {
+	public int authenticate(String userId, String password) {
 		List<User> users = loadUsers();
 		for (User user : users) {
 			if (user.getUserId().equals(userId) && user.getPassword().equals(password)) {
-				return true;
+				if (user.getType() == 0) {
+					return 2;
+				}
+				return 1;
 			}	
 		}	
-		return false;
+		return 0;
 	}	
 	
 
@@ -47,8 +52,12 @@ public class UserService {
 			String line;
 			while ((line = br.readLine()) != null) {
 				String[] parts = line.split(",");
-				if (parts.length == 2) {
-					users.add(new User(parts[0], parts[1]));
+				if (parts.length == 4) {
+					String userId = parts[0];
+					String password = parts[1];
+					int type = Integer.parseInt(parts[2]);
+					String email = parts[3];
+					users.add(new User(userId, password, type, email));
 				}
 			}
 		} catch (IOException e) {
