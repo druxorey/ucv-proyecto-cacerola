@@ -85,35 +85,36 @@ public class AdminView extends JFrame {
 		shiftsPanel.add(shiftsLabel);
 		shiftsPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
 
-		JTextField costosFijosField = (JTextField) UIElements.createInputField(false, null);
-		JTextField costosVariablesField = (JTextField) UIElements.createInputField(false, null);
-		JTextField cantidadBandejasField = (JTextField) UIElements.createInputField(false, null);
-		JTextField porcentajeMermaField = (JTextField) UIElements.createInputField(false, null);
+		JTextField totalFixedCostsField = (JTextField) UIElements.createInputField(false, null);
+		JTextField variableCostsField = (JTextField) UIElements.createInputField(false, null);
+		JTextField numberOfTraysField = (JTextField) UIElements.createInputField(false, null);
+		JTextField wastePercentageField = (JTextField) UIElements.createInputField(false, null);
 
-		addField(shiftsPanel, "Costos Fijos Totales", costosFijosField, "<html>Costos fijos mensuales del comedor.</html>");
-		addField(shiftsPanel, "Costos Variables", costosVariablesField, "<html>Costos variables mensuales del comedor.</html>");
-		addField(shiftsPanel, "Cantidad de Bandejas", cantidadBandejasField, "<html>Cantidad de bandejas servidas en el mes.</html>");
-		addField(shiftsPanel, "Porcentaje de Merma", porcentajeMermaField, "<html>Porcentaje estimado de merma en la producción.</html>");
+		addField(shiftsPanel, "Costos Fijos Totales", totalFixedCostsField, "<html>Costos fijos mensuales del comedor.</html>");
+		addField(shiftsPanel, "Costos Variables", variableCostsField, "<html>Costos variables mensuales del comedor.</html>");
+		addField(shiftsPanel, "Cantidad de Bandejas", numberOfTraysField, "<html>Cantidad de bandejas servidas en el mes.</html>");
+		addField(shiftsPanel, "Porcentaje de Merma", wastePercentageField, "<html>Porcentaje estimado de merma en la producción.</html>");
 
 		JButton saveButton = UIElements.createButton("Guardar", UIStyles.ACCENT_COLOR, Color.WHITE, false, 120);
 		saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		shiftsPanel.add(saveButton);
 
 		// Cargar valores al iniciar
-		Model.Services.OperationalCostsService costosService = new Model.Services.OperationalCostsService();
-		org.json.JSONObject costos = costosService.loadOperationalCosts();
-		costosFijosField.setText(String.valueOf(costos.optDouble("costosFijosTotales", 0)));
-		costosVariablesField.setText(String.valueOf(costos.optDouble("costosVariables", 0)));
-		cantidadBandejasField.setText(String.valueOf(costos.optInt("cantidadBandejas", 0)));
-		porcentajeMermaField.setText(String.valueOf(costos.optDouble("porcentajeMerma", 0)));
+		Model.Services.OperationalCostsService operationalCostsService = new Model.Services.OperationalCostsService();
+		org.json.JSONObject operationalCosts = operationalCostsService.loadOperationalCosts();
+		totalFixedCostsField.setText(String.valueOf(operationalCosts.optDouble("totalFixedCosts", 0)));
+		variableCostsField.setText(String.valueOf(operationalCosts.optDouble("variableCosts", 0)));
+		numberOfTraysField.setText(String.valueOf(operationalCosts.optInt("numberOfTrays", 0)));
+		wastePercentageField.setText(String.valueOf(operationalCosts.optDouble("wastePercentage", 0)));
 
 		saveButton.addActionListener(e -> {
 			try {
-				double costosFijos = Double.parseDouble(costosFijosField.getText());
-				double costosVariables = Double.parseDouble(costosVariablesField.getText());
-				int cantidadBandejas = Integer.parseInt(cantidadBandejasField.getText());
-				double porcentajeMerma = Double.parseDouble(porcentajeMermaField.getText());
-				boolean ok = costosService.saveOperationalCosts(costosFijos, costosVariables, cantidadBandejas, porcentajeMerma);
+				double totalFixedCosts = Double.parseDouble(totalFixedCostsField.getText());
+				double variableCosts = Double.parseDouble(variableCostsField.getText());
+				int numberOfTrays = Integer.parseInt(numberOfTraysField.getText());
+				double wastePercentage = Double.parseDouble(wastePercentageField.getText());
+
+				boolean ok = operationalCostsService.saveOperationalCosts(totalFixedCosts, variableCosts, numberOfTrays, wastePercentage);
 				if (ok) {
 					JOptionPane.showMessageDialog(this, "Costos guardados correctamente.");
 				} else {
