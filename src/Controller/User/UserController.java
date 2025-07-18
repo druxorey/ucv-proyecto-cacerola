@@ -13,7 +13,5 @@ public class UserController {
     }
 
     private void initController() {
-        // Aquí puedes agregar la lógica para manejar eventos de la vista de usuario
-        // Por ahora, solo inicializa el controlador
     }
 }
