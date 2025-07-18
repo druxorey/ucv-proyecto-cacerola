@@ -55,7 +55,7 @@ public class UserView extends JFrame {
     }
 
 
-    private JPanel createRightPanel() {
+    private JPanel createRightPanel(String userId) {
         cardLayout = new CardLayout();
         JPanel panel = new JPanel(cardLayout);
 
@@ -71,7 +71,7 @@ public class UserView extends JFrame {
         walletPanel.add(UIElements.createTitleLabel("Monedero Virtual"));
 
         // Saldo
-        double saldo = walletService.getBalance();
+        double saldo = walletService.getBalance(userId);
         JLabel saldoLabel = new JLabel("Saldo actual: $" + String.format("%.2f", saldo));
         saldoLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
         saldoLabel.setForeground(UIStyles.ACCENT_COLOR);
@@ -153,7 +153,7 @@ public class UserView extends JFrame {
     }
 
 
-    public UserView() {
+    public UserView(String userId) {
         setTitle("Panel de Usuario");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(UIStyles.WINDOW_WIDTH_INTERFACE, UIStyles.WINDOW_HEIGHT_INTERFACE);
@@ -161,7 +161,7 @@ public class UserView extends JFrame {
         setLayout(new BorderLayout());
 
         leftPanel = createLeftPanel();
-        rightPanel = createRightPanel();
+        rightPanel = createRightPanel(userId);
 
         add(leftPanel, BorderLayout.WEST);
         add(rightPanel, BorderLayout.CENTER);
@@ -170,7 +170,7 @@ public class UserView extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new UserView().setVisible(true);
+            new UserView("").setVisible(true);
         });
     }
 }

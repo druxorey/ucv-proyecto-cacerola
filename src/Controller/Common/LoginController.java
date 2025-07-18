@@ -32,8 +32,9 @@ public class LoginController {
 
 				if (authenticated == 1) {
 					System.out.println("[LoginController] User login successful. UserID: '" + userId + "' (Role: User)");
+					ensureUserWalletFile(userId);
 					view.dispose();
-					View.User.UserView userView = new View.User.UserView();
+					View.User.UserView userView = new View.User.UserView(userId);
 					new Controller.User.UserController(userView, userId);
 					userView.setVisible(true);
 
@@ -43,7 +44,7 @@ public class LoginController {
 					View.Admin.AdminView adminView = new View.Admin.AdminView();
 					new Controller.Admin.AdminController(adminView);
 					adminView.setVisible(true);
-					
+				
 				} else {
 					System.err.println("[LoginController] Login failed: Incorrect ID or password.");
 					JOptionPane.showMessageDialog(view, "Cédula o contraseña incorrectos");
@@ -59,5 +60,27 @@ public class LoginController {
 				registerView.setVisible(true);
 			}
 		});
+	}
+	
+	private void ensureUserWalletFile(String userId) {
+		String walletDirPath = "Model/Data/Wallets";
+		String walletFilePath = walletDirPath + "/" + userId + ".json";
+		java.io.File walletFile = new java.io.File(walletFilePath);
+		try {
+			java.io.File walletDir = new java.io.File(walletDirPath);
+			if (!walletDir.exists()) {
+				walletDir.mkdirs();
+			}
+			if (!walletFile.exists()) {
+				String json = "{\n\"saldo\": 0\n}";
+				java.nio.file.Files.write(walletFile.toPath(), json.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+				System.out.println("[LoginController] Wallet file created for user: " + userId);
+			} else {
+				System.out.println("[LoginController] Wallet file already exists for user: " + userId);
+			}
+		} catch (Exception ex) {
+			System.err.println("[LoginController] Error creating wallet file for user: " + userId);
+			ex.printStackTrace();
+		}
 	}
 }

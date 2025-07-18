@@ -11,33 +11,34 @@ import java.util.Date;
 import java.net.URL;
 
 public class WalletService {
-	private static final String BALANCE_PATH = "/Model/Data/wallet_balance.json";
+	private static final String WALLET_DIR = "Model/Data/Wallets";
 	private static final String MOVEMENTS_PATH = "/Model/Data/wallet_movements.json";
 
-	public double getBalance() {
-		try {
-			JSONParser parser = new JSONParser();
-			URL balanceUrl = getClass().getResource(BALANCE_PATH);
-			if (balanceUrl == null) return 0.0;
-			try (InputStream in = balanceUrl.openStream();
-				InputStreamReader isr = new InputStreamReader(in);
-				BufferedReader reader = new BufferedReader(isr)) {
-				StringBuilder sb = new StringBuilder();
-				String line;
-				
-				while ((line = reader.readLine()) != null) {
-					sb.append(line);
-				}
-
-				JSONObject obj = (JSONObject) parser.parse(sb.toString());
-				Object saldoObj = obj.get("saldo");
-
-				if (saldoObj instanceof Number) {
-					return ((Number) saldoObj).doubleValue();
-				}
-
-				return 0.0;
+	public double getBalance(String userId) {
+		String walletFilePath = WALLET_DIR + "/" + userId + ".json";
+		File walletFile = new File(walletFilePath);
+		if (!walletFile.exists()) return 0.0;
+		try (BufferedReader reader = new BufferedReader(new FileReader(walletFile))) {
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line);
 			}
+			JSONParser parser = new JSONParser();
+			JSONObject obj = (JSONObject) parser.parse(sb.toString());
+			Object saldoObj = obj.get("saldo");
+			if (saldoObj instanceof Number) {
+				return ((Number) saldoObj).doubleValue();
+			} else if (saldoObj instanceof Long) {
+				return ((Long) saldoObj).doubleValue();
+			} else if (saldoObj instanceof String) {
+				try {
+					return Double.parseDouble((String) saldoObj);
+				} catch (NumberFormatException ex) {
+					return 0.0;
+				}
+			}
+			return 0.0;
 		} catch (Exception e) {
 			return 0.0;
 		}
