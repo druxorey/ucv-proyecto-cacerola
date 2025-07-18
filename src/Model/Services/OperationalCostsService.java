@@ -1,10 +1,12 @@
+
 package Model.Services;
 
 import java.io.*;
+import java.nio.file.Paths;
 import org.json.JSONObject;
 
 public class OperationalCostsService {
-	private static final String FILE_PATH = "Model/Data/operational_costs.json";
+	private static final String FILE_PATH = Paths.get("Model", "Data", "operational_costs.json").toString();
 
 	public JSONObject loadOperationalCosts() {
 		try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
