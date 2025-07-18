@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 public class UserService {
 	private static final String USERS_FILE = "/Model/Data/users.enc";
+	private static final String USERS_FILE_TEST = "Model/Data/users.enc";
 
 	public int getUserCount() {
 		int count = 0;
@@ -81,7 +82,7 @@ public class UserService {
 	}
 
 	public boolean addUserToDatabase(User user) {
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(USERS_FILE, true))) {
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(USERS_FILE_TEST, true))) {
 			String line = String.format("%s,%s,%d,%s,%s,%s", user.getUserId(), user.getUserPassword(), user.getUserType(), user.getUserEmail(), user.getUserFirstName(), user.getUserLastName());
 			bw.write(line);
 			bw.newLine();

@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 
 public class RegisterController {
 	private RegisterView registerView;
-	private static final String[] ALLOWED_DOMAINS = {"@gmail.com", "@ciens.ucv.ve"};
+	private static final String[] ALLOWED_DOMAINS = {"@gmail.com", "@ciens.ucv.ve", "@ucv.ve"};
 	private static final String EMAIL_RECIPIENT = "guillermogalavisg@gmail.com";
 
 	public boolean checkFields(String email, String userId, String password, String confirmPassword) {
@@ -44,7 +44,7 @@ public class RegisterController {
 
 		if (!validDomain) {
 			System.err.println("[RegisterController] Registration failed: Email domain not allowed. Email: '" + email + "'");
-			JOptionPane.showMessageDialog(registerView, "Solo se permiten correos de los dominios: @gmail.com y @ciens.ucv.ve", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(registerView, "Solo se permiten correos de los dominios: @gmail.com, @ciens.ucv.ve, @ucv.ve", "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 
@@ -72,41 +72,43 @@ public class RegisterController {
 
 	public RegisterController(RegisterView registerView) {
 		this.registerView = registerView;
-		this.registerView.submitRegistrationButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String email = registerView.emailField.getText();
-				String userId = registerView.userIdField.getText();
-				String password = new String(registerView.passwordField.getPassword());
-				String confirmPassword = new String(registerView.confirmPasswordField.getPassword());
-				int userCount = new UserService().getUserCount();
+		if (registerView != null) {
+			this.registerView.submitRegistrationButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String email = registerView.emailField.getText();
+					String userId = registerView.userIdField.getText();
+					String password = new String(registerView.passwordField.getPassword());
+					String confirmPassword = new String(registerView.confirmPasswordField.getPassword());
+					int userCount = new UserService().getUserCount();
 
-				if (!checkFields(email, userId, password, confirmPassword)) {
-					return;
-				}
+					if (!checkFields(email, userId, password, confirmPassword)) {
+						return;
+					}
 
-				String message = String.format(
-					"Correo: %s\nCédula: %s\nContraseña: %s", userCount,
-					email, userId, password
-				);
-
-				String subject = String.format("Solicitud de Registro #%d", userCount);
-
-				try {
-					EmailSender.sendEmail(
-						 EMAIL_RECIPIENT,
-						 subject,
-						 message
+					String message = String.format(
+						"Correo: %s\nCédula: %s\nContraseña: %s", userCount,
+						email, userId, password
 					);
-					System.out.println("[RegisterController] Registration request sent successfully for UserID: '" + userId + "'. Email: '" + email + "'.\n" + message);
-					JOptionPane.showMessageDialog(registerView, "¡Solicitud enviada correctamente!", "Registro", JOptionPane.INFORMATION_MESSAGE);
-					registerView.dispose();
-				} catch (Exception e1) {
-					System.err.println("[RegisterController] Error sending registration request for UserID: '" + userId + "'. Email: '" + email + "'. Error: " + e1.getMessage());
-					JOptionPane.showMessageDialog(registerView, "Error al enviar la solicitud: " + e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
+
+					String subject = String.format("Solicitud de Registro #%d", userCount);
+
+					try {
+						EmailSender.sendEmail(
+							 EMAIL_RECIPIENT,
+							 subject,
+							 message
+						);
+						System.out.println("[RegisterController] Registration request sent successfully for UserID: '" + userId + "'. Email: '" + email + "'.\n" + message);
+						JOptionPane.showMessageDialog(registerView, "¡Solicitud enviada correctamente!", "Registro", JOptionPane.INFORMATION_MESSAGE);
+						registerView.dispose();
+					} catch (Exception e1) {
+						System.err.println("[RegisterController] Error sending registration request for UserID: '" + userId + "'. Email: '" + email + "'. Error: " + e1.getMessage());
+						JOptionPane.showMessageDialog(registerView, "Error al enviar la solicitud: " + e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+						e1.printStackTrace();
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 }
