@@ -1,5 +1,5 @@
 package test.Model.Entities;
-
+ 
 import org.junit.Test;
 import static org.junit.Assert.*;
 import Model.Entities.User;
