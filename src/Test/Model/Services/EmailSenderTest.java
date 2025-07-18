@@ -1,4 +1,4 @@
-package test.Model.Services;
+package Test.Model.Services;
 
 import org.junit.Test;
 import Model.Services.EmailSender;

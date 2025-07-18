@@ -1,4 +1,4 @@
-package test.Model.Entities;
+package Test.Model.Entities;
  
 import org.junit.Test;
 import static org.junit.Assert.*;
