@@ -168,7 +168,7 @@ public class AdminView extends JFrame {
 		userPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
 		addField(userPanel, "Nombre", firstNameField, "<html>Nombre del usuario a registrar.</html>");
 		addField(userPanel, "Apellido", lastNameField, "<html>Apellido del usuario a registrar.</html>");
-		addField(userPanel, "Usuario", userIdField, "<html>Cédula o identificador único.</html>");
+		addField(userPanel, "Cédula de Identidad", userIdField, "<html>Cédula o identificador único.</html>");
 		addField(userPanel, "Email", emailField, "<html>Correo institucional o personal válido.</html>");
 		addField(userPanel, "Contraseña", passwordField, "<html>Debe tener al menos 8 caracteres, incluir letras y números.</html>");
 		addField(userPanel, "Tipo de Usuario", userTypeDropdown, "<html>Selecciona el tipo de usuario.</html>");
@@ -200,7 +200,7 @@ public class AdminView extends JFrame {
 	private void showCard(String name) {
 		cardLayout.show(rightPanel, name);
 
-		if (name.equals("turnos")) {
+		if (name.equals("costos")) {
 			shiftsManagementButton.setBackground(UIStyles.ACCENT_COLOR);
 			shiftsManagementButton.setForeground(Color.WHITE);
 			userManagementButton.setBackground(UIStyles.BG_PRIMARY_COLOR);
