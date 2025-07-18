@@ -2,7 +2,6 @@ package Test.Model.Services;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import Model.Services.UserService;
-//import Model.Entities.User;
 public class LoginTest{
 
     @Test 
