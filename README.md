@@ -73,7 +73,7 @@ json-simple         | 1.1.1      | Proporciona una biblioteca ligera para trabaj
 <p align="center">Equipo 2</p>
 
 
-| [![Druxorey](https://github.com/druxorey.png?size=400)](https://github.com/druxorey) | [![Apurejose](https://github.com/Apurejose.png?size=1)](https://github.com/Apurejose) | [![Renzower](https://github.com/Renzower.png?size=100)](https://github.com/Renzower) | [![LuiDL314](https://github.com/LuiDL314.png?size=100)](https://github.com/LuiDL314) |
+| [![Druxorey](https://github.com/druxorey.png?size=400)](https://github.com/druxorey) | [![Apurejose](https://github.com/Apurejose.png?size=450)](https://github.com/Apurejose) | [![Renzower](https://github.com/Renzower.png?size=100)](https://github.com/Renzower) | [![LuiDL314](https://github.com/LuiDL314.png?size=100)](https://github.com/LuiDL314) |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
 | [Guillermo Galavís](https://github.com/druxorey)                                              | [José Apure](https://github.com/Apurejose)                                             | [Renzo Morales](https://github.com/Renzower)                                              | [Luis Lima](https://github.com/LuiDL314)                                              |
 
