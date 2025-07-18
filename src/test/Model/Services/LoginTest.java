@@ -1,4 +1,4 @@
-package test;
+package test.Model.Services;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import Model.Services.UserService;
