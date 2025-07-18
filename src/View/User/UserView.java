@@ -120,13 +120,62 @@ public class UserView extends JFrame {
 
         // Menú Panel
         JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
         menuPanel.setBackground(UIStyles.BG_PRIMARY_COLOR);
+        menuPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         menuPanel.setBorder(BorderFactory.createEmptyBorder(
             UIStyles.PANEL_PADDING,
             UIStyles.PANEL_PADDING,
             UIStyles.PANEL_PADDING,
             UIStyles.PANEL_PADDING));
         menuPanel.add(UIElements.createTitleLabel("Menú"));
+
+        // Lista de comidas de ejemplo
+        class Comida {
+            String nombre, descripcion;
+            double costo;
+            Comida(String n, String d, double c) { nombre = n; descripcion = d; costo = c; }
+        }
+        Comida[] comidas = new Comida[] {
+            new Comida("Arepa Reina Pepiada", "Arepa rellena de pollo y aguacate.", 45.00),
+            new Comida("Pabellón Criollo", "Carne mechada, arroz, caraotas y plátano.", 80.00),
+            new Comida("Empanada de Queso", "Empanada frita rellena de queso blanco.", 25.00),
+            new Comida("Cachapa con Queso", "Tortilla de maíz dulce con queso de mano.", 60.00),
+            new Comida("Pastelito Andino", "Masa rellena de carne o pollo, frita.", 30.00)
+        };
+
+        menuPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+        for (Comida comida : comidas) {
+            JPanel comidaPanel = new JPanel();
+            comidaPanel.setLayout(new BoxLayout(comidaPanel, BoxLayout.Y_AXIS));
+            comidaPanel.setBackground(UIStyles.FG_SECONDARY_COLOR);
+            comidaPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            comidaPanel.setMaximumSize(new Dimension(300, 100));
+
+            comidaPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createEmptyBorder(10, 10, 10, 10),
+                BorderFactory.createLineBorder(UIStyles.FG_SECONDARY_COLOR, 1)
+            ));
+
+            JLabel nombreLabel = new JLabel(comida.nombre);
+            nombreLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            nombreLabel.setForeground(UIStyles.ACCENT_COLOR);
+            comidaPanel.add(nombreLabel);
+
+            JLabel descLabel = new JLabel(comida.descripcion);
+            descLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+            descLabel.setForeground(UIStyles.FG_PRIMARY_COLOR);
+            comidaPanel.add(descLabel);
+
+            JLabel costoLabel = new JLabel(String.format("Costo: Bs %.2f", comida.costo));
+            costoLabel.setFont(new Font("Segoe UI", Font.ITALIC, 13));
+            costoLabel.setForeground(UIStyles.FG_PRIMARY_COLOR);
+            comidaPanel.add(costoLabel);
+
+            comidaPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            menuPanel.add(comidaPanel);
+            menuPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+        }
 
         panel.add(walletPanel, "monedero");
         panel.add(menuPanel, "menu");
