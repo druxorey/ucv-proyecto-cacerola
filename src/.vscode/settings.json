@@ -3,8 +3,11 @@
 		"."
 	],
 	"java.project.referencedLibraries": [
-		"/home/druxorey/Workspace/Academic/proyecto-cacerola/lib/javax.activation.jar",
+		"/home/druxorey/Workspace/Academic/proyecto-cacerola/lib/hamcrest-core-1.3.jar",
 		"/home/druxorey/Workspace/Academic/proyecto-cacerola/lib/javax.mail.jar",
-		"/home/druxorey/Workspace/Academic/proyecto-cacerola/lib/json-20240303.jar"
+		"/home/druxorey/Workspace/Academic/proyecto-cacerola/lib/json-simple-1.1.1.jar",
+		"/home/druxorey/Workspace/Academic/proyecto-cacerola/lib/json-20240303.jar",
+		"/home/druxorey/Workspace/Academic/proyecto-cacerola/lib/javax.activation.jar",
+		"/home/druxorey/Workspace/Academic/proyecto-cacerola/lib/junit-4.13.2.jar"
 	]
 }

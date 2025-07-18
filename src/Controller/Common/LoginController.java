@@ -32,13 +32,18 @@ public class LoginController {
 
 				if (authenticated == 1) {
 					System.out.println("[LoginController] User login successful. UserID: '" + userId + "' (Role: User)");
-					JOptionPane.showMessageDialog(view, "Login exitoso");
+					view.dispose();
+					View.User.UserView userView = new View.User.UserView();
+					new Controller.User.UserController(userView, userId);
+					userView.setVisible(true);
+
 				} else if (authenticated == 2) {
 					System.out.println("[LoginController] Admin login successful. UserID: '" + userId + "' (Role: Admin)");
 					view.dispose();
 					View.Admin.AdminView adminView = new View.Admin.AdminView();
 					new Controller.Admin.AdminController(adminView);
 					adminView.setVisible(true);
+					
 				} else {
 					System.err.println("[LoginController] Login failed: Incorrect ID or password.");
 					JOptionPane.showMessageDialog(view, "Cédula o contraseña incorrectos");
