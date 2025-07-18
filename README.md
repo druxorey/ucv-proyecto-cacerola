@@ -30,16 +30,29 @@ Para más detalles, consulta la documentación en la carpeta `docs`:
 	```
 
 2. Compila el proyecto:
-	```bash
-	./javac MiComedorUCV.java
-	```
+   ```bash
+   # En Linux/MacOS
+   javac -cp "lib/*" -d out $(find src -name "*.java")
+   cp -r src/Utils out/
+   cp -r src/Model/Data out/Model/
+   jar cfe app.jar Main -C out .
+
+   # En Windows
+   javac -cp "lib/*" -d out $(for /r %i in (*.java) do @echo %i)
+   xcopy src\Utils out\Utils /E /I
+   xcopy src\Model\Data out\Model\Data /E /I
+   jar cfe app.jar Main -C out .
+   ```
 
 3. Ejecuta el proyecto:
-	```bash
-	java -jar MiComedorUCV.jar
-	```
+   ```bash
+   # En Linux/MacOS
+   java -cp "lib/*:app.jar" Main
 
-4. Alternativamente, descarga el ejecutable desde la sección [Releases](https://github.com/<usuario>/MiComedorUCV/releases) del repositorio.
+   # En Windows
+   java -cp "lib/*;app.jar" Main
+
+4. Alternativamente, descarga el ejecutable desde la sección [Releases](https://github.com/druxorey/ucv-proyecto-cacerola/releases) del repositorio.
 
 ### Dependencias
 
