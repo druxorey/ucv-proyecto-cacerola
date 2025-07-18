@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import View.Common.*;
 import Controller.Admin.AdminController;
-import org.json.JSONObject;
 
 public class AdminView extends JFrame {
 	private JPanel leftPanel;
@@ -69,64 +68,64 @@ public class AdminView extends JFrame {
 		return panel;
 	}
 
-private JPanel createShiftsPanel() {
-	JPanel shiftsPanel = new JPanel();
-	shiftsPanel.setBackground(UIStyles.BG_PRIMARY_COLOR);
-	shiftsPanel.setLayout(new BoxLayout(shiftsPanel, BoxLayout.Y_AXIS));
-	shiftsPanel.setBorder(BorderFactory.createEmptyBorder(
-		UIStyles.PANEL_PADDING,
-		UIStyles.PANEL_PADDING * 8,
-		UIStyles.PANEL_PADDING,
-		UIStyles.PANEL_PADDING * 8));
+	private JPanel createShiftsPanel() {
+		JPanel shiftsPanel = new JPanel();
+		shiftsPanel.setBackground(UIStyles.BG_PRIMARY_COLOR);
+		shiftsPanel.setLayout(new BoxLayout(shiftsPanel, BoxLayout.Y_AXIS));
+		shiftsPanel.setBorder(BorderFactory.createEmptyBorder(
+			UIStyles.PANEL_PADDING,
+			UIStyles.PANEL_PADDING * 8,
+			UIStyles.PANEL_PADDING,
+			UIStyles.PANEL_PADDING * 8));
 
-	JLabel shiftsLabel = new JLabel("Costos Operacionales");
-	shiftsLabel.setFont(UIStyles.TITLE_FONT);
-	shiftsLabel.setForeground(UIStyles.FG_PRIMARY_COLOR);
-	shiftsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-	shiftsPanel.add(shiftsLabel);
-	shiftsPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		JLabel shiftsLabel = new JLabel("Costos Operacionales");
+		shiftsLabel.setFont(UIStyles.TITLE_FONT);
+		shiftsLabel.setForeground(UIStyles.FG_PRIMARY_COLOR);
+		shiftsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		shiftsPanel.add(shiftsLabel);
+		shiftsPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
 
-	JTextField costosFijosField = (JTextField) UIElements.createInputField(false, null);
-	JTextField costosVariablesField = (JTextField) UIElements.createInputField(false, null);
-	JTextField cantidadBandejasField = (JTextField) UIElements.createInputField(false, null);
-	JTextField porcentajeMermaField = (JTextField) UIElements.createInputField(false, null);
+		JTextField costosFijosField = (JTextField) UIElements.createInputField(false, null);
+		JTextField costosVariablesField = (JTextField) UIElements.createInputField(false, null);
+		JTextField cantidadBandejasField = (JTextField) UIElements.createInputField(false, null);
+		JTextField porcentajeMermaField = (JTextField) UIElements.createInputField(false, null);
 
-	addField(shiftsPanel, "Costos Fijos Totales", costosFijosField, "<html>Costos fijos mensuales del comedor.</html>");
-	addField(shiftsPanel, "Costos Variables", costosVariablesField, "<html>Costos variables mensuales del comedor.</html>");
-	addField(shiftsPanel, "Cantidad de Bandejas", cantidadBandejasField, "<html>Cantidad de bandejas servidas en el mes.</html>");
-	addField(shiftsPanel, "Porcentaje de Merma", porcentajeMermaField, "<html>Porcentaje estimado de merma en la producción.</html>");
+		addField(shiftsPanel, "Costos Fijos Totales", costosFijosField, "<html>Costos fijos mensuales del comedor.</html>");
+		addField(shiftsPanel, "Costos Variables", costosVariablesField, "<html>Costos variables mensuales del comedor.</html>");
+		addField(shiftsPanel, "Cantidad de Bandejas", cantidadBandejasField, "<html>Cantidad de bandejas servidas en el mes.</html>");
+		addField(shiftsPanel, "Porcentaje de Merma", porcentajeMermaField, "<html>Porcentaje estimado de merma en la producción.</html>");
 
-	JButton saveButton = UIElements.createButton("Guardar", UIStyles.ACCENT_COLOR, Color.WHITE, false, 120);
-	saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-	shiftsPanel.add(saveButton);
+		JButton saveButton = UIElements.createButton("Guardar", UIStyles.ACCENT_COLOR, Color.WHITE, false, 120);
+		saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		shiftsPanel.add(saveButton);
 
-	// Cargar valores al iniciar
-	Model.Services.OperationalCostsService costosService = new Model.Services.OperationalCostsService();
-	org.json.JSONObject costos = costosService.loadOperationalCosts();
-	costosFijosField.setText(String.valueOf(costos.optDouble("costosFijosTotales", 0)));
-	costosVariablesField.setText(String.valueOf(costos.optDouble("costosVariables", 0)));
-	cantidadBandejasField.setText(String.valueOf(costos.optInt("cantidadBandejas", 0)));
-	porcentajeMermaField.setText(String.valueOf(costos.optDouble("porcentajeMerma", 0)));
+		// Cargar valores al iniciar
+		Model.Services.OperationalCostsService costosService = new Model.Services.OperationalCostsService();
+		org.json.JSONObject costos = costosService.loadOperationalCosts();
+		costosFijosField.setText(String.valueOf(costos.optDouble("costosFijosTotales", 0)));
+		costosVariablesField.setText(String.valueOf(costos.optDouble("costosVariables", 0)));
+		cantidadBandejasField.setText(String.valueOf(costos.optInt("cantidadBandejas", 0)));
+		porcentajeMermaField.setText(String.valueOf(costos.optDouble("porcentajeMerma", 0)));
 
-	saveButton.addActionListener(e -> {
-		try {
-			double costosFijos = Double.parseDouble(costosFijosField.getText());
-			double costosVariables = Double.parseDouble(costosVariablesField.getText());
-			int cantidadBandejas = Integer.parseInt(cantidadBandejasField.getText());
-			double porcentajeMerma = Double.parseDouble(porcentajeMermaField.getText());
-			boolean ok = costosService.saveOperationalCosts(costosFijos, costosVariables, cantidadBandejas, porcentajeMerma);
-			if (ok) {
-				JOptionPane.showMessageDialog(this, "Costos guardados correctamente.");
-			} else {
-				JOptionPane.showMessageDialog(this, "Error al guardar los costos.");
+		saveButton.addActionListener(e -> {
+			try {
+				double costosFijos = Double.parseDouble(costosFijosField.getText());
+				double costosVariables = Double.parseDouble(costosVariablesField.getText());
+				int cantidadBandejas = Integer.parseInt(cantidadBandejasField.getText());
+				double porcentajeMerma = Double.parseDouble(porcentajeMermaField.getText());
+				boolean ok = costosService.saveOperationalCosts(costosFijos, costosVariables, cantidadBandejas, porcentajeMerma);
+				if (ok) {
+					JOptionPane.showMessageDialog(this, "Costos guardados correctamente.");
+				} else {
+					JOptionPane.showMessageDialog(this, "Error al guardar los costos.");
+				}
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, "Verifica los valores ingresados.");
 			}
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(this, "Verifica los valores ingresados.");
-		}
-	});
+		});
 
-	return shiftsPanel;
-}
+		return shiftsPanel;
+	}
 
 	private JPanel createUserPanel() {
 		// Create a panel for user management

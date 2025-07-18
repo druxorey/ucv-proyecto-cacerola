@@ -31,4 +31,12 @@ public class UIElements {
 		button.setPreferredSize(new Dimension(width, 30));
 		return button;
 	}
+
+	public static JLabel createTitleLabel(String text) {
+		JLabel label = new JLabel(text);
+		label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 28));
+		label.setForeground(UIStyles.FG_PRIMARY_COLOR);
+		label.setHorizontalAlignment(JLabel.CENTER);
+		return label;
+	}
 }
