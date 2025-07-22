@@ -103,10 +103,10 @@ public class AdminView extends JFrame {
 		shiftsPanel.add(shiftsLabel);
 		shiftsPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
-		JTextField totalFixedCostsField = (JTextField) CRElements.createInputField(false, null);
-		JTextField variableCostsField = (JTextField) CRElements.createInputField(false, null);
-		JTextField numberOfTraysField = (JTextField) CRElements.createInputField(false, null);
-		JTextField wastePercentageField = (JTextField) CRElements.createInputField(false, null);
+		JTextField totalFixedCostsField = (JTextField) CRElements.createInputField(null);
+		JTextField variableCostsField = (JTextField) CRElements.createInputField(null);
+		JTextField numberOfTraysField = (JTextField) CRElements.createInputField(null);
+		JTextField wastePercentageField = (JTextField) CRElements.createInputField(null);
 
 		addField(shiftsPanel, "Costos Fijos Totales", totalFixedCostsField, "<html>Costos fijos mensuales del comedor.</html>");
 		addField(shiftsPanel, "Costos Variables", variableCostsField, "<html>Costos variables mensuales del comedor.</html>");
@@ -156,11 +156,11 @@ public class AdminView extends JFrame {
 		userLabel.setForeground(CRStyles.FG_LIGHT_COLOR);
 		userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		JTextField firstNameField = (JTextField) CRElements.createInputField(false, null);
-		JTextField lastNameField = (JTextField) CRElements.createInputField(false, null);
-		JTextField userIdField = (JTextField) CRElements.createInputField(false, null);
-		JPasswordField passwordField = (JPasswordField) CRElements.createInputField(true, null);
-		JTextField emailField = (JTextField) CRElements.createInputField(false, null);
+		JTextField firstNameField = (JTextField) CRElements.createInputField(null);
+		JTextField lastNameField = (JTextField) CRElements.createInputField(null);
+		JTextField userIdField = (JTextField) CRElements.createInputField(null);
+		JTextField emailField = (JTextField) CRElements.createInputField(null);
+		JPasswordField passwordField = (JPasswordField) CRElements.createInputField(null, true);
 
 		String[] userTypes = {"Estudiante", "Profesor/Personal"};
 		JComboBox<String> userTypeDropdown = new JComboBox<>(userTypes);

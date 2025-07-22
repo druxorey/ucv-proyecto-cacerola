@@ -43,10 +43,10 @@ public class RegisterView extends JFrame {
 		JPanel rightPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 		
 		// Add fields for registration
-		firstNameField = (JTextField) CRElements.createInputField(false, null);
-		lastNameField = (JTextField) CRElements.createInputField(false, null);
-		emailField = (JTextField) CRElements.createInputField(false, null);
-		userIdField = (JTextField) CRElements.createInputField(false, null);
+		firstNameField = (JTextField) CRElements.createInputField(null);
+		lastNameField = (JTextField) CRElements.createInputField(null);
+		emailField = (JTextField) CRElements.createInputField(null);
+		userIdField = (JTextField) CRElements.createInputField(null);
 
 		// Add submit button
 		submitRegistrationButton = CRElements.createButton(

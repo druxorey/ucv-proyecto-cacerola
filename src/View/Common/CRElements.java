@@ -4,7 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CRElements {
-	public static JComponent createInputField(boolean isPassword, java.awt.event.ActionListener actionListener) {
+	public static JComponent createInputField(java.awt.event.ActionListener actionListener) {
+		JComponent field = new JTextField(CRStyles.FIELD_COLUMNS);
+		field.setMaximumSize(new Dimension(Integer.MAX_VALUE, CRStyles.FIELD_HEIGHT));
+		field.setBackground(CRStyles.BG_LIGHT_COLOR);
+		field.setBorder(BorderFactory.createLineBorder(CRStyles.FG_DARK_COLOR, 2));
+		field.setFont(CRStyles.FIELD_FONT);
+		if (field instanceof JTextField) {
+			((JTextField) field).addActionListener(actionListener);
+		}
+		return field;
+	}
+
+
+	public static JComponent createInputField(java.awt.event.ActionListener actionListener, boolean isPassword) {
 		JComponent field = isPassword ? new JPasswordField(CRStyles.FIELD_COLUMNS) : new JTextField(CRStyles.FIELD_COLUMNS);
 		field.setMaximumSize(new Dimension(Integer.MAX_VALUE, CRStyles.FIELD_HEIGHT));
 		field.setBackground(CRStyles.BG_LIGHT_COLOR);
@@ -19,6 +32,7 @@ public class CRElements {
 		return field;
 	}
 
+
 	public static JButton createButton(String text, Color bgColor, Color fgColor, boolean focusPainted, int width) {
 		JButton button = new JButton(text);
 		button.setFont(CRStyles.MAIN_FONT);
@@ -32,6 +46,7 @@ public class CRElements {
 		return button;
 	}
 
+
 	public static JLabel createTitleLabel(String text) {
 		JLabel label = new JLabel(text);
 		label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 28));
@@ -40,9 +55,11 @@ public class CRElements {
 		return label;
 	}
 
+	
 	public static JPanel createPanel(Color bgColor, int axis) {
 		return createPanel(bgColor, CRStyles.PANEL_PADDING_LARGE, axis);
 	}
+
 
 	public static JPanel createPanel(Color bgColor, int padding, int axis) {
 		JPanel panel = new JPanel();
