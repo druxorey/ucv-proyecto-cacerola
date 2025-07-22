@@ -22,9 +22,21 @@ public class LoginController {
 				String userId = view.userIdField.getText();
 				String password = new String(view.passwordField.getPassword());
 
-				if (userId.isEmpty() || password.isEmpty()) {
+				if (userId.isEmpty() && password.isEmpty()) {
 					System.err.println("[LoginController] Login attempt failed: One or more fields are empty.");
 					JOptionPane.showMessageDialog(view, "Por favor, complete todos los campos");
+					return;
+				}
+
+				if (password.isEmpty()) {
+					System.err.println("[LoginController] Login attempt failed: Password field is empty.");
+					JOptionPane.showMessageDialog(view, "Por favor, coloque su contraseña");
+					return;
+				}
+
+				if (userId.isEmpty()) {
+					System.err.println("[LoginController] Login attempt failed: UserID field is empty.");
+					JOptionPane.showMessageDialog(view, "Por favor, coloque su Cédula de Identidad");
 					return;
 				}
 
@@ -52,8 +64,9 @@ public class LoginController {
 			}
 		});
 
-		view.registerActionButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		view.registerActionLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent e) {
 				System.out.println("[LoginController] Opening registration view for new user.");
 				View.Start.RegisterView registerView = new View.Start.RegisterView();
 				new RegisterController(registerView);

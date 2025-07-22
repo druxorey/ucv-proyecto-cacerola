@@ -10,9 +10,9 @@ public class LoginView extends JFrame {
 	public static final int LOGO_WIDTH = 40;
 	
 	public JTextField userIdField;
+	public JLabel registerActionLabel;
 	public JPasswordField passwordField;
 	public JButton loginActionButton;
-	public JButton registerActionButton;	
 
 
 	private JPanel createLeftPanel() {
@@ -57,14 +57,10 @@ public class LoginView extends JFrame {
 			false,
 			UIStyles.BUTTON_WIDTH_SMALL
 		);
-		
-		registerActionButton = UIElements.createButton(
-			"Registrarse",
-			UIStyles.FG_SECONDARY_COLOR,
-			UIStyles.BG_SECONDARY_COLOR,
-			false,
-			UIStyles.BUTTON_WIDTH_SMALL
-		);
+
+		registerActionLabel = new JLabel("<html>¿No tienes una cuenta? <a href='#' style='color:#eb5e28;'>Solicítala aquí</a></html>");
+		registerActionLabel.setFont(UIStyles.MAIN_FONT);
+		registerActionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		// Add components to the left panel
 		leftPanel.add(logoLabel);
@@ -80,8 +76,8 @@ public class LoginView extends JFrame {
 		leftPanel.add(passwordField);
 		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
 		leftPanel.add(loginActionButton);
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
-		leftPanel.add(registerActionButton);
+		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		leftPanel.add(registerActionLabel);
 		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
 
 		return leftPanel;
