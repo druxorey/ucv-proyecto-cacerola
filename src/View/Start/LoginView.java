@@ -2,8 +2,8 @@ package View.Start;
 
 import javax.swing.*;
 import java.awt.*;
-import View.Common.UIStyles;
-import View.Common.UIElements;
+import View.Common.CRStyles;
+import View.Common.CRElements;
 
 public class LoginView extends JFrame {
 	public static final int LOGO_HEIGHT = 40;
@@ -17,14 +17,7 @@ public class LoginView extends JFrame {
 
 	private JPanel createLeftPanel() {
 		// Create the left panel with a vertical box layout
-		JPanel leftPanel = new JPanel();
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		leftPanel.setBorder(BorderFactory.createEmptyBorder(
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING));
-		leftPanel.setBackground(UIStyles.BG_PRIMARY_COLOR);
+		JPanel leftPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
 		// Add logo
 		java.net.URL logoPath = getClass().getResource("/Utils/ucvLogo.png");
@@ -34,51 +27,51 @@ public class LoginView extends JFrame {
 
 		// Add login title
 		JLabel loginTitle = new JLabel("MiComedorUCV");
-		loginTitle.setFont(UIStyles.TITLE_FONT);
+		loginTitle.setFont(CRStyles.TITLE_FONT);
 		loginTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		// Add user ID field
 		JLabel loginUserIdLabel = new JLabel("Cédula de Identidad");
-		loginUserIdLabel.setFont(UIStyles.MAIN_FONT);
+		loginUserIdLabel.setFont(CRStyles.MAIN_FONT);
 		loginUserIdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		userIdField = (JTextField) UIElements.createInputField(false, evt -> loginActionButton.doClick());
+		userIdField = (JTextField) CRElements.createInputField(false, evt -> loginActionButton.doClick());
 		
 		// Add password field
 		JLabel loginPasswordLabel = new JLabel("Contraseña");
-		loginPasswordLabel.setFont(UIStyles.MAIN_FONT);
+		loginPasswordLabel.setFont(CRStyles.MAIN_FONT);
 		loginPasswordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		passwordField = (JPasswordField) UIElements.createInputField(true, evt -> loginActionButton.doClick());
+		passwordField = (JPasswordField) CRElements.createInputField(true, evt -> loginActionButton.doClick());
 		
 		// Add login and register buttons
-		loginActionButton = UIElements.createButton(
+		loginActionButton = CRElements.createButton(
 			"Iniciar sesión",
-			UIStyles.ACCENT_COLOR,
+			CRStyles.ACCENT_COLOR,
 			Color.WHITE,
 			false,
-			UIStyles.BUTTON_WIDTH_SMALL
+			CRStyles.BUTTON_WIDTH_SMALL
 		);
 
 		registerActionLabel = new JLabel("<html>¿No tienes una cuenta? <a href='#' style='color:#eb5e28;'>Solicítala aquí</a></html>");
-		registerActionLabel.setFont(UIStyles.MAIN_FONT);
+		registerActionLabel.setFont(CRStyles.MAIN_FONT);
 		registerActionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		// Add components to the left panel
 		leftPanel.add(logoLabel);
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_SMALL));
 		leftPanel.add(loginTitle);
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(loginUserIdLabel);
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_SMALL));
 		leftPanel.add(userIdField);
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(loginPasswordLabel);
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_SMALL));
 		leftPanel.add(passwordField);
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(loginActionButton);
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(registerActionLabel);
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_SMALL));
 
 		return leftPanel;
 	}
@@ -115,7 +108,7 @@ public class LoginView extends JFrame {
 
 				} else {
 					System.err.println("[LoginView] Background image not found at path: " + backgroundImagePath);
-					canvasGraphics.setColor(UIStyles.BG_PRIMARY_COLOR);
+					canvasGraphics.setColor(CRStyles.BG_LIGHT_COLOR);
 				}
 			}
 		};
@@ -124,7 +117,7 @@ public class LoginView extends JFrame {
 
 	public LoginView() {
 		setTitle("Login");
-		setSize(UIStyles.WINDOW_WIDTH_LOGIN, UIStyles.WINDOW_HEIGHT_LOGIN);
+		setSize(CRStyles.WINDOW_WIDTH_LOGIN, CRStyles.WINDOW_HEIGHT_LOGIN);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 	
