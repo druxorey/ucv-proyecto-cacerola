@@ -33,6 +33,24 @@ public class CRElements {
 	}
 
 
+	public static void createRegistrationField(JPanel panel, String labelText, JComponent field, String helpText) {
+		JLabel label = new JLabel(labelText);
+		label.setFont(CRStyles.MAIN_FONT);
+		label.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		JLabel helpLabel = new JLabel(helpText);
+		helpLabel.setFont(CRStyles.ITALIC_FONT);
+		helpLabel.setForeground(Color.GRAY);
+		helpLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		panel.add(label);
+		panel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_SMALL));
+		panel.add(field);
+		panel.add(helpLabel);
+		panel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
+	}
+
+
 	public static JButton createButton(String text, Color bgColor, Color fgColor, boolean focusPainted, int width) {
 		JButton button = new JButton(text);
 		button.setFont(CRStyles.MAIN_FONT);
@@ -47,21 +65,22 @@ public class CRElements {
 	}
 
 
-	public static JLabel createTitleLabel(String text) {
+	public static JLabel createTitleLabel(String text, Color textColor) {
 		JLabel label = new JLabel(text);
-		label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 28));
-		label.setForeground(CRStyles.FG_LIGHT_COLOR);
+		label.setFont(CRStyles.TITLE_FONT);
+		label.setForeground(textColor);
 		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		return label;
 	}
 
 	
 	public static JPanel createPanel(Color bgColor, int axis) {
-		return createPanel(bgColor, CRStyles.PANEL_PADDING_LARGE, axis);
+		return createMainPanel(bgColor, CRStyles.PANEL_PADDING_LARGE, axis);
 	}
 
 
-	public static JPanel createPanel(Color bgColor, int padding, int axis) {
+	public static JPanel createMainPanel(Color bgColor, int padding, int axis) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, axis));
 		panel.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));

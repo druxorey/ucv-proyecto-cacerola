@@ -16,33 +16,25 @@ public class LoginView extends JFrame {
 
 
 	private JPanel createLeftPanel() {
-		// Create the left panel with a vertical box layout
 		JPanel leftPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
-		// Add logo
 		java.net.URL logoPath = getClass().getResource("/Utils/ucvLogo.png");
 		JLabel logoLabel = logoPath != null ? new JLabel(new ImageIcon(logoPath)) : new JLabel();
 		logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		logoLabel.setPreferredSize(new Dimension(LOGO_WIDTH, LOGO_HEIGHT));
 
-		// Add login title
-		JLabel loginTitle = new JLabel("MiComedorUCV");
-		loginTitle.setFont(CRStyles.TITLE_FONT);
-		loginTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JLabel loginTitle = CRElements.createTitleLabel("MiComedorUCV", CRStyles.FG_LIGHT_COLOR);
 		
-		// Add user ID field
 		JLabel loginUserIdLabel = new JLabel("Cédula de Identidad");
 		loginUserIdLabel.setFont(CRStyles.MAIN_FONT);
 		loginUserIdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		userIdField = (JTextField) CRElements.createInputField(evt -> loginActionButton.doClick());
+		userIdField = (JTextField) CRElements.createInputField(e -> loginActionButton.doClick());
 		
-		// Add password field
 		JLabel loginPasswordLabel = new JLabel("Contraseña");
 		loginPasswordLabel.setFont(CRStyles.MAIN_FONT);
 		loginPasswordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		passwordField = (JPasswordField) CRElements.createInputField(evt -> loginActionButton.doClick(), true);
+		passwordField = (JPasswordField) CRElements.createInputField(e -> loginActionButton.doClick(), true);
 		
-		// Add login and register buttons
 		loginActionButton = CRElements.createButton(
 			"Iniciar sesión",
 			CRStyles.ACCENT_COLOR,
@@ -55,7 +47,6 @@ public class LoginView extends JFrame {
 		registerActionLabel.setFont(CRStyles.MAIN_FONT);
 		registerActionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		// Add components to the left panel
 		leftPanel.add(logoLabel);
 		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_SMALL));
 		leftPanel.add(loginTitle);

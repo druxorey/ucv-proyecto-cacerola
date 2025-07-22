@@ -52,11 +52,9 @@ public class UserView extends JFrame {
 		cardLayout = new CardLayout();
 		JPanel panel = new JPanel(cardLayout);
 
-		// Monedero Panel
 		JPanel walletPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
-		walletPanel.add(CRElements.createTitleLabel("Monedero Virtual"));
+		walletPanel.add(CRElements.createTitleLabel("Monedero Virtual", CRStyles.FG_LIGHT_COLOR));
 
-		// Saldo
 		double saldo = walletService.getBalance(userId);
 		JLabel saldoLabel = new JLabel("Saldo actual: Bs." + String.format("%.2f", saldo));
 		saldoLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
@@ -65,7 +63,6 @@ public class UserView extends JFrame {
 		walletPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		walletPanel.add(saldoLabel);
 
-		// Movimientos
 		walletPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		JLabel movTitle = new JLabel("Últimos movimientos");
 		movTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -104,16 +101,15 @@ public class UserView extends JFrame {
 			walletPanel.add(scroll);
 		}
 
-		// Menú Panel
 		JPanel menuPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
-		menuPanel.add(CRElements.createTitleLabel("Menú"));
+		menuPanel.add(CRElements.createTitleLabel("Menú", CRStyles.FG_LIGHT_COLOR));
 
-		// Lista de comidas de ejemplo
 		class Comida {
 			String nombre, descripcion;
 			double costo;
 			Comida(String n, String d, double c) { nombre = n; descripcion = d; costo = c; }
 		}
+
 		Comida[] comidas = new Comida[] {
 			new Comida("Arepa Reina Pepiada", "Arepa rellena de pollo y aguacate.", 45.00),
 			new Comida("Pabellón Criollo", "Carne mechada, arroz, caraotas y plátano.", 80.00),
