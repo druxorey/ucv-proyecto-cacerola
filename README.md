@@ -11,6 +11,8 @@
 
 MiComedorUCV es un sistema de software, programado en Java, diseñado para optimizar y automatizar la gestión del comedor universitario de la UCV. Su objetivo principal es mejorar la eficiencia en los procesos relacionados con estudiantes, empleados y administradores, proporcionando una solución integral que facilite la administración de recursos, la planificación de menús y el control de asistencia.
 
+![Application Screenshot](/docs/banner.webp)
+
 ### Metodologías de Desarrollo
 
 El proyecto comenzó utilizando la metodología RUP (Rational Unified Process) para el modelado inicial y la definición de requerimientos. Posteriormente, se adoptó XP (Extreme Programming) para la implementación y desarrollo iterativo.
