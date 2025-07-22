@@ -5,10 +5,10 @@ import java.awt.*;
 import View.Common.*;
 
 public class RegisterView extends JFrame {
+	public JTextField firstNameField;
+	public JTextField lastNameField;
 	public JTextField emailField;
 	public JTextField userIdField;
-	public JPasswordField passwordField;
-	public JPasswordField confirmPasswordField;
 	public JButton submitRegistrationButton;
 
 
@@ -24,7 +24,7 @@ public class RegisterView extends JFrame {
 		leftPanel.setBackground(UIStyles.BG_SECONDARY_COLOR);
 			
 		// Add title for the registration view
-		JLabel registerTitle = new JLabel("Solicitud de Registro");
+		JLabel registerTitle = new JLabel("<html>Solicitud de<br>Registro</html>");
 		registerTitle.setFont(UIStyles.TITLE_FONT);
 		registerTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		registerTitle.setForeground(UIStyles.FG_SECONDARY_COLOR);
@@ -57,10 +57,10 @@ public class RegisterView extends JFrame {
 		rightPanel.setBackground(UIStyles.BG_PRIMARY_COLOR);
 		
 		// Add fields for registration
+		firstNameField = (JTextField) UIElements.createInputField(false, null);
+		lastNameField = (JTextField) UIElements.createInputField(false, null);
 		emailField = (JTextField) UIElements.createInputField(false, null);
 		userIdField = (JTextField) UIElements.createInputField(false, null);
-		passwordField = (JPasswordField) UIElements.createInputField(true, null);
-		confirmPasswordField = (JPasswordField) UIElements.createInputField(true, null);
 
 		// Add submit button
 		submitRegistrationButton = UIElements.createButton(
@@ -74,10 +74,36 @@ public class RegisterView extends JFrame {
 
 		// Add fields and labels to the right panel
 		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+
+		// Panel for name and surname in the same row
+		JPanel nameRowPanel = new JPanel();
+		nameRowPanel.setLayout(new BoxLayout(nameRowPanel, BoxLayout.X_AXIS));
+		nameRowPanel.setOpaque(false);
+		nameRowPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+		nameRowPanel.setPreferredSize(new Dimension(nameRowPanel.getPreferredSize().width, 100));
+
+		// Panel for the first name field
+		JPanel firstNamePanel = new JPanel();
+		firstNamePanel.setLayout(new BoxLayout(firstNamePanel, BoxLayout.Y_AXIS));
+		firstNamePanel.setOpaque(false);
+		firstNamePanel.setBackground(UIStyles.BG_SECONDARY_COLOR);
+		createRegistrationField(firstNamePanel, "Primer Nombre", firstNameField, "<html>Ingresa tu primer nombre. Ejemplo Marcos.</html>");
+
+		// Panel for the last name field
+		JPanel lastNamePanel = new JPanel();
+		lastNamePanel.setLayout(new BoxLayout(lastNamePanel, BoxLayout.Y_AXIS));
+		lastNamePanel.setOpaque(false);
+		createRegistrationField(lastNamePanel, "Primer Apellido", lastNameField, "<html>Ingresa tu primer apellido. Ejemplo: Pérez.</html>");
+
+		nameRowPanel.add(firstNamePanel);
+		nameRowPanel.add(Box.createHorizontalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		nameRowPanel.add(lastNamePanel);
+
+		rightPanel.add(nameRowPanel);
+		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
 		createRegistrationField(rightPanel, "Correo Electrónico", emailField, "<html>Debe ser un correo @gmail.com, institucional (@ucv.ve) o de facultad (@ciens.ucv.ve, etc.)</html>");
 		createRegistrationField(rightPanel, "Cédula de Identidad", userIdField, "<html>Ingrese su número de cédula sin puntos ni guiones. Ejemplo: 12345678</html>");
-		createRegistrationField(rightPanel, "Contraseña", passwordField, "<html>Debe tener al menos 8 caracteres, incluir letras y números.</html>");
-		createRegistrationField(rightPanel, "Confirmar Contraseña", confirmPasswordField, "<html>Repita la contraseña para confirmar.</html>");
+		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
 		rightPanel.add(submitRegistrationButton);
 
 		return rightPanel;

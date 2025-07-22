@@ -15,16 +15,11 @@ public class RegisterController {
 	private static final String[] ALLOWED_DOMAINS = {"@gmail.com", "@ciens.ucv.ve", "@ucv.ve"};
 	private static final String EMAIL_RECIPIENT = "guillermogalavisg@gmail.com";
 
-	public boolean checkFields(String email, String userId, String password, String confirmPassword) {
-		if (email.isEmpty() || userId.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+	
+	public boolean checkFields(String firstName, String lastName, String email, String userId) {
+		if (email.isEmpty() || userId.isEmpty() || firstName.isEmpty() || lastName.isEmpty()) {
 			System.err.println("[RegisterController] Registration failed: One or more fields are empty. Email: '" + email + "', UserID: '" + userId + "'");
 			JOptionPane.showMessageDialog(registerView, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-
-		if (!password.equals(confirmPassword)) {
-			System.err.println("[RegisterController] Registration failed: Passwords do not match. UserID: '" + userId + "'");
-			JOptionPane.showMessageDialog(registerView, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 
@@ -54,12 +49,6 @@ public class RegisterController {
 			return false;
 		}
 
-		if (password.length() < 8) {
-			System.err.println("[RegisterController] Registration failed: Password too short. UserID: '" + userId + "'");
-			JOptionPane.showMessageDialog(registerView, "La contraseña debe tener al menos 8 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-
 		List<String> existingUserIds = new UserService().getUserIds();
 		if (existingUserIds.contains(userId)) {
 			System.err.println("[RegisterController] Registration failed: UserID already exists. UserID: '" + userId + "'");
@@ -70,28 +59,35 @@ public class RegisterController {
 		return true;
 	}
 
+
 	public RegisterController(RegisterView registerView) {
 		this.registerView = registerView;
 		if (registerView != null) {
 			this.registerView.submitRegistrationButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					String firstName = new String(registerView.firstNameField.getText());
+					String lastName = new String(registerView.lastNameField.getText());
 					String email = registerView.emailField.getText();
 					String userId = registerView.userIdField.getText();
-					String password = new String(registerView.passwordField.getPassword());
-					String confirmPassword = new String(registerView.confirmPasswordField.getPassword());
 					int userCount = new UserService().getUserCount();
 
-					if (!checkFields(email, userId, password, confirmPassword)) {
+					if (!checkFields(firstName, lastName, email, userId)) {
 						return;
 					}
 
-					String message = String.format(
-						"Correo: %s\nCédula: %s\nContraseña: %s", userCount,
-						email, userId, password
-					);
 
-					String subject = String.format("Solicitud de Registro #%d", userCount);
+				   String message = String.format(
+					   "Se ha recibido una nueva solicitud de registro en el sistema MiComedorUCV.\n\n"
+					   + "Datos del solicitante:\n"
+					   + "Nombre: %s\n"
+					   + "Apellido: %s\n"
+					   + "Correo electrónico: %s\n"
+					   + "Cédula de Identidad: %s\n",
+					   firstName, lastName, email, userId
+				   );
+
+				   String subject = String.format("Solicitud de Registro #%d", userCount);
 
 					try {
 						EmailSender.sendEmail(
