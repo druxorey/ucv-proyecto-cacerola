@@ -69,40 +69,7 @@ public class LoginView extends JFrame {
 
 
 	private JPanel createRightPanel() {
-		// Create the right panel with a background image
-		return new JPanel(new BorderLayout()) {
-			@Override
-			// Override the paintComponent method to draw the background image
-			protected void paintComponent(Graphics canvasGraphics) {
-				super.paintComponent(canvasGraphics);
-				java.net.URL backgroundImagePath = getClass().getResource("/Utils/background_01.jpg");
-
-				if (backgroundImagePath != null) {
-					ImageIcon backgroundImageIcon = new ImageIcon(backgroundImagePath);
-					Image img = backgroundImageIcon.getImage();
-					
-					int panelWidth = getWidth();
-					int panelHeight = getHeight();
-					int imgWidth = img.getWidth(null);
-					int imgHeight = img.getHeight(null);
-
-					// If the image dimensions are valid, scale it to fit the panel
-					if (imgWidth > 0 && imgHeight > 0) {
-						// Scale the image to fit the panel while maintaining aspect ratio
-						float scale = Math.max((float) panelWidth / imgWidth, (float) panelHeight / imgHeight);
-						int newImgWidth = (int) (imgWidth * scale);
-						int newImgHeight = (int) (imgHeight * scale);
-						int x = (panelWidth - newImgWidth) / 2;
-						int y = (panelHeight - newImgHeight) / 2;
-						canvasGraphics.drawImage(img, x, y, newImgWidth, newImgHeight, this);
-					}
-
-				} else {
-					System.err.println("[LoginView] Background image not found at path: " + backgroundImagePath);
-					canvasGraphics.setColor(CRStyles.BG_LIGHT_COLOR);
-				}
-			}
-		};
+		return CRElements.createBackgroundImagePanel("/Utils/background_01.jpg");
 	}
 
 

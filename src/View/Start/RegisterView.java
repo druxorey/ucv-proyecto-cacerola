@@ -13,32 +13,7 @@ public class RegisterView extends JFrame {
 
 
 	private JPanel createLeftPanel() {
-		JPanel leftPanel = new JPanel() {
-			@Override
-			protected void paintComponent(Graphics canvasGraphics) {
-				super.paintComponent(canvasGraphics);
-				java.net.URL backgroundImagePath = getClass().getResource("/Utils/background_02.jpg");
-				if (backgroundImagePath != null) {
-					ImageIcon backgroundImageIcon = new ImageIcon(backgroundImagePath);
-					Image img = backgroundImageIcon.getImage();
-					int panelWidth = getWidth();
-					int panelHeight = getHeight();
-					int imgWidth = img.getWidth(null);
-					int imgHeight = img.getHeight(null);
-					if (imgWidth > 0 && imgHeight > 0) {
-						float scale = Math.max((float) panelWidth / imgWidth, (float) panelHeight / imgHeight);
-						int newImgWidth = (int) (imgWidth * scale);
-						int newImgHeight = (int) (imgHeight * scale);
-						int x = (panelWidth - newImgWidth) / 2;
-						int y = (panelHeight - newImgHeight) / 2;
-						canvasGraphics.drawImage(img, x, y, newImgWidth, newImgHeight, this);
-					}
-				} else {
-					System.err.println("[RegisterView] Background image not found at path: " + backgroundImagePath);
-					canvasGraphics.setColor(CRStyles.BG_LIGHT_COLOR);
-				}
-			}
-		};
+		JPanel leftPanel = CRElements.createBackgroundImagePanel("/Utils/background_02.jpg");
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.setBackground(CRStyles.BG_DARK_COLOR);
 		leftPanel.setBorder(BorderFactory.createEmptyBorder(CRStyles.PANEL_PADDING_LARGE, CRStyles.PANEL_PADDING_LARGE, CRStyles.PANEL_PADDING_LARGE, CRStyles.PANEL_PADDING_LARGE));

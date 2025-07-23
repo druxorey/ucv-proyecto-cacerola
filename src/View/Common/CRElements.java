@@ -4,6 +4,40 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CRElements {
+
+	public static JPanel createBackgroundImagePanel(String imagePath) {
+		return new JPanel(new BorderLayout()) {
+			@Override
+			protected void paintComponent(Graphics canvasGraphics) {
+				super.paintComponent(canvasGraphics);
+				java.net.URL backgroundImagePath = getClass().getResource(imagePath);
+
+				if (backgroundImagePath != null) {
+					ImageIcon backgroundImageIcon = new ImageIcon(backgroundImagePath);
+					Image img = backgroundImageIcon.getImage();
+
+					int panelWidth = getWidth();
+					int panelHeight = getHeight();
+					int imgWidth = img.getWidth(null);
+					int imgHeight = img.getHeight(null);
+
+					if (imgWidth > 0 && imgHeight > 0) {
+						float scale = Math.max((float) panelWidth / imgWidth, (float) panelHeight / imgHeight);
+						int newImgWidth = (int) (imgWidth * scale);
+						int newImgHeight = (int) (imgHeight * scale);
+						int x = (panelWidth - newImgWidth) / 2;
+						int y = (panelHeight - newImgHeight) / 2;
+						canvasGraphics.drawImage(img, x, y, newImgWidth, newImgHeight, this);
+					}
+				} else {
+					System.err.println("[CRElements] Background image not found at path: " + imagePath);
+					canvasGraphics.setColor(View.Common.CRStyles.BG_LIGHT_COLOR);
+				}
+			}
+		};
+	}
+
+	
 	public static JComponent createInputField(java.awt.event.ActionListener actionListener) {
 		JComponent field = new JTextField(CRStyles.FIELD_COLUMNS);
 		field.setMaximumSize(new Dimension(Integer.MAX_VALUE, CRStyles.FIELD_HEIGHT));
