@@ -9,6 +9,7 @@ public class RegisterView extends JFrame {
 	public JTextField lastNameField;
 	public JTextField emailField;
 	public JTextField userIdField;
+	public JButton returnButton;
 	public JButton submitRegistrationButton;
 
 
@@ -28,10 +29,22 @@ public class RegisterView extends JFrame {
 		infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		infoLabel.setForeground(CRStyles.FG_DARK_COLOR);
 
+		returnButton = CRElements.createButton(
+			"Regresar",
+			CRStyles.BG_DARK_COLOR,
+			Color.WHITE,
+			false,
+			120
+		);
+		returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(registerTitle);
 		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(infoLabel);
+		leftPanel.add(Box.createVerticalGlue());
+		leftPanel.add(returnButton);
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
 		return leftPanel;
 	}

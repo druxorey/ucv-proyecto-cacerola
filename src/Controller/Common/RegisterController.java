@@ -105,6 +105,18 @@ public class RegisterController {
 					}
 				}
 			});
+
+			this.registerView.returnButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("[RegisterController] Returning to login view.");
+					registerView.dispose();
+					View.Start.LoginView view = new View.Start.LoginView();
+					Model.Services.UserService service = new Model.Services.UserService();
+					new Controller.Common.LoginController(view, service);
+					view.setVisible(true);
+				}
+			});
 		}
 	}
 }

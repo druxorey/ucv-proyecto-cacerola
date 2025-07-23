@@ -68,6 +68,7 @@ public class LoginController {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 				System.out.println("[LoginController] Opening registration view for new user.");
+				view.dispose();
 				View.Start.RegisterView registerView = new View.Start.RegisterView();
 				new RegisterController(registerView);
 				registerView.setVisible(true);
