@@ -18,7 +18,7 @@ public class LoginView extends JFrame {
 	private JPanel createLeftPanel() {
 		JPanel leftPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
-		java.net.URL logoPath = getClass().getResource("/Utils/ucvLogo.png");
+		java.net.URL logoPath = getClass().getResource("/Utils/logo_ucv.png");
 		JLabel logoLabel = logoPath != null ? new JLabel(new ImageIcon(logoPath)) : new JLabel();
 		logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		logoLabel.setPreferredSize(new Dimension(LOGO_WIDTH, LOGO_HEIGHT));
@@ -75,7 +75,7 @@ public class LoginView extends JFrame {
 			// Override the paintComponent method to draw the background image
 			protected void paintComponent(Graphics canvasGraphics) {
 				super.paintComponent(canvasGraphics);
-				java.net.URL backgroundImagePath = getClass().getResource("/Utils/loginBackground.jpg");
+				java.net.URL backgroundImagePath = getClass().getResource("/Utils/background_01.jpg");
 
 				if (backgroundImagePath != null) {
 					ImageIcon backgroundImageIcon = new ImageIcon(backgroundImagePath);
