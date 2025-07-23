@@ -13,13 +13,41 @@ public class RegisterView extends JFrame {
 
 
 	private JPanel createLeftPanel() {
-		JPanel leftPanel = CRElements.createPanel(CRStyles.BG_DARK_COLOR, BoxLayout.Y_AXIS);
-			
+		JPanel leftPanel = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics canvasGraphics) {
+				super.paintComponent(canvasGraphics);
+				java.net.URL backgroundImagePath = getClass().getResource("/Utils/background_02.jpg");
+				if (backgroundImagePath != null) {
+					ImageIcon backgroundImageIcon = new ImageIcon(backgroundImagePath);
+					Image img = backgroundImageIcon.getImage();
+					int panelWidth = getWidth();
+					int panelHeight = getHeight();
+					int imgWidth = img.getWidth(null);
+					int imgHeight = img.getHeight(null);
+					if (imgWidth > 0 && imgHeight > 0) {
+						float scale = Math.max((float) panelWidth / imgWidth, (float) panelHeight / imgHeight);
+						int newImgWidth = (int) (imgWidth * scale);
+						int newImgHeight = (int) (imgHeight * scale);
+						int x = (panelWidth - newImgWidth) / 2;
+						int y = (panelHeight - newImgHeight) / 2;
+						canvasGraphics.drawImage(img, x, y, newImgWidth, newImgHeight, this);
+					}
+				} else {
+					System.err.println("[RegisterView] Background image not found at path: " + backgroundImagePath);
+					canvasGraphics.setColor(CRStyles.BG_LIGHT_COLOR);
+				}
+			}
+		};
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		leftPanel.setBackground(CRStyles.BG_DARK_COLOR);
+		leftPanel.setBorder(BorderFactory.createEmptyBorder(CRStyles.PANEL_PADDING_LARGE, CRStyles.PANEL_PADDING_LARGE, CRStyles.PANEL_PADDING_LARGE, CRStyles.PANEL_PADDING_LARGE));
+
 		JLabel registerTitle = new JLabel("<html>Solicitud de<br>Registro</html>");
 		registerTitle.setFont(CRStyles.TITLE_FONT);
 		registerTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		registerTitle.setForeground(CRStyles.FG_DARK_COLOR);
-		
+
 		JLabel infoLabel = new JLabel("<html>Esta es una solicitud para crear una cuenta en el sistema. Una vez enviada, será revisada por el departamento de registro. Si es aprobada, recibirás un correo con la hora de tu cita para completar el registro físico.</html>");
 		infoLabel.setFont(CRStyles.FIELD_FONT);
 		infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -75,8 +103,9 @@ public class RegisterView extends JFrame {
 		rightPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_SMALL));
 		CRElements.createRegistrationField(rightPanel, "Correo Electrónico", emailField, "<html>Debe ser un correo @gmail.com, institucional (@ucv.ve) o de facultad (@ciens.ucv.ve, etc.)</html>");
 		CRElements.createRegistrationField(rightPanel, "Cédula de Identidad", userIdField, "<html>Ingrese su número de cédula sin puntos ni guiones. Ejemplo: 12345678</html>");
-		rightPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
+		rightPanel.add(Box.createVerticalGlue());
 		rightPanel.add(submitRegistrationButton);
+		rightPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
 		return rightPanel;
 	}
