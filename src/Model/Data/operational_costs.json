@@ -1,6 +1,6 @@
 {
-  "variableCosts": 434,
-  "totalFixedCosts": 4,
-  "wastePercentage": 4343,
-  "numberOfTrays": 434
+  "variableCosts": 10,
+  "totalFixedCosts": 20,
+  "wastePercentage": 36,
+  "numberOfTrays": 430
 }

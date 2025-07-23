@@ -13,32 +13,24 @@ public class RegisterView extends JFrame {
 
 
 	private JPanel createLeftPanel() {
-		// Create the left panel with a vertical box layout
-		JPanel leftPanel = new JPanel();
+		JPanel leftPanel = CRElements.createBackgroundImagePanel("/Utils/background_02.jpg");
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		leftPanel.setBorder(BorderFactory.createEmptyBorder(
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING));
-		leftPanel.setBackground(UIStyles.BG_SECONDARY_COLOR);
-			
-		// Add title for the registration view
-		JLabel registerTitle = new JLabel("<html>Solicitud de<br>Registro</html>");
-		registerTitle.setFont(UIStyles.TITLE_FONT);
-		registerTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-		registerTitle.setForeground(UIStyles.FG_SECONDARY_COLOR);
-		
-		// Add information label
-		JLabel infoLabel = new JLabel("<html>Esta es una solicitud para crear una cuenta en el sistema. Una vez enviada, será revisada por el departamento de registro. Si es aprobada, recibirás un correo con la hora de tu cita para completar el registro físico.</html>");
-		infoLabel.setFont(UIStyles.FIELD_FONT);
-		infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		infoLabel.setForeground(UIStyles.FG_SECONDARY_COLOR);
+		leftPanel.setBackground(CRStyles.BG_DARK_COLOR);
+		leftPanel.setBorder(BorderFactory.createEmptyBorder(CRStyles.PANEL_PADDING_LARGE, CRStyles.PANEL_PADDING_LARGE, CRStyles.PANEL_PADDING_LARGE, CRStyles.PANEL_PADDING_LARGE));
 
-		// Add components to the left panel
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		JLabel registerTitle = new JLabel("<html>Solicitud de<br>Registro</html>");
+		registerTitle.setFont(CRStyles.TITLE_FONT);
+		registerTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+		registerTitle.setForeground(CRStyles.FG_DARK_COLOR);
+
+		JLabel infoLabel = new JLabel("<html>Esta es una solicitud para crear una cuenta en el sistema. Una vez enviada, será revisada por el departamento de registro. Si es aprobada, recibirás un correo con la hora de tu cita para completar el registro físico.</html>");
+		infoLabel.setFont(CRStyles.FIELD_FONT);
+		infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		infoLabel.setForeground(CRStyles.FG_DARK_COLOR);
+
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(registerTitle);
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(infoLabel);
 
 		return leftPanel;
@@ -46,91 +38,57 @@ public class RegisterView extends JFrame {
 
 
 	private JPanel createRightPanel() {
-		// Create the right panel with a vertical box layout
-		JPanel rightPanel = new JPanel();
-		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		rightPanel.setBorder(BorderFactory.createEmptyBorder(
-			UIStyles.PANEL_PADDING, 
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING));
-		rightPanel.setBackground(UIStyles.BG_PRIMARY_COLOR);
+		JPanel rightPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 		
-		// Add fields for registration
-		firstNameField = (JTextField) UIElements.createInputField(false, null);
-		lastNameField = (JTextField) UIElements.createInputField(false, null);
-		emailField = (JTextField) UIElements.createInputField(false, null);
-		userIdField = (JTextField) UIElements.createInputField(false, null);
+		firstNameField = (JTextField) CRElements.createInputField(null);
+		lastNameField = (JTextField) CRElements.createInputField(null);
+		emailField = (JTextField) CRElements.createInputField(null);
+		userIdField = (JTextField) CRElements.createInputField(null);
 
-		// Add submit button
-		submitRegistrationButton = UIElements.createButton(
+		submitRegistrationButton = CRElements.createButton(
 			"Enviar Solicitud",
-			UIStyles.ACCENT_COLOR,
+			CRStyles.ACCENT_COLOR,
 			Color.WHITE,
 			false,
 			120
 		);
 		submitRegistrationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		// Add fields and labels to the right panel
-		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
-
-		// Panel for name and surname in the same row
 		JPanel nameRowPanel = new JPanel();
 		nameRowPanel.setLayout(new BoxLayout(nameRowPanel, BoxLayout.X_AXIS));
 		nameRowPanel.setOpaque(false);
 		nameRowPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 		nameRowPanel.setPreferredSize(new Dimension(nameRowPanel.getPreferredSize().width, 100));
 
-		// Panel for the first name field
 		JPanel firstNamePanel = new JPanel();
 		firstNamePanel.setLayout(new BoxLayout(firstNamePanel, BoxLayout.Y_AXIS));
 		firstNamePanel.setOpaque(false);
-		firstNamePanel.setBackground(UIStyles.BG_SECONDARY_COLOR);
-		createRegistrationField(firstNamePanel, "Primer Nombre", firstNameField, "<html>Ingresa tu primer nombre. Ejemplo Marcos.</html>");
-
-		// Panel for the last name field
+		
 		JPanel lastNamePanel = new JPanel();
 		lastNamePanel.setLayout(new BoxLayout(lastNamePanel, BoxLayout.Y_AXIS));
 		lastNamePanel.setOpaque(false);
-		createRegistrationField(lastNamePanel, "Primer Apellido", lastNameField, "<html>Ingresa tu primer apellido. Ejemplo: Pérez.</html>");
-
+		
+		rightPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
+		CRElements.createRegistrationField(firstNamePanel, "Primer Nombre", firstNameField, "<html>Ingresa tu primer nombre. Ejemplo Marcos.</html>");
+		CRElements.createRegistrationField(lastNamePanel, "Primer Apellido", lastNameField, "<html>Ingresa tu primer apellido. Ejemplo: Pérez.</html>");
 		nameRowPanel.add(firstNamePanel);
-		nameRowPanel.add(Box.createHorizontalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		nameRowPanel.add(Box.createHorizontalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		nameRowPanel.add(lastNamePanel);
-
 		rightPanel.add(nameRowPanel);
-		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
-		createRegistrationField(rightPanel, "Correo Electrónico", emailField, "<html>Debe ser un correo @gmail.com, institucional (@ucv.ve) o de facultad (@ciens.ucv.ve, etc.)</html>");
-		createRegistrationField(rightPanel, "Cédula de Identidad", userIdField, "<html>Ingrese su número de cédula sin puntos ni guiones. Ejemplo: 12345678</html>");
-		rightPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		rightPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_SMALL));
+		CRElements.createRegistrationField(rightPanel, "Correo Electrónico", emailField, "<html>Debe ser un correo @gmail.com, institucional (@ucv.ve) o de facultad (@ciens.ucv.ve, etc.)</html>");
+		CRElements.createRegistrationField(rightPanel, "Cédula de Identidad", userIdField, "<html>Ingrese su número de cédula sin puntos ni guiones. Ejemplo: 12345678</html>");
+		rightPanel.add(Box.createVerticalGlue());
 		rightPanel.add(submitRegistrationButton);
+		rightPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
 		return rightPanel;
 	}
 
 
-	private void createRegistrationField(JPanel panel, String labelText, JComponent field, String helpText) {
-		JLabel label = new JLabel(labelText);
-		label.setFont(UIStyles.MAIN_FONT);
-		label.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		JLabel helpLabel = new JLabel(helpText);
-		helpLabel.setFont(new Font("Segoe UI", Font.ITALIC, 12));
-		helpLabel.setForeground(Color.GRAY);
-		helpLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		panel.add(label);
-		panel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_SMALL));
-		panel.add(field);
-		panel.add(helpLabel);
-		panel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
-	}
-
-
 	public RegisterView() {
 		setTitle("Registro de Usuario");
-		setSize(UIStyles.WINDOW_WIDTH_LOGIN, UIStyles.WINDOW_HEIGHT_LOGIN);
+		setSize(CRStyles.WINDOW_WIDTH_LOGIN, CRStyles.WINDOW_HEIGHT_LOGIN);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 

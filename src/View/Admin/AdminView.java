@@ -15,38 +15,31 @@ public class AdminView extends JFrame {
 
 	private JPanel createLeftPanel() {
 		// Create the left panel with a vertical box layout
-		JPanel leftPanel = new JPanel();
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		leftPanel.setBorder(BorderFactory.createEmptyBorder(
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING));
-		leftPanel.setBackground(UIStyles.BG_SECONDARY_COLOR);
+		JPanel leftPanel = CRElements.createPanel(CRStyles.BG_DARK_COLOR, BoxLayout.Y_AXIS);
 
 		// Add button to select shifts management
-		shiftsManagementButton = UIElements.createButton(
+		shiftsManagementButton = CRElements.createButton(
 			"Costos Operacionales",
-			UIStyles.ACCENT_COLOR,
+			CRStyles.ACCENT_COLOR,
 			Color.WHITE,
 			false,
-			UIStyles.BUTTON_WIDTH_MEDIUM);
+			CRStyles.BUTTON_WIDTH_MEDIUM);
 		shiftsManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		shiftsManagementButton.addActionListener(e -> showCard("costos"));
+		shiftsManagementButton.addActionListener(e -> showCard("shiftsManagement"));
 		
 		// Add button to select user management
-		userManagementButton = UIElements.createButton(
+		userManagementButton = CRElements.createButton(
 			"Gestión de Usuarios",
-			UIStyles.BG_PRIMARY_COLOR,
-			UIStyles.FG_PRIMARY_COLOR,
+			CRStyles.BG_LIGHT_COLOR,
+			CRStyles.FG_LIGHT_COLOR,
 			false,
-			UIStyles.BUTTON_WIDTH_MEDIUM);
+			CRStyles.BUTTON_WIDTH_MEDIUM);
 		userManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		userManagementButton.addActionListener(e -> showCard("usuarios"));
+		userManagementButton.addActionListener(e -> showCard("userManagement"));
 
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(shiftsManagementButton);
-		leftPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(userManagementButton);
 		leftPanel.add(Box.createVerticalGlue());
 
@@ -57,45 +50,70 @@ public class AdminView extends JFrame {
 	private JPanel createRightPanel() {
 		cardLayout = new CardLayout();
 		JPanel panel = new JPanel(cardLayout);
-		panel.setBackground(UIStyles.BG_PRIMARY_COLOR);
+		panel.setBackground(CRStyles.BG_LIGHT_COLOR);
 
 		JPanel shiftsPanel = createShiftsPanel();
-		JPanel userPanel = createUserPanel();
+		JPanel userPanel = createUserManagementPanel();
 
-		panel.add(shiftsPanel, "costos");
-		panel.add(userPanel, "usuarios");
+		panel.add(shiftsPanel, "shiftsManagement");
+		panel.add(userPanel, "userManagement");
 
 		return panel;
 	}
 
+
+	private JPanel createUserManagementPanel() {
+		JPanel userManagementPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+
+		JLabel titleLabel = new JLabel("Gestión de Usuarios");
+		titleLabel.setFont(CRStyles.TITLE_FONT);
+		titleLabel.setForeground(CRStyles.FG_LIGHT_COLOR);
+		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		userManagementPanel.add(titleLabel);
+		userManagementPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
+
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
+		buttonsPanel.setOpaque(false);
+
+		JButton actualUsersButton = CRElements.createButton("Usuarios", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
+		JButton incomingUsersButton = CRElements.createButton("Solicitudes", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
+		actualUsersButton.addActionListener(e -> showCard("actualUsers"));
+		incomingUsersButton.addActionListener(e -> showCard("incomingUsers"));
+
+		buttonsPanel.add(actualUsersButton);
+		buttonsPanel.add(Box.createHorizontalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
+		buttonsPanel.add(incomingUsersButton);
+
+		buttonsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		userManagementPanel.add(buttonsPanel);
+		userManagementPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
+
+		return userManagementPanel;
+	}
+
+	
 	private JPanel createShiftsPanel() {
-		JPanel shiftsPanel = new JPanel();
-		shiftsPanel.setBackground(UIStyles.BG_PRIMARY_COLOR);
-		shiftsPanel.setLayout(new BoxLayout(shiftsPanel, BoxLayout.Y_AXIS));
-		shiftsPanel.setBorder(BorderFactory.createEmptyBorder(
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING * 8,
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING * 8));
+		JPanel shiftsPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
 		JLabel shiftsLabel = new JLabel("Costos Operacionales");
-		shiftsLabel.setFont(UIStyles.TITLE_FONT);
-		shiftsLabel.setForeground(UIStyles.FG_PRIMARY_COLOR);
+		shiftsLabel.setFont(CRStyles.TITLE_FONT);
+		shiftsLabel.setForeground(CRStyles.FG_LIGHT_COLOR);
 		shiftsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		shiftsPanel.add(shiftsLabel);
-		shiftsPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		shiftsPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
-		JTextField totalFixedCostsField = (JTextField) UIElements.createInputField(false, null);
-		JTextField variableCostsField = (JTextField) UIElements.createInputField(false, null);
-		JTextField numberOfTraysField = (JTextField) UIElements.createInputField(false, null);
-		JTextField wastePercentageField = (JTextField) UIElements.createInputField(false, null);
+		JTextField totalFixedCostsField = (JTextField) CRElements.createInputField(null);
+		JTextField variableCostsField = (JTextField) CRElements.createInputField(null);
+		JTextField numberOfTraysField = (JTextField) CRElements.createInputField(null);
+		JTextField wastePercentageField = (JTextField) CRElements.createInputField(null);
 
 		addField(shiftsPanel, "Costos Fijos Totales", totalFixedCostsField, "<html>Costos fijos mensuales del comedor.</html>");
 		addField(shiftsPanel, "Costos Variables", variableCostsField, "<html>Costos variables mensuales del comedor.</html>");
 		addField(shiftsPanel, "Cantidad de Bandejas", numberOfTraysField, "<html>Cantidad de bandejas servidas en el mes.</html>");
 		addField(shiftsPanel, "Porcentaje de Merma", wastePercentageField, "<html>Porcentaje estimado de merma en la producción.</html>");
 
-		JButton saveButton = UIElements.createButton("Guardar", UIStyles.ACCENT_COLOR, Color.WHITE, false, 120);
+		JButton saveButton = CRElements.createButton("Guardar", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
 		saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		shiftsPanel.add(saveButton);
 
@@ -128,36 +146,30 @@ public class AdminView extends JFrame {
 		return shiftsPanel;
 	}
 
+
 	private JPanel createUserPanel() {
 		// Create a panel for user management
-		JPanel userPanel = new JPanel();
-		userPanel.setBackground(UIStyles.BG_PRIMARY_COLOR);
-		userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.Y_AXIS));
-		userPanel.setBorder(BorderFactory.createEmptyBorder(
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING * 8,
-			UIStyles.PANEL_PADDING,
-			UIStyles.PANEL_PADDING * 8));
+		JPanel userPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
 		JLabel userLabel = new JLabel("Gestión de Usuarios");
-		userLabel.setFont(UIStyles.TITLE_FONT);
-		userLabel.setForeground(UIStyles.FG_PRIMARY_COLOR);
+		userLabel.setFont(CRStyles.TITLE_FONT);
+		userLabel.setForeground(CRStyles.FG_LIGHT_COLOR);
 		userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		JTextField firstNameField = (JTextField) UIElements.createInputField(false, null);
-		JTextField lastNameField = (JTextField) UIElements.createInputField(false, null);
-		JTextField userIdField = (JTextField) UIElements.createInputField(false, null);
-		JPasswordField passwordField = (JPasswordField) UIElements.createInputField(true, null);
-		JTextField emailField = (JTextField) UIElements.createInputField(false, null);
+		JTextField firstNameField = (JTextField) CRElements.createInputField(null);
+		JTextField lastNameField = (JTextField) CRElements.createInputField(null);
+		JTextField userIdField = (JTextField) CRElements.createInputField(null);
+		JTextField emailField = (JTextField) CRElements.createInputField(null);
+		JPasswordField passwordField = (JPasswordField) CRElements.createInputField(null, true);
 
 		String[] userTypes = {"Estudiante", "Profesor/Personal"};
 		JComboBox<String> userTypeDropdown = new JComboBox<>(userTypes);
-		userTypeDropdown.setMaximumSize(new Dimension(Integer.MAX_VALUE, UIStyles.FIELD_HEIGHT));
-		userTypeDropdown.setBackground(UIStyles.BG_PRIMARY_COLOR);
-		userTypeDropdown.setFont(UIStyles.FIELD_FONT);
-		userTypeDropdown.setBorder(BorderFactory.createLineBorder(UIStyles.FG_SECONDARY_COLOR, 2));
+		userTypeDropdown.setMaximumSize(new Dimension(Integer.MAX_VALUE, CRStyles.FIELD_HEIGHT));
+		userTypeDropdown.setBackground(CRStyles.BG_LIGHT_COLOR);
+		userTypeDropdown.setFont(CRStyles.FIELD_FONT);
+		userTypeDropdown.setBorder(BorderFactory.createLineBorder(CRStyles.FG_DARK_COLOR, 2));
 
-		JButton addUserButton = UIElements.createButton("Agregar", UIStyles.ACCENT_COLOR, Color.WHITE, false, 120);
+		JButton addUserButton = CRElements.createButton("Agregar", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
 
 		AdminController adminController = new AdminController(this);
 		addUserButton.addActionListener(e -> {
@@ -165,14 +177,14 @@ public class AdminView extends JFrame {
 		});
 
 		userPanel.add(userLabel);
-		userPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		addField(userPanel, "Nombre", firstNameField, "<html>Nombre del usuario a registrar.</html>");
 		addField(userPanel, "Apellido", lastNameField, "<html>Apellido del usuario a registrar.</html>");
 		addField(userPanel, "Cédula de Identidad", userIdField, "<html>Cédula o identificador único.</html>");
 		addField(userPanel, "Email", emailField, "<html>Correo institucional o personal válido.</html>");
 		addField(userPanel, "Contraseña", passwordField, "<html>Debe tener al menos 8 caracteres, incluir letras y números.</html>");
 		addField(userPanel, "Tipo de Usuario", userTypeDropdown, "<html>Selecciona el tipo de usuario.</html>");
-		userPanel.add(Box.createVerticalStrut(UIStyles.VERTICAL_STRUT_MEDIUM));
+		userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		addUserButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		userPanel.add(addUserButton);
 
@@ -201,22 +213,22 @@ public class AdminView extends JFrame {
 		cardLayout.show(rightPanel, name);
 
 		if (name.equals("costos")) {
-			shiftsManagementButton.setBackground(UIStyles.ACCENT_COLOR);
+			shiftsManagementButton.setBackground(CRStyles.ACCENT_COLOR);
 			shiftsManagementButton.setForeground(Color.WHITE);
-			userManagementButton.setBackground(UIStyles.BG_PRIMARY_COLOR);
-			userManagementButton.setForeground(UIStyles.FG_PRIMARY_COLOR);
+			userManagementButton.setBackground(CRStyles.BG_LIGHT_COLOR);
+			userManagementButton.setForeground(CRStyles.FG_LIGHT_COLOR);
 		} else if (name.equals("usuarios")) {
-			userManagementButton.setBackground(UIStyles.ACCENT_COLOR);
+			userManagementButton.setBackground(CRStyles.ACCENT_COLOR);
 			userManagementButton.setForeground(Color.WHITE);
-			shiftsManagementButton.setBackground(UIStyles.BG_PRIMARY_COLOR);
-			shiftsManagementButton.setForeground(UIStyles.FG_PRIMARY_COLOR);
+			shiftsManagementButton.setBackground(CRStyles.BG_LIGHT_COLOR);
+			shiftsManagementButton.setForeground(CRStyles.FG_LIGHT_COLOR);
 		}
 	}
 
 
 	public AdminView() {
 		setTitle("Panel de Administrador");
-		setSize(UIStyles.WINDOW_WIDTH_INTERFACE, UIStyles.WINDOW_HEIGHT_INTERFACE);
+		setSize(CRStyles.WINDOW_WIDTH_INTERFACE, CRStyles.WINDOW_HEIGHT_INTERFACE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 
