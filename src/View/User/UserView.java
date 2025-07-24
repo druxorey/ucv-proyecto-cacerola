@@ -9,11 +9,12 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 
 public class UserView extends JFrame {
-	private JPanel leftPanel;
-	private JPanel rightPanel;
-	private CardLayout cardLayout;
-	private JButton walletButton;
-	private JButton menuButton;
+	public JPanel leftPanel;
+	public JPanel rightPanel;
+	public CardLayout cardLayout;
+	public JButton walletButton;
+	public JButton menuButton;
+	public JButton logOutButton;
 	private WalletService walletService = new WalletService();
 
 
@@ -38,11 +39,21 @@ public class UserView extends JFrame {
 		menuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		menuButton.addActionListener(e -> showCard("menu"));
 
+		logOutButton = CRElements.createButton(
+			"Cerrar Sesión",
+			CRStyles.ACCENT_COLOR,
+			Color.WHITE,
+			false,
+			CRStyles.BUTTON_WIDTH_SMALL);
+		logOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(walletButton);
 		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(menuButton);
 		leftPanel.add(Box.createVerticalGlue());
+		leftPanel.add(logOutButton);
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
 		return leftPanel;
 	}
@@ -191,7 +202,7 @@ public class UserView extends JFrame {
 		splitPane.setDividerSize(0);
 		splitPane.setBorder(BorderFactory.createEmptyBorder());
 		add(splitPane);
-		
+
 		addComponentListener(new java.awt.event.ComponentAdapter() {
 			@Override
 			public void componentResized(java.awt.event.ComponentEvent e) {

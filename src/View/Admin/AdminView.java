@@ -11,6 +11,7 @@ public class AdminView extends JFrame {
 	private CardLayout cardLayout;
 	private JButton shiftsManagementButton;
 	private JButton userManagementButton;
+	public JButton logOutButton;
 
 
 	private JPanel createLeftPanel() {
@@ -34,11 +35,21 @@ public class AdminView extends JFrame {
 		userManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		userManagementButton.addActionListener(e -> showCard("userManagement"));
 
+		logOutButton = CRElements.createButton(
+			"Cerrar Sesión",
+			CRStyles.ACCENT_COLOR,
+			Color.WHITE,
+			false,
+			CRStyles.BUTTON_WIDTH_SMALL);
+		logOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(shiftsManagementButton);
 		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(userManagementButton);
 		leftPanel.add(Box.createVerticalGlue());
+		leftPanel.add(logOutButton);
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
 		return leftPanel;
 	}
