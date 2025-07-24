@@ -24,7 +24,7 @@ public class AdminView extends JFrame {
 			false,
 			CRStyles.BUTTON_WIDTH_MEDIUM);
 		shiftsManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		shiftsManagementButton.addActionListener(e -> showCard("shiftsManagement"));
+		shiftsManagementButton.addActionListener(_ -> showCard("shiftsManagement"));
 		
 		userManagementButton = CRElements.createButton(
 			"Gestión de Usuarios",
@@ -33,7 +33,7 @@ public class AdminView extends JFrame {
 			false,
 			CRStyles.BUTTON_WIDTH_MEDIUM);
 		userManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		userManagementButton.addActionListener(e -> showCard("userManagement"));
+		userManagementButton.addActionListener(_ -> showCard("userManagement"));
 
 		logOutButton = CRElements.createButton(
 			"Cerrar Sesión",
@@ -86,8 +86,8 @@ public class AdminView extends JFrame {
 
 		JButton actualUsersButton = CRElements.createButton("Usuarios", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
 		JButton incomingUsersButton = CRElements.createButton("Solicitudes", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
-		actualUsersButton.addActionListener(e -> showCard("actualUsers"));
-		incomingUsersButton.addActionListener(e -> showCard("incomingUsers"));
+		actualUsersButton.addActionListener(_ -> showCard("actualUsers"));
+		incomingUsersButton.addActionListener(_ -> showCard("incomingUsers"));
 
 		buttonsPanel.add(actualUsersButton);
 		buttonsPanel.add(Box.createHorizontalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
@@ -132,7 +132,7 @@ public class AdminView extends JFrame {
 		numberOfTraysField.setText(String.valueOf(operationalCosts.optInt("numberOfTrays", 0)));
 		wastePercentageField.setText(String.valueOf(operationalCosts.optDouble("wastePercentage", 0)));
 
-		saveButton.addActionListener(e -> {
+		saveButton.addActionListener(_ -> {
 			try {
 				double totalFixedCosts = Double.parseDouble(totalFixedCostsField.getText());
 				double variableCosts = Double.parseDouble(variableCostsField.getText());
@@ -178,7 +178,7 @@ public class AdminView extends JFrame {
 		JButton addUserButton = CRElements.createButton("Agregar", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
 
 		AdminController adminController = new AdminController(this);
-		addUserButton.addActionListener(e -> {
+		addUserButton.addActionListener(_ -> {
 			adminController.handleAddUser(firstNameField, lastNameField, userIdField, passwordField, emailField, userTypeDropdown);
 		});
 

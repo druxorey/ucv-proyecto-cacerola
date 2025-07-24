@@ -38,7 +38,7 @@ public class UserService {
 	}
 
 
-	public int authenticate(String userId, String password) {
+	public short authenticate(String userId, String password) {
 		List<User> users = loadUsers();
 		for (User user : users) {
 			if (user.getUserId().equals(userId) && user.getUserPassword().equals(password)) {

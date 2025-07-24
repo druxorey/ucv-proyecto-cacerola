@@ -28,12 +28,12 @@ public class LoginView extends JFrame {
 		JLabel loginUserIdLabel = new JLabel("Cédula de Identidad");
 		loginUserIdLabel.setFont(CRStyles.MAIN_FONT);
 		loginUserIdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		userIdField = (JTextField) CRElements.createInputField(e -> loginActionButton.doClick());
+		userIdField = (JTextField) CRElements.createInputField(_ -> loginActionButton.doClick());
 		
 		JLabel loginPasswordLabel = new JLabel("Contraseña");
 		loginPasswordLabel.setFont(CRStyles.MAIN_FONT);
 		loginPasswordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		passwordField = (JPasswordField) CRElements.createPasswordField(e -> loginActionButton.doClick());
+		passwordField = (JPasswordField) CRElements.createPasswordField(_ -> loginActionButton.doClick());
 		
 		loginActionButton = CRElements.createButton(
 			"Iniciar sesión",

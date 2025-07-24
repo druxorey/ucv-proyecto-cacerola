@@ -28,7 +28,7 @@ public class UserView extends JFrame {
 			false,
 			CRStyles.BUTTON_WIDTH_MEDIUM);
 		walletButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		walletButton.addActionListener(e -> showCard("monedero"));
+		walletButton.addActionListener(_ -> showCard("monedero"));
 
 		menuButton = CRElements.createButton(
 			"Menú",
@@ -37,7 +37,7 @@ public class UserView extends JFrame {
 			false,
 			CRStyles.BUTTON_WIDTH_MEDIUM);
 		menuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		menuButton.addActionListener(e -> showCard("menu"));
+		menuButton.addActionListener(_ -> showCard("menu"));
 
 		logOutButton = CRElements.createButton(
 			"Cerrar Sesión",
