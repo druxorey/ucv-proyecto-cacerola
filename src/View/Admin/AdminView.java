@@ -14,7 +14,7 @@ public class AdminView extends JFrame {
 
 
 	private JPanel createLeftPanel() {
-		JPanel leftPanel = CRElements.createBasePanel(CRStyles.BG_DARK_COLOR, BoxLayout.Y_AXIS);
+		JPanel leftPanel = CRElements.createImagePanel(CRStyles.PANEL_PADDING_LARGE, BoxLayout.Y_AXIS, "/Utils/background_02.jpg");
 
 		shiftsManagementButton = CRElements.createButton(
 			"Costos Operacionales",
@@ -207,12 +207,12 @@ public class AdminView extends JFrame {
 	private void showCard(String name) {
 		cardLayout.show(rightPanel, name);
 
-		if (name.equals("costos")) {
+		if (name.equals("shiftsManagement")) {
 			shiftsManagementButton.setBackground(CRStyles.ACCENT_COLOR);
 			shiftsManagementButton.setForeground(Color.WHITE);
 			userManagementButton.setBackground(CRStyles.BG_LIGHT_COLOR);
 			userManagementButton.setForeground(CRStyles.FG_LIGHT_COLOR);
-		} else if (name.equals("usuarios")) {
+		} else if (name.equals("userManagement")) {
 			userManagementButton.setBackground(CRStyles.ACCENT_COLOR);
 			userManagementButton.setForeground(Color.WHITE);
 			shiftsManagementButton.setBackground(CRStyles.BG_LIGHT_COLOR);

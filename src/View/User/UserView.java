@@ -18,7 +18,7 @@ public class UserView extends JFrame {
 
 
 	private JPanel createLeftPanel() {
-		JPanel leftPanel = CRElements.createBasePanel(CRStyles.BG_DARK_COLOR, BoxLayout.Y_AXIS);
+		JPanel leftPanel = CRElements.createImagePanel(CRStyles.PANEL_PADDING_LARGE, BoxLayout.Y_AXIS, "/Utils/background_02.jpg");
 
 		walletButton = CRElements.createButton(
 			"Monedero Virtual",
@@ -186,8 +186,21 @@ public class UserView extends JFrame {
 		leftPanel = createLeftPanel();
 		rightPanel = createRightPanel(userId);
 
-		add(leftPanel, BorderLayout.WEST);
-		add(rightPanel, BorderLayout.CENTER);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+		splitPane.setEnabled(false);
+		splitPane.setDividerSize(0);
+		splitPane.setBorder(BorderFactory.createEmptyBorder());
+		add(splitPane);
+		
+		addComponentListener(new java.awt.event.ComponentAdapter() {
+			@Override
+			public void componentResized(java.awt.event.ComponentEvent e) {
+				int w = getWidth();
+				double relation = 0.25; // 25% width for left panel
+				int divider = (int) (w * relation);
+				splitPane.setDividerLocation(divider);
+			}
+		});
 	}
 
 

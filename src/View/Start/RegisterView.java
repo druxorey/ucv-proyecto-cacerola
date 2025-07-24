@@ -28,10 +28,10 @@ public class RegisterView extends JFrame {
 
 		returnButton = CRElements.createButton(
 			"Regresar",
-			CRStyles.BG_DARK_COLOR,
+			CRStyles.ACCENT_COLOR,
 			Color.WHITE,
 			false,
-			120
+			CRStyles.BUTTON_WIDTH_SMALL
 		);
 		returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -60,7 +60,7 @@ public class RegisterView extends JFrame {
 			CRStyles.ACCENT_COLOR,
 			Color.WHITE,
 			false,
-			120
+			CRStyles.BUTTON_WIDTH_SMALL
 		);
 		submitRegistrationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
