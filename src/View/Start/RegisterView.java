@@ -13,6 +13,33 @@ public class RegisterView extends JFrame {
 	public JButton submitRegistrationButton;
 
 
+	public RegisterView() {
+		setTitle("Registro de Usuario");
+		setSize(CRStyles.WINDOW_WIDTH_LOGIN, CRStyles.WINDOW_HEIGHT_LOGIN);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+
+		JPanel leftPanel = createLeftPanel();
+		JPanel rightPanel = createRightPanel();
+
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+		splitPane.setEnabled(false);
+		splitPane.setDividerSize(0);
+		splitPane.setBorder(BorderFactory.createEmptyBorder());
+		add(splitPane);
+
+		addComponentListener(new java.awt.event.ComponentAdapter() {
+			@Override
+			public void componentResized(java.awt.event.ComponentEvent e) {
+				int w = getWidth();
+				double relation = 0.40; // 40% width for left panel
+				int divider = (int) (w * relation);
+				splitPane.setDividerLocation(divider);
+			}
+		});
+	}
+
+
 	private JPanel createLeftPanel() {
 		JPanel leftPanel = CRElements.createImagePanel(CRStyles.PANEL_PADDING_LARGE, BoxLayout.Y_AXIS, "/Utils/background_02.jpg");
 
@@ -93,33 +120,6 @@ public class RegisterView extends JFrame {
 		rightPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
 		return rightPanel;
-	}
-
-
-	public RegisterView() {
-		setTitle("Registro de Usuario");
-		setSize(CRStyles.WINDOW_WIDTH_LOGIN, CRStyles.WINDOW_HEIGHT_LOGIN);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-
-		JPanel leftPanel = createLeftPanel();
-		JPanel rightPanel = createRightPanel();
-
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-		splitPane.setEnabled(false);
-		splitPane.setDividerSize(0);
-		splitPane.setBorder(BorderFactory.createEmptyBorder());
-		add(splitPane);
-
-		addComponentListener(new java.awt.event.ComponentAdapter() {
-			@Override
-			public void componentResized(java.awt.event.ComponentEvent e) {
-				int w = getWidth();
-				double relation = 0.40; // 40% width for left panel
-				int divider = (int) (w * relation);
-				splitPane.setDividerLocation(divider);
-			}
-		});
 	}
 
 

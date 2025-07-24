@@ -9,13 +9,41 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 
 public class UserView extends JFrame {
-	public JPanel leftPanel;
-	public JPanel rightPanel;
-	public CardLayout cardLayout;
-	public JButton walletButton;
-	public JButton menuButton;
-	public JButton logOutButton;
+	private JPanel leftPanel;
+	private JPanel rightPanel;
+	private CardLayout cardLayout;
+	private JButton walletButton;
+	private JButton menuButton;
 	private WalletService walletService = new WalletService();
+	public JButton logOutButton;
+
+	
+	public UserView(String userId) {
+		setTitle("Panel de Usuario");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(CRStyles.WINDOW_WIDTH_INTERFACE, CRStyles.WINDOW_HEIGHT_INTERFACE);
+		setLocationRelativeTo(null);
+		setLayout(new BorderLayout());
+
+		leftPanel = createLeftPanel();
+		rightPanel = createRightPanel(userId);
+
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+		splitPane.setEnabled(false);
+		splitPane.setDividerSize(0);
+		splitPane.setBorder(BorderFactory.createEmptyBorder());
+		add(splitPane);
+
+		addComponentListener(new java.awt.event.ComponentAdapter() {
+			@Override
+			public void componentResized(java.awt.event.ComponentEvent e) {
+				int w = getWidth();
+				double relation = 0.25; // 25% width for left panel
+				int divider = (int) (w * relation);
+				splitPane.setDividerLocation(divider);
+			}
+		});
+	}
 
 
 	private JPanel createLeftPanel() {
@@ -184,34 +212,6 @@ public class UserView extends JFrame {
 			walletButton.setBackground(CRStyles.BG_LIGHT_COLOR);
 			walletButton.setForeground(CRStyles.FG_LIGHT_COLOR);
 		}
-	}
-
-
-	public UserView(String userId) {
-		setTitle("Panel de Usuario");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(CRStyles.WINDOW_WIDTH_INTERFACE, CRStyles.WINDOW_HEIGHT_INTERFACE);
-		setLocationRelativeTo(null);
-		setLayout(new BorderLayout());
-
-		leftPanel = createLeftPanel();
-		rightPanel = createRightPanel(userId);
-
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-		splitPane.setEnabled(false);
-		splitPane.setDividerSize(0);
-		splitPane.setBorder(BorderFactory.createEmptyBorder());
-		add(splitPane);
-
-		addComponentListener(new java.awt.event.ComponentAdapter() {
-			@Override
-			public void componentResized(java.awt.event.ComponentEvent e) {
-				int w = getWidth();
-				double relation = 0.25; // 25% width for left panel
-				int divider = (int) (w * relation);
-				splitPane.setDividerLocation(divider);
-			}
-		});
 	}
 
 

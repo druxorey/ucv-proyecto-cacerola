@@ -26,14 +26,14 @@ public class WalletService {
 			}
 			JSONParser parser = new JSONParser();
 			JSONObject obj = (JSONObject) parser.parse(sb.toString());
-			Object saldoObj = obj.get("saldo");
-			if (saldoObj instanceof Number) {
-				return ((Number) saldoObj).doubleValue();
-			} else if (saldoObj instanceof Long) {
-				return ((Long) saldoObj).doubleValue();
-			} else if (saldoObj instanceof String) {
+			Object accountBalance = obj.get("saldo");
+			if (accountBalance instanceof Number) {
+				return ((Number) accountBalance).doubleValue();
+			} else if (accountBalance instanceof Long) {
+				return ((Long) accountBalance).doubleValue();
+			} else if (accountBalance instanceof String) {
 				try {
-					return Double.parseDouble((String) saldoObj);
+					return Double.parseDouble((String) accountBalance);
 				} catch (NumberFormatException ex) {
 					return 0.0;
 				}
@@ -44,6 +44,7 @@ public class WalletService {
 		}
 	}
 
+	
 	public List<WalletMovement> getMovements() {
 		List<WalletMovement> movements = new ArrayList<>();
 		try {

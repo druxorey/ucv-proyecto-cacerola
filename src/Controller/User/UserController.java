@@ -1,26 +1,18 @@
 package Controller.User;
 
-import java.awt.event.*;
-
+import Controller.Common.ViewController;
 import View.User.UserView;
 
 public class UserController {
     private UserView userView;
+	private ViewController viewController;
 
-    public UserController(UserView userView, String firstName) {
+	public UserController(UserView userView, String firstName) {
 		this.userView = userView;
+		this.viewController = new ViewController();
+		
 		if (userView != null) {
-			this.userView.logOutButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					System.out.println("[UserController] Returning to login view.");
-					userView.dispose();
-					View.Start.LoginView view = new View.Start.LoginView();
-					Model.Services.UserService service = new Model.Services.UserService();
-					new Controller.Common.LoginController(view, service);
-					view.setVisible(true);
-				}
-			});
+			this.userView.logOutButton.addActionListener(_ -> viewController.goToLoginView(userView));
 		}
 	}
 }
