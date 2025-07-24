@@ -16,7 +16,7 @@ public class LoginView extends JFrame {
 
 
 	private JPanel createLeftPanel() {
-		JPanel leftPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+		JPanel leftPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
 		java.net.URL logoPath = getClass().getResource("/Utils/logo_ucv.png");
 		JLabel logoLabel = logoPath != null ? new JLabel(new ImageIcon(logoPath)) : new JLabel();
@@ -33,7 +33,7 @@ public class LoginView extends JFrame {
 		JLabel loginPasswordLabel = new JLabel("Contraseña");
 		loginPasswordLabel.setFont(CRStyles.MAIN_FONT);
 		loginPasswordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		passwordField = (JPasswordField) CRElements.createInputField(e -> loginActionButton.doClick(), true);
+		passwordField = (JPasswordField) CRElements.createPasswordField(e -> loginActionButton.doClick());
 		
 		loginActionButton = CRElements.createButton(
 			"Iniciar sesión",
@@ -69,7 +69,7 @@ public class LoginView extends JFrame {
 
 
 	private JPanel createRightPanel() {
-		return CRElements.createBackgroundImagePanel("/Utils/background_01.jpg");
+		return CRElements.createImagePanel(CRStyles.PANEL_PADDING_LARGE, BoxLayout.Y_AXIS, "/Utils/background_01.jpg");
 	}
 
 

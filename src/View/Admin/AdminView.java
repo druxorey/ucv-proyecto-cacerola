@@ -14,10 +14,8 @@ public class AdminView extends JFrame {
 
 
 	private JPanel createLeftPanel() {
-		// Create the left panel with a vertical box layout
-		JPanel leftPanel = CRElements.createPanel(CRStyles.BG_DARK_COLOR, BoxLayout.Y_AXIS);
+		JPanel leftPanel = CRElements.createBasePanel(CRStyles.BG_DARK_COLOR, BoxLayout.Y_AXIS);
 
-		// Add button to select shifts management
 		shiftsManagementButton = CRElements.createButton(
 			"Costos Operacionales",
 			CRStyles.ACCENT_COLOR,
@@ -27,7 +25,6 @@ public class AdminView extends JFrame {
 		shiftsManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		shiftsManagementButton.addActionListener(e -> showCard("shiftsManagement"));
 		
-		// Add button to select user management
 		userManagementButton = CRElements.createButton(
 			"Gestión de Usuarios",
 			CRStyles.BG_LIGHT_COLOR,
@@ -63,7 +60,7 @@ public class AdminView extends JFrame {
 
 
 	private JPanel createUserManagementPanel() {
-		JPanel userManagementPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+		JPanel userManagementPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
 		JLabel titleLabel = new JLabel("Gestión de Usuarios");
 		titleLabel.setFont(CRStyles.TITLE_FONT);
@@ -94,7 +91,7 @@ public class AdminView extends JFrame {
 
 	
 	private JPanel createShiftsPanel() {
-		JPanel shiftsPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+		JPanel shiftsPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
 		JLabel shiftsLabel = new JLabel("Costos Operacionales");
 		shiftsLabel.setFont(CRStyles.TITLE_FONT);
@@ -117,7 +114,6 @@ public class AdminView extends JFrame {
 		saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		shiftsPanel.add(saveButton);
 
-		// Cargar valores al iniciar
 		Model.Services.OperationalCostsService operationalCostsService = new Model.Services.OperationalCostsService();
 		org.json.JSONObject operationalCosts = operationalCostsService.loadOperationalCosts();
 		totalFixedCostsField.setText(String.valueOf(operationalCosts.optDouble("totalFixedCosts", 0)));
@@ -148,8 +144,7 @@ public class AdminView extends JFrame {
 
 
 	private JPanel createUserPanel() {
-		// Create a panel for user management
-		JPanel userPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+		JPanel userPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
 		JLabel userLabel = new JLabel("Gestión de Usuarios");
 		userLabel.setFont(CRStyles.TITLE_FONT);
@@ -160,7 +155,7 @@ public class AdminView extends JFrame {
 		JTextField lastNameField = (JTextField) CRElements.createInputField(null);
 		JTextField userIdField = (JTextField) CRElements.createInputField(null);
 		JTextField emailField = (JTextField) CRElements.createInputField(null);
-		JPasswordField passwordField = (JPasswordField) CRElements.createInputField(null, true);
+		JPasswordField passwordField = (JPasswordField) CRElements.createPasswordField(null);
 
 		String[] userTypes = {"Estudiante", "Profesor/Personal"};
 		JComboBox<String> userTypeDropdown = new JComboBox<>(userTypes);
