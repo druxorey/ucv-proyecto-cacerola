@@ -1,20 +1,16 @@
-
 package Controller.Admin;
-import Controller.Common.RegisterController;
 
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import View.Admin.AdminView;
+import javax.swing.*;
+
 import Model.Entities.User;
 import Model.Services.UserService;
+import Controller.Common.RegisterController;
+import View.Admin.AdminView;
 
 public class AdminController {
 	private AdminView adminView;
 	private UserService userService;
+
 
 	public AdminController(AdminView adminView) {
 		this.adminView = adminView;

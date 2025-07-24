@@ -1,14 +1,12 @@
 package Controller.Common;
 
 import javax.swing.*;
+import java.util.List;
 
-import Model.Services.EmailSender;
 import Model.Services.UserService;
+import Model.Services.EmailSender;
 import View.Start.RegisterView;
 
-import java.util.List;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class RegisterController {
 	private RegisterView registerView;

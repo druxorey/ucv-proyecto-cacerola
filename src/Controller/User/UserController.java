@@ -1,10 +1,7 @@
 package Controller.User;
 
-import javax.swing.JOptionPane;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import Model.Services.EmailSender;
-import Model.Services.UserService;
+import java.awt.event.*;
+
 import View.User.UserView;
 
 public class UserController {
