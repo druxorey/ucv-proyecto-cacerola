@@ -15,7 +15,7 @@ public class WalletService {
 	private static final String MOVEMENTS_PATH = "/Model/Data/wallet_movements.json";
 
 	public double getBalance(String userId) {
-		String walletFilePath = WALLET_DIR + "/" + userId + ".json";
+		String walletFilePath = WALLET_DIR + "/" + userId + "_wallet.json";
 		File walletFile = new File(walletFilePath);
 		if (!walletFile.exists()) return 0.0;
 		try (BufferedReader reader = new BufferedReader(new FileReader(walletFile))) {
@@ -26,7 +26,7 @@ public class WalletService {
 			}
 			JSONParser parser = new JSONParser();
 			JSONObject obj = (JSONObject) parser.parse(sb.toString());
-			Object accountBalance = obj.get("saldo");
+			Object accountBalance = obj.get("wallet");
 			if (accountBalance instanceof Number) {
 				return ((Number) accountBalance).doubleValue();
 			} else if (accountBalance instanceof Long) {
