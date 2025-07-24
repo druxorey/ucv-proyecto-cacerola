@@ -66,7 +66,6 @@ JUnit               | 4.13.2     | Proporciona las herramientas necesarias para 
 javax.activation    | 1.2.0      | Proporciona clases para manejar datos MIME.
 javax.mail          | 1.6.2      | Proporciona funcionalidades para enviar y recibir correos electrónicos.
 hamcrest-core       | 1.3        | Proporciona matchers para realizar pruebas unitarias.
-json                | 20240303   | Proporciona soporte para trabajar con datos JSON.
 json-simple         | 1.1.1      | Proporciona una biblioteca ligera para trabajar con JSON.
 
 
