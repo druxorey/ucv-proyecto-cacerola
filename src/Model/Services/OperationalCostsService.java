@@ -16,9 +16,10 @@ public class OperationalCostsService {
                 sb.append(line);
             }
             JSONParser parser = new JSONParser();
+			System.out.println("[OperationalCostsService] Operational costs loaded successfully from: " + FILE_PATH);
             return (JSONObject) parser.parse(sb.toString());
         } catch (Exception e) {
-            System.err.println("Operational costs file not found or error reading: " + FILE_PATH);
+            System.err.println("[OperationalCostsService] Error reading file: " + FILE_PATH);
             return new JSONObject();
         }
     }
@@ -33,9 +34,11 @@ public class OperationalCostsService {
 			obj.put("numberOfTrays", numberOfTrays);
 			obj.put("wastePercentage", wastePercentage);
 			writer.write(obj.toJSONString());
+			System.out.println("[OperationalCostsService] Operational costs saved successfully to: " + FILE_PATH);
 			return true;
 		} catch (Exception e) {
-			System.err.println("Error saving operational costs: " + e.getMessage());
+			System.err.println("[OperationalCostsService] Error saving operational costs to file: " + FILE_PATH);
+			e.printStackTrace();
 			return false;
 		}
 	}

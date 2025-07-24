@@ -47,10 +47,13 @@ public class WalletService {
 	
 	public List<WalletMovement> getMovements() {
 		List<WalletMovement> movements = new ArrayList<>();
+		
 		try {
 			JSONParser parser = new JSONParser();
 			URL movementsUrl = getClass().getResource(MOVEMENTS_PATH);
+
 			if (movementsUrl == null) return movements;
+
 			try (InputStream in = movementsUrl.openStream();
 				 InputStreamReader isr = new InputStreamReader(in);
 				 BufferedReader reader = new BufferedReader(isr)) {
@@ -68,9 +71,14 @@ public class WalletService {
 					movements.add(new WalletMovement(date, description, amount));
 				}
 			}
+			System.out.println("[WalletService] Wallet movements loaded successfully.");
+		} catch (FileNotFoundException e) {
+			System.err.println("[WalletService] Wallet movements file not found: " + MOVEMENTS_PATH);
 		} catch (Exception e) {
-			System.err.println("Error loading wallet movements: " + e.getMessage());
+			System.err.println("[WalletService] Error loading wallet movements: " + e.getMessage());
+			e.printStackTrace();
 		}
+
 		return movements;
 	}
 }

@@ -14,6 +14,7 @@ public class RegisterService {
 		File dir = new File(REQUEST_DIR);
 		if (!dir.exists()) {
 			dir.mkdirs();
+			System.out.println("[RegisterService] Registration request directory created: " + REQUEST_DIR);
 		}
 
 		int nextNumber = 1;
@@ -38,6 +39,10 @@ public class RegisterService {
 
 		try (FileWriter writer = new FileWriter(new File(dir, fileName))) {
 			writer.write(data.toJSONString());
+			System.out.println("[RegisterService] Registration request saved: " + fileName);
+		} catch (IOException e) {
+			System.err.println("[RegisterService] Error saving registration request: " + e.getMessage());
+			throw e;
 		}
 	}
 }

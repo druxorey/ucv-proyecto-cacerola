@@ -23,29 +23,44 @@ public class UserService {
 	public List<String> getUserIds() {
 		List<String> userIds = new ArrayList<>();
 		List<User> users = loadUsers();
+		
 		for (User user : users) {
 			userIds.add(user.getUserId());
 		}
+
+		if (userIds.isEmpty()) {
+			System.out.println("[UserService] No users found in the database.");
+		} else {
+			System.out.println("[UserService] User IDs loaded successfully: " + userIds);
+		}
+
 		return userIds;
 	}
 
 
-	public short authenticate(String userId, String password) {
+	public short validateUserCredentials(String userId, String password) {
 		List<User> users = loadUsers();
 		for (User user : users) {
 			if (user.getUserId().equals(userId) && user.getUserPassword().equals(password)) {
 				if (user.getUserType() == 0) {
+					System.out.println("[UserService] User authenticated successfully. UserID: '" + userId + "' (Role: User)");
 					return 2;
+				}
+				if (user.getUserType() == 1) {
+					System.out.println("[UserService] Admin authenticated successfully. UserID: '" + userId + "' (Role: Admin)");
+					return 3;
 				}
 				return 1;
 			}	
 		}	
+		System.err.println("[UserService] Authentication failed for UserID: '" + userId + "'. Invalid credentials.");
 		return 0;
 	}	
 	
 
 	private List<User> loadUsers() {
 		List<User> users = new ArrayList<>();
+
 		try (FileReader reader = new FileReader(USERS_FILE)) {
 			JSONParser parser = new JSONParser();
 			JSONArray arr = (JSONArray) parser.parse(reader);
@@ -59,9 +74,14 @@ public class UserService {
 				String lastName = (String) obj.get("lastName");
 				users.add(new User(userId, password, type, email, firstName, lastName));
 			}
+			System.out.println("[UserService] Users loaded successfully from file: " + USERS_FILE);
+		} catch (FileNotFoundException e) {
+			System.err.println("[UserService] Users file not found: " + USERS_FILE);
 		} catch (Exception e) {
-			System.err.println("Error loading users: " + e.getMessage());
+			System.err.println("[UserService] Error loading users from file: " + USERS_FILE);
+			e.printStackTrace();
 		}
+
 		return users;
 	}
 
@@ -83,9 +103,11 @@ public class UserService {
 		}
 		try (FileWriter writer = new FileWriter(USERS_FILE)) {
 			writer.write(arr.toJSONString());
+			System.out.println("[UserService] User added successfully to database: " + user.getUserId());
 			return true;
 		} catch (IOException e) {
-			
+			System.err.println("[UserService] Error saving user to database: " + e.getMessage());
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Error al guardar usuario: " + e.getMessage());
 			return false;
 		}

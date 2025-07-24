@@ -50,7 +50,7 @@ public class LoginController {
 			return;
 		}
 
-		short authenticated = userService.authenticate(userId, password);
+		short authenticated = userService.validateUserCredentials(userId, password);
 		ViewController viewController = new ViewController();
 
 		if (authenticated == 1) {
