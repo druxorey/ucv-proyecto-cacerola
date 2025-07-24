@@ -5,77 +5,79 @@ import javax.swing.*;
 import Model.Services.UserService;
 import View.Start.LoginView;
 
-import javax.swing.*;
-import java.awt.event.*;
-
 public class LoginController {
-	private LoginView view;
+	private LoginView loginView;
 	private UserService service;
 
-	public LoginController(LoginView view, UserService service) {
-		this.view = view;
+
+	public LoginController(LoginView loginView, UserService service) {
+		this.loginView = loginView;
 		this.service = service;
-		initController();
+
+		if (loginView != null) {
+			loginView.loginActionButton.addActionListener(_ -> validateUserCredentials());
+			loginView.registerActionLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+				@Override
+				public void mouseClicked(java.awt.event.MouseEvent e) {
+					openRegistrationView();
+				}
+			});
+		}
 	}
 
-	private void initController() {
-		view.loginActionButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String userId = view.userIdField.getText();
-				String password = new String(view.passwordField.getPassword());
+
+	private void validateUserCredentials() {
+		String userId = loginView.userIdField.getText();
+		String password = new String(loginView.passwordField.getPassword());
 
 				if (userId.isEmpty() && password.isEmpty()) {
 					System.err.println("[LoginController] Login attempt failed: One or more fields are empty.");
-					JOptionPane.showMessageDialog(view, "Por favor, complete todos los campos");
+			JOptionPane.showMessageDialog(loginView, "Por favor, complete todos los campos");
 					return;
 				}
 
 				if (password.isEmpty()) {
 					System.err.println("[LoginController] Login attempt failed: Password field is empty.");
-					JOptionPane.showMessageDialog(view, "Por favor, coloque su contraseña");
+			JOptionPane.showMessageDialog(loginView, "Por favor, coloque su contraseña");
 					return;
 				}
 
 				if (userId.isEmpty()) {
 					System.err.println("[LoginController] Login attempt failed: UserID field is empty.");
-					JOptionPane.showMessageDialog(view, "Por favor, coloque su Cédula de Identidad");
+			JOptionPane.showMessageDialog(loginView, "Por favor, coloque su Cédula de Identidad");
 					return;
 				}
 
-				int authenticated = service.authenticate(userId, password);
+		short authenticated = service.authenticate(userId, password);
 
 				if (authenticated == 1) {
 					System.out.println("[LoginController] User login successful. UserID: '" + userId + "' (Role: User)");
-					ensureUserWalletFile(userId);
-					view.dispose();
+			generateUserCache(userId);
+			loginView.dispose();
 					View.User.UserView userView = new View.User.UserView(userId);
 					new Controller.User.UserController(userView, userId);
 					userView.setVisible(true);
 
 				} else if (authenticated == 2) {
 					System.out.println("[LoginController] Admin login successful. UserID: '" + userId + "' (Role: Admin)");
-					view.dispose();
+			loginView.dispose();
 					View.Admin.AdminView adminView = new View.Admin.AdminView();
 					new Controller.Admin.AdminController(adminView);
 					adminView.setVisible(true);
 				
 				} else {
 					System.err.println("[LoginController] Login failed: Incorrect ID or password.");
-					JOptionPane.showMessageDialog(view, "Cédula o contraseña incorrectos");
+			JOptionPane.showMessageDialog(loginView, "Cédula o contraseña incorrectos");
 				}
 			}
-		});
 
-		view.registerActionLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-			@Override
-			public void mouseClicked(java.awt.event.MouseEvent e) {
+
+	private void openRegistrationView() {
 				System.out.println("[LoginController] Opening registration view for new user.");
-				view.dispose();
+		loginView.dispose();
 				View.Start.RegisterView registerView = new View.Start.RegisterView();
 				new RegisterController(registerView);
 				registerView.setVisible(true);
-			}
-		});
 	}
 	
 	private void ensureUserWalletFile(String userId) {

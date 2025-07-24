@@ -8,7 +8,7 @@ public class RegisterControllerTest {
     @Test
     public void testCheckFieldsWithEmptyFieldsReturnsFalse() {
         RegisterController controller = new RegisterController(null);
-        boolean result = controller.checkFields("", "", "", "");
+        boolean result = controller.validateRegistrationFields("", "", "", "");
         assertFalse(result);
     }
 }

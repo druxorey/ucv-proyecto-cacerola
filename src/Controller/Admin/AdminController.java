@@ -17,29 +17,31 @@ public class AdminController {
 		this.userService = new UserService();
 
 		if (adminView != null) {
-			this.adminView.logOutButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					System.out.println("[UserController] Returning to login view.");
-					adminView.dispose();
-					View.Start.LoginView view = new View.Start.LoginView();
-					Model.Services.UserService service = new Model.Services.UserService();
-					new Controller.Common.LoginController(view, service);
-					view.setVisible(true);
-				}
-			});
+			this.adminView.logOutButton.addActionListener(_ -> processLogout());
 		}
 	}
 
+
+	private void processLogout() {
+			System.out.println("[UserController] Returning to login view.");
+			adminView.dispose();
+			View.Start.LoginView view = new View.Start.LoginView();
+			Model.Services.UserService service = new Model.Services.UserService();
+			new Controller.Common.LoginController(view, service);
+			view.setVisible(true);
+	}
+
+
 	public boolean addUser(String userId, String password, int type, String email, String firstName, String lastName) {
 		RegisterController registerController = new RegisterController(null);
-		boolean valid = registerController.checkFields(email, userId, password, password);
+		boolean valid = registerController.validateRegistrationFields(email, userId, password, password);
 		if (!valid) {
 			return false;
 		}
 		User user = new User(userId, password, type, email, firstName, lastName);
 		return userService.addUserToDatabase(user);
 	}
+
 
 	public void handleAddUser(JTextField firstNameField, JTextField lastNameField, JTextField userIdField, JPasswordField passwordField, JTextField emailField, JComboBox<String> userType) {
 		String firstName = firstNameField.getText().trim();

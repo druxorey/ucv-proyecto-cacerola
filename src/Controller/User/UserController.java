@@ -6,9 +6,8 @@ import View.User.UserView;
 
 public class UserController {
     private UserView userView;
-    private String userId;
 
-    public UserController(UserView userView, String userId) {
+    public UserController(UserView userView, String firstName) {
 		this.userView = userView;
 		if (userView != null) {
 			this.userView.logOutButton.addActionListener(new ActionListener() {
