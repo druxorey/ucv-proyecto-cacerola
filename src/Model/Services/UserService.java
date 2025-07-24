@@ -3,30 +3,20 @@ package Model.Services;
 import Model.Entities.User;
 import java.io.*;
 import java.util.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class UserService {
-	private static final String USERS_FILE = "Model/Data/users.enc";
+	private static final String USERS_FILE = "Model/Data/users.json";
 	private static final String[] ALLOWED_DOMAINS = {"@gmail.com", "@ciens.ucv.ve", "@ucv.ve"};
 
 
 	public int getUserCount() {
-		int count = 0;
-		try (InputStream in = getClass().getResourceAsStream(USERS_FILE)) {
-			if (in != null) {
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				while (br.readLine() != null) {
-					count++;
-				}
-			} else {
-				System.err.println("User file not found in resources: " + USERS_FILE);
-			}
-		} catch (IOException e) {
-			System.err.println("Error reading user file: " + e.getMessage());
-		}
-		return count;
+		return loadUsers().size();
 	}
 
 
@@ -56,41 +46,46 @@ public class UserService {
 
 	private List<User> loadUsers() {
 		List<User> users = new ArrayList<>();
-		try (InputStream in = getClass().getResourceAsStream(USERS_FILE)) {
-			if (in != null) {
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				String line;
-				while ((line = br.readLine()) != null) {
-					String[] parts = line.split(",");
-					if (parts.length == 6) {
-						String userId = parts[0];
-						String password = parts[1];
-						int type = Integer.parseInt(parts[2]);
-						String email = parts[3];
-						String nombre = parts[4];
-						String apellido = parts[5];
-						users.add(new User(userId, password, type, email, nombre, apellido));
-					}
-				}
-			} else {
-				System.err.println("User file not found in resources: " + USERS_FILE);
+		try (FileReader reader = new FileReader(USERS_FILE)) {
+			JSONParser parser = new JSONParser();
+			JSONArray arr = (JSONArray) parser.parse(reader);
+			for (Object o : arr) {
+				JSONObject obj = (JSONObject) o;
+				String userId = (String) obj.get("userId");
+				String password = (String) obj.get("password");
+				int type = ((Long) obj.get("userType")).intValue();
+				String email = (String) obj.get("email");
+				String firstName = (String) obj.get("firstName");
+				String lastName = (String) obj.get("lastName");
+				users.add(new User(userId, password, type, email, firstName, lastName));
 			}
-		} catch (IOException e) {
-			System.err.println("Error loading users: " + e.getMessage());
 		} catch (Exception e) {
-			System.err.println("Unexpected error: " + e.getMessage());
+			System.err.println("Error loading users: " + e.getMessage());
 		}
 		return users;
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public boolean addUserToDatabase(User user) {
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(USERS_FILE, true))) {
-			String line = String.format("%s,%s,%d,%s,%s,%s", user.getUserId(), user.getUserPassword(), user.getUserType(), user.getUserEmail(), user.getUserFirstName(), user.getUserLastName());
-			bw.write(line);
-			bw.newLine();
+		List<User> users = loadUsers();
+		users.add(user);
+		JSONArray arr = new JSONArray();
+		for (User u : users) {
+			JSONObject obj = new JSONObject();
+			obj.put("userId", u.getUserId());
+			obj.put("password", u.getUserPassword());
+			obj.put("userType", u.getUserType());
+			obj.put("email", u.getUserEmail());
+			obj.put("firstName", u.getUserFirstName());
+			obj.put("lastName", u.getUserLastName());
+			arr.add(obj);
+		}
+		try (FileWriter writer = new FileWriter(USERS_FILE)) {
+			writer.write(arr.toJSONString());
 			return true;
 		} catch (IOException e) {
+			
 			JOptionPane.showMessageDialog(null, "Error al guardar usuario: " + e.getMessage());
 			return false;
 		}

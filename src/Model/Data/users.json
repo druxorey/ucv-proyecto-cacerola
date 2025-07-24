@@ -1,0 +1,18 @@
+[
+  {
+    "userId": "31657526",
+    "password": "admin",
+    "userType": 0,
+    "email": "guillermogalavisg@gmail.com",
+    "firstName": "Guillermo",
+    "lastName": "Galavís"
+  },
+  {
+    "userId": "13232510",
+    "password": "user",
+    "userType": 1,
+    "email": "carolinagalavis@gmail.com",
+    "firstName": "Carolina",
+    "lastName": "Galavís"
+  }
+]
