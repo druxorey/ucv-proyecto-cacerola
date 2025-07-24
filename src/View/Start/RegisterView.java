@@ -14,10 +14,7 @@ public class RegisterView extends JFrame {
 
 
 	private JPanel createLeftPanel() {
-		JPanel leftPanel = CRElements.createBackgroundImagePanel("/Utils/background_02.jpg");
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		leftPanel.setBackground(CRStyles.BG_DARK_COLOR);
-		leftPanel.setBorder(BorderFactory.createEmptyBorder(CRStyles.PANEL_PADDING_LARGE, CRStyles.PANEL_PADDING_LARGE, CRStyles.PANEL_PADDING_LARGE, CRStyles.PANEL_PADDING_LARGE));
+		JPanel leftPanel = CRElements.createImagePanel(CRStyles.PANEL_PADDING_LARGE, BoxLayout.Y_AXIS, "/Utils/background_02.jpg");
 
 		JLabel registerTitle = new JLabel("<html>Solicitud de<br>Registro</html>");
 		registerTitle.setFont(CRStyles.TITLE_FONT);
@@ -51,7 +48,7 @@ public class RegisterView extends JFrame {
 
 
 	private JPanel createRightPanel() {
-		JPanel rightPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+		JPanel rightPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 		
 		firstNameField = (JTextField) CRElements.createInputField(null);
 		lastNameField = (JTextField) CRElements.createInputField(null);

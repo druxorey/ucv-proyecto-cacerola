@@ -18,7 +18,7 @@ public class UserView extends JFrame {
 
 
 	private JPanel createLeftPanel() {
-		JPanel leftPanel = CRElements.createPanel(CRStyles.BG_DARK_COLOR, BoxLayout.Y_AXIS);
+		JPanel leftPanel = CRElements.createBasePanel(CRStyles.BG_DARK_COLOR, BoxLayout.Y_AXIS);
 
 		walletButton = CRElements.createButton(
 			"Monedero Virtual",
@@ -52,7 +52,7 @@ public class UserView extends JFrame {
 		cardLayout = new CardLayout();
 		JPanel panel = new JPanel(cardLayout);
 
-		JPanel walletPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+		JPanel walletPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 		walletPanel.add(CRElements.createTitleLabel("Monedero Virtual", CRStyles.FG_LIGHT_COLOR));
 
 		double saldo = walletService.getBalance(userId);
@@ -101,7 +101,7 @@ public class UserView extends JFrame {
 			walletPanel.add(scroll);
 		}
 
-		JPanel menuPanel = CRElements.createPanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+		JPanel menuPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 		menuPanel.add(CRElements.createTitleLabel("Menú", CRStyles.FG_LIGHT_COLOR));
 
 		class Comida {

@@ -5,39 +5,6 @@ import java.awt.*;
 
 public class CRElements {
 
-	public static JPanel createBackgroundImagePanel(String imagePath) {
-		return new JPanel(new BorderLayout()) {
-			@Override
-			protected void paintComponent(Graphics canvasGraphics) {
-				super.paintComponent(canvasGraphics);
-				java.net.URL backgroundImagePath = getClass().getResource(imagePath);
-
-				if (backgroundImagePath != null) {
-					ImageIcon backgroundImageIcon = new ImageIcon(backgroundImagePath);
-					Image img = backgroundImageIcon.getImage();
-
-					int panelWidth = getWidth();
-					int panelHeight = getHeight();
-					int imgWidth = img.getWidth(null);
-					int imgHeight = img.getHeight(null);
-
-					if (imgWidth > 0 && imgHeight > 0) {
-						float scale = Math.max((float) panelWidth / imgWidth, (float) panelHeight / imgHeight);
-						int newImgWidth = (int) (imgWidth * scale);
-						int newImgHeight = (int) (imgHeight * scale);
-						int x = (panelWidth - newImgWidth) / 2;
-						int y = (panelHeight - newImgHeight) / 2;
-						canvasGraphics.drawImage(img, x, y, newImgWidth, newImgHeight, this);
-					}
-				} else {
-					System.err.println("[CRElements] Background image not found at path: " + imagePath);
-					canvasGraphics.setColor(View.Common.CRStyles.BG_LIGHT_COLOR);
-				}
-			}
-		};
-	}
-
-	
 	public static JComponent createInputField(java.awt.event.ActionListener actionListener) {
 		JComponent field = new JTextField(CRStyles.FIELD_COLUMNS);
 		field.setMaximumSize(new Dimension(Integer.MAX_VALUE, CRStyles.FIELD_HEIGHT));
@@ -51,17 +18,15 @@ public class CRElements {
 	}
 
 
-	public static JComponent createInputField(java.awt.event.ActionListener actionListener, boolean isPassword) {
-		JComponent field = isPassword ? new JPasswordField(CRStyles.FIELD_COLUMNS) : new JTextField(CRStyles.FIELD_COLUMNS);
+	public static JComponent createPasswordField(java.awt.event.ActionListener actionListener) {
+		JComponent field = new JPasswordField(CRStyles.FIELD_COLUMNS);
 		field.setMaximumSize(new Dimension(Integer.MAX_VALUE, CRStyles.FIELD_HEIGHT));
 		field.setBackground(CRStyles.BG_LIGHT_COLOR);
 		field.setBorder(BorderFactory.createLineBorder(CRStyles.FG_DARK_COLOR, 2));
 		field.setFont(CRStyles.FIELD_FONT);
-		if (isPassword) {
-			((JPasswordField) field).setEchoChar('*');
-		}
-		if (field instanceof JTextField) {
-			((JTextField) field).addActionListener(actionListener);
+		((JPasswordField) field).setEchoChar('*');
+		if (field instanceof JPasswordField) {
+			((JPasswordField) field).addActionListener(actionListener);
 		}
 		return field;
 	}
@@ -109,16 +74,49 @@ public class CRElements {
 	}
 
 	
-	public static JPanel createPanel(Color bgColor, int axis) {
-		return createMainPanel(bgColor, CRStyles.PANEL_PADDING_LARGE, axis);
+	public static JPanel createBasePanel(Color bgColor, int axis) {
+		return createBasePanel(bgColor, CRStyles.PANEL_PADDING_LARGE, axis);
 	}
 
 
-	public static JPanel createMainPanel(Color bgColor, int padding, int axis) {
+	public static JPanel createBasePanel(Color bgColor, int padding, int axis) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, axis));
 		panel.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
 		panel.setBackground(bgColor);
 		return panel;
 	}
+
+
+	   public static JPanel createImagePanel(int padding, int axis, String imagePath) {
+			JPanel panel = new JPanel() {
+				@Override
+				protected void paintComponent(Graphics canvasGraphics) {
+					super.paintComponent(canvasGraphics);
+					java.net.URL backgroundImagePath = getClass().getResource(imagePath);
+					if (backgroundImagePath != null) {
+						ImageIcon backgroundImageIcon = new ImageIcon(backgroundImagePath);
+						Image img = backgroundImageIcon.getImage();
+						int panelWidth = getWidth();
+						int panelHeight = getHeight();
+						int imgWidth = img.getWidth(null);
+						int imgHeight = img.getHeight(null);
+						if (imgWidth > 0 && imgHeight > 0) {
+							float scale = Math.max((float) panelWidth / imgWidth, (float) panelHeight / imgHeight);
+							int newImgWidth = (int) (imgWidth * scale);
+							int newImgHeight = (int) (imgHeight * scale);
+							int x = (panelWidth - newImgWidth) / 2;
+							int y = (panelHeight - newImgHeight) / 2;
+							canvasGraphics.drawImage(img, x, y, newImgWidth, newImgHeight, this);
+						}
+					} else {
+						System.err.println("[CRElements] Background image not found at path: " + imagePath);
+						canvasGraphics.setColor(View.Common.CRStyles.BG_LIGHT_COLOR);
+					}
+				}
+			};
+			panel.setLayout(new BoxLayout(panel, axis));
+			panel.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
+			return panel;
+	   }
 }
