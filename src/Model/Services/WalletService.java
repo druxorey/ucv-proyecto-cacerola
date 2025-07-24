@@ -15,7 +15,7 @@ public class WalletService {
 	private static final String MOVEMENTS_PATH = "/Model/Data/wallet_movements.json";
 
 	public double getBalance(String userId) {
-		String walletFilePath = WALLET_DIR + "/" + userId + ".json";
+		String walletFilePath = WALLET_DIR + "/" + userId + "_wallet.json";
 		File walletFile = new File(walletFilePath);
 		if (!walletFile.exists()) return 0.0;
 		try (BufferedReader reader = new BufferedReader(new FileReader(walletFile))) {
@@ -26,14 +26,14 @@ public class WalletService {
 			}
 			JSONParser parser = new JSONParser();
 			JSONObject obj = (JSONObject) parser.parse(sb.toString());
-			Object saldoObj = obj.get("saldo");
-			if (saldoObj instanceof Number) {
-				return ((Number) saldoObj).doubleValue();
-			} else if (saldoObj instanceof Long) {
-				return ((Long) saldoObj).doubleValue();
-			} else if (saldoObj instanceof String) {
+			Object accountBalance = obj.get("wallet");
+			if (accountBalance instanceof Number) {
+				return ((Number) accountBalance).doubleValue();
+			} else if (accountBalance instanceof Long) {
+				return ((Long) accountBalance).doubleValue();
+			} else if (accountBalance instanceof String) {
 				try {
-					return Double.parseDouble((String) saldoObj);
+					return Double.parseDouble((String) accountBalance);
 				} catch (NumberFormatException ex) {
 					return 0.0;
 				}
@@ -44,6 +44,7 @@ public class WalletService {
 		}
 	}
 
+	
 	public List<WalletMovement> getMovements() {
 		List<WalletMovement> movements = new ArrayList<>();
 		try {

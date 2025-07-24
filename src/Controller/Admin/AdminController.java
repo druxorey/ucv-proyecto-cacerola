@@ -1,59 +1,87 @@
-
 package Controller.Admin;
-import Controller.Common.RegisterController;
 
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
-import View.Admin.AdminView;
 import Model.Entities.User;
 import Model.Services.UserService;
+import View.Admin.AdminView;
+import Controller.Common.ViewController;
 
 public class AdminController {
-	private AdminView view;
+	private AdminView adminView;
 	private UserService userService;
+	private ViewController viewController;
+	private Model.Services.OperationalCostsService operationalCostsService;
 
-	public AdminController(AdminView view) {
-		this.view = view;
+
+	public AdminController(AdminView adminView) {
+		this.adminView = adminView;
 		this.userService = new UserService();
-	}
+		this.viewController = new ViewController();
+		this.operationalCostsService = new Model.Services.OperationalCostsService();
 
-	public boolean addUser(String userId, String password, int type, String email, String firstName, String lastName) {
-		RegisterController registerController = new RegisterController(null);
-		boolean valid = registerController.checkFields(email, userId, password, password);
-		if (!valid) {
-			return false;
+		if (adminView != null) {
+			this.adminView.logOutButton.addActionListener(_ -> viewController.goToLoginView(adminView));
+			// this.adminView.addUserButton.addActionListener(_ -> processUserRegistration());
+			this.adminView.saveButton.addActionListener(_ -> saveOperationalCosts());
 		}
-		User user = new User(userId, password, type, email, firstName, lastName);
-		return userService.addUserToDatabase(user);
 	}
 
-	public void handleAddUser(JTextField firstNameField, JTextField lastNameField, JTextField userIdField, JPasswordField passwordField, JTextField emailField, JComboBox<String> userType) {
-		String firstName = firstNameField.getText().trim();
-		String lastName = lastNameField.getText().trim();
-		String userId = userIdField.getText().trim();
-		String password = new String(passwordField.getPassword());
-		String email = emailField.getText().trim();
-		int type = userType.getSelectedIndex() + 1;
+
+	private void saveOperationalCosts() {
+		try {
+			double totalFixedCosts = Double.parseDouble(adminView.totalFixedCostsField.getText());
+			double variableCosts = Double.parseDouble(adminView.variableCostsField.getText());
+			int numberOfTrays = Integer.parseInt(adminView.numberOfTraysField.getText());
+			double wastePercentage = Double.parseDouble(adminView.wastePercentageField.getText());
+
+			boolean ok = operationalCostsService.saveOperationalCosts(totalFixedCosts, variableCosts, numberOfTrays, wastePercentage);
+			if (ok) {
+				System.out.println("[AdminController] Operational costs saved successfully.");
+				JOptionPane.showMessageDialog(adminView, "Costos guardados correctamente.");
+			} else {
+				System.err.println("[AdminController] Error saving operational costs.");
+				JOptionPane.showMessageDialog(adminView, "Error al guardar los costos.");
+			}
+		} catch (Exception ex) {
+			System.err.println("[AdminController] Error parsing operational costs: " + ex.getMessage());
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(adminView, "Verifica los valores ingresados.");
+		}
+	}
+
+
+	public void processUserRegistration() {
+		String firstName = adminView.firstNameField.getText().trim();
+		String lastName = adminView.lastNameField.getText().trim();
+		String userId = adminView.userIdField.getText().trim();
+		String password = new String(adminView.passwordField.getPassword());
+		String email = adminView.emailField.getText().trim();
+		int type = adminView.userTypeComboBox.getSelectedIndex() + 1;
 
 		if (firstName.isEmpty() || lastName.isEmpty() || userId.isEmpty() || password.isEmpty() || email.isEmpty()) {
-			JOptionPane.showMessageDialog(view, "Todos los campos son obligatorios.");
+			JOptionPane.showMessageDialog(adminView, "Todos los campos son obligatorios.");
 			return;
 		}
 
-		boolean success = addUser(userId, password, type, email, firstName, lastName);
+		boolean valid = UserService.validateRegistrationFields(adminView, firstName, lastName, email, userId);
+		if (!valid) {
+			return;
+		}
+
+		User user = new User(userId, password, type, email, firstName, lastName);
+		boolean success = userService.addUserToDatabase(user);
+
 		if (success) {
-			JOptionPane.showMessageDialog(view, "Usuario agregado correctamente.");
-			firstNameField.setText("");
-			lastNameField.setText("");
-			userIdField.setText("");
-			passwordField.setText("");
-			emailField.setText("");
-			userType.setSelectedIndex(0);
+			JOptionPane.showMessageDialog(adminView, "Usuario agregado correctamente.");
+			adminView.firstNameField.setText("");
+			adminView.lastNameField.setText("");
+			adminView.userIdField.setText("");
+			adminView.passwordField.setText("");
+			adminView.emailField.setText("");
+			adminView.userTypeComboBox.setSelectedIndex(0);
 		} else {
-			JOptionPane.showMessageDialog(view, "Error al agregar usuario.");
+			JOptionPane.showMessageDialog(adminView, "Error al agregar usuario.");
 		}
 	}
 }

@@ -3,7 +3,6 @@ package View.Admin;
 import javax.swing.*;
 import java.awt.*;
 import View.Common.*;
-import Controller.Admin.AdminController;
 
 public class AdminView extends JFrame {
 	private JPanel leftPanel;
@@ -11,10 +10,24 @@ public class AdminView extends JFrame {
 	private CardLayout cardLayout;
 	private JButton shiftsManagementButton;
 	private JButton userManagementButton;
+	
+	public JButton logOutButton;
+	public JButton addUserButton;
+	public JTextField firstNameField;
+	public JTextField lastNameField;
+	public JTextField userIdField;
+	public JPasswordField passwordField;
+	public JTextField emailField;
+	public JComboBox<String> userTypeComboBox;
+	public JButton saveButton;
+	public JTextField totalFixedCostsField;
+	public JTextField variableCostsField;
+	public JTextField numberOfTraysField;
+	public JTextField wastePercentageField;
 
 
 	private JPanel createLeftPanel() {
-		JPanel leftPanel = CRElements.createBasePanel(CRStyles.BG_DARK_COLOR, BoxLayout.Y_AXIS);
+		JPanel leftPanel = CRElements.createImagePanel(CRStyles.PANEL_PADDING_LARGE, BoxLayout.Y_AXIS, "/Utils/background_02.jpg");
 
 		shiftsManagementButton = CRElements.createButton(
 			"Costos Operacionales",
@@ -23,7 +36,7 @@ public class AdminView extends JFrame {
 			false,
 			CRStyles.BUTTON_WIDTH_MEDIUM);
 		shiftsManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		shiftsManagementButton.addActionListener(e -> showCard("shiftsManagement"));
+		shiftsManagementButton.addActionListener(_ -> showCard("shiftsManagement"));
 		
 		userManagementButton = CRElements.createButton(
 			"Gestión de Usuarios",
@@ -32,13 +45,23 @@ public class AdminView extends JFrame {
 			false,
 			CRStyles.BUTTON_WIDTH_MEDIUM);
 		userManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		userManagementButton.addActionListener(e -> showCard("userManagement"));
+		userManagementButton.addActionListener(_ -> showCard("userManagement"));
+
+		logOutButton = CRElements.createButton(
+			"Cerrar Sesión",
+			CRStyles.ACCENT_COLOR,
+			Color.WHITE,
+			false,
+			CRStyles.BUTTON_WIDTH_SMALL);
+		logOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(shiftsManagementButton);
 		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(userManagementButton);
 		leftPanel.add(Box.createVerticalGlue());
+		leftPanel.add(logOutButton);
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
 		return leftPanel;
 	}
@@ -75,8 +98,8 @@ public class AdminView extends JFrame {
 
 		JButton actualUsersButton = CRElements.createButton("Usuarios", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
 		JButton incomingUsersButton = CRElements.createButton("Solicitudes", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
-		actualUsersButton.addActionListener(e -> showCard("actualUsers"));
-		incomingUsersButton.addActionListener(e -> showCard("incomingUsers"));
+		actualUsersButton.addActionListener(_ -> showCard("actualUsers"));
+		incomingUsersButton.addActionListener(_ -> showCard("incomingUsers"));
 
 		buttonsPanel.add(actualUsersButton);
 		buttonsPanel.add(Box.createHorizontalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
@@ -100,17 +123,17 @@ public class AdminView extends JFrame {
 		shiftsPanel.add(shiftsLabel);
 		shiftsPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
-		JTextField totalFixedCostsField = (JTextField) CRElements.createInputField(null);
-		JTextField variableCostsField = (JTextField) CRElements.createInputField(null);
-		JTextField numberOfTraysField = (JTextField) CRElements.createInputField(null);
-		JTextField wastePercentageField = (JTextField) CRElements.createInputField(null);
+		totalFixedCostsField = (JTextField) CRElements.createInputField(null);
+		variableCostsField = (JTextField) CRElements.createInputField(null);
+		numberOfTraysField = (JTextField) CRElements.createInputField(null);
+		wastePercentageField = (JTextField) CRElements.createInputField(null);
 
 		addField(shiftsPanel, "Costos Fijos Totales", totalFixedCostsField, "<html>Costos fijos mensuales del comedor.</html>");
 		addField(shiftsPanel, "Costos Variables", variableCostsField, "<html>Costos variables mensuales del comedor.</html>");
 		addField(shiftsPanel, "Cantidad de Bandejas", numberOfTraysField, "<html>Cantidad de bandejas servidas en el mes.</html>");
 		addField(shiftsPanel, "Porcentaje de Merma", wastePercentageField, "<html>Porcentaje estimado de merma en la producción.</html>");
 
-		JButton saveButton = CRElements.createButton("Guardar", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
+		saveButton = CRElements.createButton("Guardar", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
 		saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		shiftsPanel.add(saveButton);
 
@@ -121,70 +144,47 @@ public class AdminView extends JFrame {
 		numberOfTraysField.setText(String.valueOf(operationalCosts.optInt("numberOfTrays", 0)));
 		wastePercentageField.setText(String.valueOf(operationalCosts.optDouble("wastePercentage", 0)));
 
-		saveButton.addActionListener(e -> {
-			try {
-				double totalFixedCosts = Double.parseDouble(totalFixedCostsField.getText());
-				double variableCosts = Double.parseDouble(variableCostsField.getText());
-				int numberOfTrays = Integer.parseInt(numberOfTraysField.getText());
-				double wastePercentage = Double.parseDouble(wastePercentageField.getText());
-
-				boolean ok = operationalCostsService.saveOperationalCosts(totalFixedCosts, variableCosts, numberOfTrays, wastePercentage);
-				if (ok) {
-					JOptionPane.showMessageDialog(this, "Costos guardados correctamente.");
-				} else {
-					JOptionPane.showMessageDialog(this, "Error al guardar los costos.");
-				}
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, "Verifica los valores ingresados.");
-			}
-		});
-
 		return shiftsPanel;
 	}
 
 
-	private JPanel createUserPanel() {
-		JPanel userPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+	// private JPanel createUserPanel() {
+	// 	JPanel userPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
-		JLabel userLabel = new JLabel("Gestión de Usuarios");
-		userLabel.setFont(CRStyles.TITLE_FONT);
-		userLabel.setForeground(CRStyles.FG_LIGHT_COLOR);
-		userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+	// 	JLabel userLabel = new JLabel("Gestión de Usuarios");
+	// 	userLabel.setFont(CRStyles.TITLE_FONT);
+	// 	userLabel.setForeground(CRStyles.FG_LIGHT_COLOR);
+	// 	userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		JTextField firstNameField = (JTextField) CRElements.createInputField(null);
-		JTextField lastNameField = (JTextField) CRElements.createInputField(null);
-		JTextField userIdField = (JTextField) CRElements.createInputField(null);
-		JTextField emailField = (JTextField) CRElements.createInputField(null);
-		JPasswordField passwordField = (JPasswordField) CRElements.createPasswordField(null);
+	// 	firstNameField = (JTextField) CRElements.createInputField(null);
+	// 	lastNameField = (JTextField) CRElements.createInputField(null);
+	// 	userIdField = (JTextField) CRElements.createInputField(null);
+	// 	emailField = (JTextField) CRElements.createInputField(null);
+	// 	passwordField = (JPasswordField) CRElements.createPasswordField(null);
 
-		String[] userTypes = {"Estudiante", "Profesor/Personal"};
-		JComboBox<String> userTypeDropdown = new JComboBox<>(userTypes);
-		userTypeDropdown.setMaximumSize(new Dimension(Integer.MAX_VALUE, CRStyles.FIELD_HEIGHT));
-		userTypeDropdown.setBackground(CRStyles.BG_LIGHT_COLOR);
-		userTypeDropdown.setFont(CRStyles.FIELD_FONT);
-		userTypeDropdown.setBorder(BorderFactory.createLineBorder(CRStyles.FG_DARK_COLOR, 2));
+	// 	String[] userTypes = {"Estudiante", "Profesor/Personal"};
+	// 	userTypeComboBox = new JComboBox<>(userTypes);
+	// 	userTypeComboBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, CRStyles.FIELD_HEIGHT));
+	// 	userTypeComboBox.setBackground(CRStyles.BG_LIGHT_COLOR);
+	// 	userTypeComboBox.setFont(CRStyles.FIELD_FONT);
+	// 	userTypeComboBox.setBorder(BorderFactory.createLineBorder(CRStyles.FG_DARK_COLOR, 2));
 
-		JButton addUserButton = CRElements.createButton("Agregar", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
+	// 	addUserButton = CRElements.createButton("Agregar", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
 
-		AdminController adminController = new AdminController(this);
-		addUserButton.addActionListener(e -> {
-			adminController.handleAddUser(firstNameField, lastNameField, userIdField, passwordField, emailField, userTypeDropdown);
-		});
+	// 	userPanel.add(userLabel);
+	// 	userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
+	// 	addField(userPanel, "Nombre", firstNameField, "<html>Nombre del usuario a registrar.</html>");
+	// 	addField(userPanel, "Apellido", lastNameField, "<html>Apellido del usuario a registrar.</html>");
+	// 	addField(userPanel, "Cédula de Identidad", userIdField, "<html>Cédula o identificador único.</html>");
+	// 	addField(userPanel, "Email", emailField, "<html>Correo institucional o personal válido.</html>");
+	// 	addField(userPanel, "Contraseña", passwordField, "<html>Debe tener al menos 8 caracteres, incluir letras y números.</html>");
+	// 	addField(userPanel, "Tipo de Usuario", userTypeComboBox, "<html>Selecciona el tipo de usuario.</html>");
+	// 	userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
+	// 	addUserButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+	// 	userPanel.add(addUserButton);
 
-		userPanel.add(userLabel);
-		userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
-		addField(userPanel, "Nombre", firstNameField, "<html>Nombre del usuario a registrar.</html>");
-		addField(userPanel, "Apellido", lastNameField, "<html>Apellido del usuario a registrar.</html>");
-		addField(userPanel, "Cédula de Identidad", userIdField, "<html>Cédula o identificador único.</html>");
-		addField(userPanel, "Email", emailField, "<html>Correo institucional o personal válido.</html>");
-		addField(userPanel, "Contraseña", passwordField, "<html>Debe tener al menos 8 caracteres, incluir letras y números.</html>");
-		addField(userPanel, "Tipo de Usuario", userTypeDropdown, "<html>Selecciona el tipo de usuario.</html>");
-		userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
-		addUserButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		userPanel.add(addUserButton);
-
-		return userPanel;
-	}
+	// 	return userPanel;
+	// }
 
 
 	private void addField(JPanel panel, String labelText, JComponent field, String helpText) {
@@ -207,12 +207,12 @@ public class AdminView extends JFrame {
 	private void showCard(String name) {
 		cardLayout.show(rightPanel, name);
 
-		if (name.equals("costos")) {
+		if (name.equals("shiftsManagement")) {
 			shiftsManagementButton.setBackground(CRStyles.ACCENT_COLOR);
 			shiftsManagementButton.setForeground(Color.WHITE);
 			userManagementButton.setBackground(CRStyles.BG_LIGHT_COLOR);
 			userManagementButton.setForeground(CRStyles.FG_LIGHT_COLOR);
-		} else if (name.equals("usuarios")) {
+		} else if (name.equals("userManagement")) {
 			userManagementButton.setBackground(CRStyles.ACCENT_COLOR);
 			userManagementButton.setForeground(Color.WHITE);
 			shiftsManagementButton.setBackground(CRStyles.BG_LIGHT_COLOR);

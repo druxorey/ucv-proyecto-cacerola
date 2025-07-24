@@ -15,10 +15,39 @@ public class UserView extends JFrame {
 	private JButton walletButton;
 	private JButton menuButton;
 	private WalletService walletService = new WalletService();
+	public JButton logOutButton;
+
+	
+	public UserView(String userId) {
+		setTitle("Panel de Usuario");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(CRStyles.WINDOW_WIDTH_INTERFACE, CRStyles.WINDOW_HEIGHT_INTERFACE);
+		setLocationRelativeTo(null);
+		setLayout(new BorderLayout());
+
+		leftPanel = createLeftPanel();
+		rightPanel = createRightPanel(userId);
+
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+		splitPane.setEnabled(false);
+		splitPane.setDividerSize(0);
+		splitPane.setBorder(BorderFactory.createEmptyBorder());
+		add(splitPane);
+
+		addComponentListener(new java.awt.event.ComponentAdapter() {
+			@Override
+			public void componentResized(java.awt.event.ComponentEvent e) {
+				int w = getWidth();
+				double relation = 0.25; // 25% width for left panel
+				int divider = (int) (w * relation);
+				splitPane.setDividerLocation(divider);
+			}
+		});
+	}
 
 
 	private JPanel createLeftPanel() {
-		JPanel leftPanel = CRElements.createBasePanel(CRStyles.BG_DARK_COLOR, BoxLayout.Y_AXIS);
+		JPanel leftPanel = CRElements.createImagePanel(CRStyles.PANEL_PADDING_LARGE, BoxLayout.Y_AXIS, "/Utils/background_02.jpg");
 
 		walletButton = CRElements.createButton(
 			"Monedero Virtual",
@@ -27,7 +56,7 @@ public class UserView extends JFrame {
 			false,
 			CRStyles.BUTTON_WIDTH_MEDIUM);
 		walletButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		walletButton.addActionListener(e -> showCard("monedero"));
+		walletButton.addActionListener(_ -> showCard("monedero"));
 
 		menuButton = CRElements.createButton(
 			"Menú",
@@ -36,13 +65,23 @@ public class UserView extends JFrame {
 			false,
 			CRStyles.BUTTON_WIDTH_MEDIUM);
 		menuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		menuButton.addActionListener(e -> showCard("menu"));
+		menuButton.addActionListener(_ -> showCard("menu"));
+
+		logOutButton = CRElements.createButton(
+			"Cerrar Sesión",
+			CRStyles.ACCENT_COLOR,
+			Color.WHITE,
+			false,
+			CRStyles.BUTTON_WIDTH_SMALL);
+		logOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(walletButton);
 		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		leftPanel.add(menuButton);
 		leftPanel.add(Box.createVerticalGlue());
+		leftPanel.add(logOutButton);
+		leftPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
 		return leftPanel;
 	}
@@ -173,21 +212,6 @@ public class UserView extends JFrame {
 			walletButton.setBackground(CRStyles.BG_LIGHT_COLOR);
 			walletButton.setForeground(CRStyles.FG_LIGHT_COLOR);
 		}
-	}
-
-
-	public UserView(String userId) {
-		setTitle("Panel de Usuario");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(CRStyles.WINDOW_WIDTH_INTERFACE, CRStyles.WINDOW_HEIGHT_INTERFACE);
-		setLocationRelativeTo(null);
-		setLayout(new BorderLayout());
-
-		leftPanel = createLeftPanel();
-		rightPanel = createRightPanel(userId);
-
-		add(leftPanel, BorderLayout.WEST);
-		add(rightPanel, BorderLayout.CENTER);
 	}
 
 
