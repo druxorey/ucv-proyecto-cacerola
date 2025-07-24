@@ -113,6 +113,7 @@ public class AdminView extends JFrame {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	private JPanel createShiftsPanel() {
 		JPanel shiftsPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
@@ -138,11 +139,11 @@ public class AdminView extends JFrame {
 		shiftsPanel.add(saveButton);
 
 		Model.Services.OperationalCostsService operationalCostsService = new Model.Services.OperationalCostsService();
-		org.json.JSONObject operationalCosts = operationalCostsService.loadOperationalCosts();
-		totalFixedCostsField.setText(String.valueOf(operationalCosts.optDouble("totalFixedCosts", 0)));
-		variableCostsField.setText(String.valueOf(operationalCosts.optDouble("variableCosts", 0)));
-		numberOfTraysField.setText(String.valueOf(operationalCosts.optInt("numberOfTrays", 0)));
-		wastePercentageField.setText(String.valueOf(operationalCosts.optDouble("wastePercentage", 0)));
+		org.json.simple.JSONObject operationalCosts = operationalCostsService.loadOperationalCosts();
+		totalFixedCostsField.setText(String.valueOf(operationalCosts.getOrDefault("totalFixedCosts", 0)));
+		variableCostsField.setText(String.valueOf(operationalCosts.getOrDefault("variableCosts", 0)));
+		numberOfTraysField.setText(String.valueOf(operationalCosts.getOrDefault("numberOfTrays", 0)));
+		wastePercentageField.setText(String.valueOf(operationalCosts.getOrDefault("wastePercentage", 0)));
 
 		return shiftsPanel;
 	}
