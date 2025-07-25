@@ -50,7 +50,7 @@ public class RegisterService {
 		}
 	}
 
-	
+
 	private static void incrementRequestCount(String dateStr) throws IOException {
 		Map<String, Integer> counts = new HashMap<>();
 		File countFile = new File(COUNT_FILE);
@@ -113,6 +113,43 @@ public class RegisterService {
 		} catch (IOException e) {
 			System.err.println("[RegisterService] Error saving registration request: " + e.getMessage());
 			throw e;
+		}
+	}
+
+
+	public static void sendAppointmentEmail(String userId) throws Exception {
+		File dir = new File(REQUEST_DIR);
+		File[] files = dir.listFiles((_, name) -> name.matches("S\\d{6}\\.json"));
+		if (files == null) return;
+
+		for (File file : files) {
+			try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+				StringBuilder sb = new StringBuilder();
+				String line;
+				while ((line = reader.readLine()) != null) {
+					sb.append(line);
+				}
+				JSONObject data = (JSONObject) org.json.simple.JSONValue.parse(sb.toString());
+				if (data != null && userId.equals(data.get("userId"))) {
+					String email = (String) data.get("email");
+					String firstName = (String) data.get("firstName");
+					String lastName = (String) data.get("lastName");
+					String date = (String) data.get("date");
+					String subject = "Confirmación de cita - Universidad Central de Venezuela";
+					String body = "Hola " + firstName + " " + lastName + ",\n\n"
+						+ "Su cita ha sido registrada exitosamente.\n"
+						+ "Día de la cita: " + date + "\n"
+						+ "Lugar: Oficina de Solicitudes de la Universidad Central de Venezuela\n\n"
+						+ "Gracias por su solicitud.";
+					EmailService.sendEmail(subject, body, email);
+					return;
+				}
+			} catch (IOException e) {
+				System.err.println("[RegisterService] Error reading file: " + file.getName() + ". Error: " + e.getMessage());
+			} catch (Exception e) {
+				System.err.println("[RegisterService] Error sending email for UserID: '" + userId + "'. Error: " + e.getMessage());
+				throw e;
+			}
 		}
 	}
 }

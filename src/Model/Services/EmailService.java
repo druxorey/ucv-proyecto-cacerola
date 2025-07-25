@@ -5,7 +5,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 public class EmailService {
-	public static void sendEmail(String subject, String body) throws Exception {
+	public static void sendEmail(String subject, String body, String to) throws Exception {
 		String from = "guillermogalavisg@gmail.com";
 		String password = "khkk lycv luxr mqbx";
 
@@ -23,7 +23,7 @@ public class EmailService {
 
 		Message message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(from));
-		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(from));
+		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 		message.setSubject(subject);
 		message.setText(body);
 

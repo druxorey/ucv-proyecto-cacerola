@@ -36,6 +36,7 @@ public class AppointmentRequestController {
 
 		try {
 			RegisterService.saveRegistrationRequest(firstName, lastName, email, userId);
+			RegisterService.sendAppointmentEmail(userId);
 			System.out.println("[RegisterController] Registration request saved successfully for UserID: '" + userId + "'. Email: '" + email + "'.");
 			JOptionPane.showMessageDialog(registerView, "¡Solicitud guardada correctamente!", "Registro", JOptionPane.INFORMATION_MESSAGE);
 			viewController.goToLoginView(registerView);
