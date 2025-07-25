@@ -152,4 +152,32 @@ public class RegisterService {
 			}
 		}
 	}
+
+
+	public static void deleteRegistrationRequestByUserId(String userId) {
+		File dir = new File(REQUEST_DIR);
+		File[] files = dir.listFiles((_, name) -> name.matches("S\\d{6}\\.json"));
+		if (files == null) return;
+
+		for (File file : files) {
+			try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+				StringBuilder sb = new StringBuilder();
+				String line;
+				while ((line = reader.readLine()) != null) {
+					sb.append(line);
+				}
+				JSONObject data = (JSONObject) org.json.simple.JSONValue.parse(sb.toString());
+				if (data != null && userId.equals(data.get("userId"))) {
+					if (file.delete()) {
+						System.out.println("[RegisterService] Registration request deleted for userId: " + userId);
+					} else {
+						System.err.println("[RegisterService] Failed to delete registration request for userId: " + userId);
+					}
+					return;
+				}
+			} catch (Exception e) {
+				System.err.println("[RegisterService] Error deleting registration request for userId: " + userId + ". Error: " + e.getMessage());
+			}
+		}
+	}
 }

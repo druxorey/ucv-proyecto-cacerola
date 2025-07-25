@@ -3,6 +3,7 @@ package Controller.Admin;
 import View.Admin.UserRegisterView;
 import Model.Entities.User;
 import Model.Services.UserService;
+import Model.Services.RegisterService;
 
 import javax.swing.*;
 
@@ -39,6 +40,7 @@ public class UserRegisterController {
         boolean success = userService.addUserToDatabase(user);
 
         if (success) {
+            RegisterService.deleteRegistrationRequestByUserId(userId);
             JOptionPane.showMessageDialog(view, "Usuario agregado correctamente.");
             view.dispose();
         } else {
