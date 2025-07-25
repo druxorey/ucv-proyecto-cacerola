@@ -243,45 +243,6 @@ public class AdminView extends JFrame {
 	}
 
 
-	protected JPanel createUserPanel() {
-		JPanel userPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
-
-		JLabel userLabel = new JLabel("Gestión de Usuarios");
-		userLabel.setFont(CRStyles.TITLE_FONT);
-		userLabel.setForeground(CRStyles.FG_LIGHT_COLOR);
-		userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		firstNameField = (JTextField) CRElements.createInputField(null);
-		lastNameField = (JTextField) CRElements.createInputField(null);
-		userIdField = (JTextField) CRElements.createInputField(null);
-		emailField = (JTextField) CRElements.createInputField(null);
-		passwordField = (JPasswordField) CRElements.createPasswordField(null);
-
-		String[] userTypes = {"Estudiante", "Profesor/Personal"};
-		userTypeComboBox = new JComboBox<>(userTypes);
-		userTypeComboBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, CRStyles.FIELD_HEIGHT));
-		userTypeComboBox.setBackground(CRStyles.BG_LIGHT_COLOR);
-		userTypeComboBox.setFont(CRStyles.FIELD_FONT);
-		userTypeComboBox.setBorder(BorderFactory.createLineBorder(CRStyles.FG_DARK_COLOR, 2));
-
-		addUserButton = CRElements.createButton("Agregar", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
-
-		userPanel.add(userLabel);
-		userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
-		addField(userPanel, "Nombre", firstNameField, "<html>Nombre del usuario a registrar.</html>");
-		addField(userPanel, "Apellido", lastNameField, "<html>Apellido del usuario a registrar.</html>");
-		addField(userPanel, "Cédula de Identidad", userIdField, "<html>Cédula o identificador único.</html>");
-		addField(userPanel, "Email", emailField, "<html>Correo institucional o personal válido.</html>");
-		addField(userPanel, "Contraseña", passwordField, "<html>Debe tener al menos 8 caracteres, incluir letras y números.</html>");
-		addField(userPanel, "Tipo de Usuario", userTypeComboBox, "<html>Selecciona el tipo de usuario.</html>");
-		userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
-		addUserButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		userPanel.add(addUserButton);
-
-		return userPanel;
-	}
-
-
 	private void addField(JPanel panel, String labelText, JComponent field, String helpText) {
 		JLabel label = new JLabel(labelText);
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -362,36 +323,48 @@ class ButtonRenderer extends JButton implements javax.swing.table.TableCellRende
 
 
 class ButtonEditor extends DefaultCellEditor {
-    private JButton button;
-    private AdminView parent;
-    private boolean isPushed;
+	private JButton button;
+	private AdminView parent;
+	private boolean isPushed;
+	private String firstName, lastName, userId, email;
 
-    public ButtonEditor(JCheckBox checkBox, AdminView parent) {
-        super(checkBox);
-        this.parent = parent;
-        button = new JButton();
-        button.setOpaque(true);
-        button.addActionListener(_ -> fireEditingStopped());
-    }
+	public ButtonEditor(JCheckBox checkBox, AdminView parent) {
+		super(checkBox);
+		this.parent = parent;
+		button = new JButton();
+		button.setOpaque(true);
+		button.addActionListener(_ -> fireEditingStopped());
+	}
 
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        button.setText((value == null) ? "" : value.toString());
-        isPushed = true;
-        return button;
-    }
+	@Override
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+		button.setText((value == null) ? "" : value.toString());
+		isPushed = true;
+		userId = (String) table.getValueAt(row, 0);
+		email = (String) table.getValueAt(row, 1);
+		UserService userService = new UserService();
+		for (UserService.IncomingUserRequest req : userService.getIncomingUserRequests()) {
+			if (req.userId.equals(userId) && req.email.equals(email)) {
+				firstName = req.firstName;
+				lastName = req.lastName;
+				break;
+			}
+		}
+		return button;
+	}
 
-    public Object getCellEditorValue() {
-        if (isPushed) {
-            SwingUtilities.invokeLater(() -> {
-                JFrame frame = new JFrame("Registrar Usuario");
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frame.setSize(500, 600);
-                frame.setLocationRelativeTo(null);
-                frame.add(parent.createUserPanel());
-                frame.setVisible(true);
-            });
-        }
-        isPushed = false;
-        return button.getText();
-    }
+	@Override
+	public Object getCellEditorValue() {
+		if (isPushed) {
+			SwingUtilities.invokeLater(() -> {
+				View.Admin.AdminUserRegisterView registerView = new View.Admin.AdminUserRegisterView(
+					firstName, lastName, userId, email
+				);
+				new Controller.Admin.AdminUserRegisterController(registerView);
+				registerView.setVisible(true);
+			});
+		}
+		isPushed = false;
+		return button.getText();
+	}
 }
