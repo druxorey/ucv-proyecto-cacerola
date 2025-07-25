@@ -1,6 +1,8 @@
 package View.Common;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 
 public class CRElements {
@@ -88,35 +90,73 @@ public class CRElements {
 	}
 
 
-	   public static JPanel createImagePanel(int padding, int axis, String imagePath) {
-			JPanel panel = new JPanel() {
-				@Override
-				protected void paintComponent(Graphics canvasGraphics) {
-					super.paintComponent(canvasGraphics);
-					java.net.URL backgroundImagePath = getClass().getResource(imagePath);
-					if (backgroundImagePath != null) {
-						ImageIcon backgroundImageIcon = new ImageIcon(backgroundImagePath);
-						Image img = backgroundImageIcon.getImage();
-						int panelWidth = getWidth();
-						int panelHeight = getHeight();
-						int imgWidth = img.getWidth(null);
-						int imgHeight = img.getHeight(null);
-						if (imgWidth > 0 && imgHeight > 0) {
-							float scale = Math.max((float) panelWidth / imgWidth, (float) panelHeight / imgHeight);
-							int newImgWidth = (int) (imgWidth * scale);
-							int newImgHeight = (int) (imgHeight * scale);
-							int x = (panelWidth - newImgWidth) / 2;
-							int y = (panelHeight - newImgHeight) / 2;
-							canvasGraphics.drawImage(img, x, y, newImgWidth, newImgHeight, this);
-						}
-					} else {
-						System.err.println("[CRElements] Background image not found at path: " + imagePath);
-						canvasGraphics.setColor(View.Common.CRStyles.BG_LIGHT_COLOR);
+	public static JPanel createImagePanel(int padding, int axis, String imagePath) {
+		JPanel panel = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics canvasGraphics) {
+				super.paintComponent(canvasGraphics);
+				java.net.URL backgroundImagePath = getClass().getResource(imagePath);
+				if (backgroundImagePath != null) {
+					ImageIcon backgroundImageIcon = new ImageIcon(backgroundImagePath);
+					Image img = backgroundImageIcon.getImage();
+					int panelWidth = getWidth();
+					int panelHeight = getHeight();
+					int imgWidth = img.getWidth(null);
+					int imgHeight = img.getHeight(null);
+					if (imgWidth > 0 && imgHeight > 0) {
+						float scale = Math.max((float) panelWidth / imgWidth, (float) panelHeight / imgHeight);
+						int newImgWidth = (int) (imgWidth * scale);
+						int newImgHeight = (int) (imgHeight * scale);
+						int x = (panelWidth - newImgWidth) / 2;
+						int y = (panelHeight - newImgHeight) / 2;
+						canvasGraphics.drawImage(img, x, y, newImgWidth, newImgHeight, this);
 					}
+				} else {
+					System.err.println("[CRElements] Background image not found at path: " + imagePath);
+					canvasGraphics.setColor(View.Common.CRStyles.BG_LIGHT_COLOR);
 				}
-			};
-			panel.setLayout(new BoxLayout(panel, axis));
-			panel.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
-			return panel;
-	   }
+			}
+		};
+		panel.setLayout(new BoxLayout(panel, axis));
+		panel.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
+		return panel;
+	}
+
+	public static JScrollPane createStyledTableScrollPane(DefaultTableModel model) {
+		JTable table = new JTable(model);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setFillsViewportHeight(true);
+		table.setBackground(CRStyles.BG_LIGHT_COLOR);
+		table.setShowGrid(false);
+		table.setFont(CRStyles.FIELD_FONT);
+		table.getTableHeader().setFont(CRStyles.MAIN_FONT);
+		table.getTableHeader().setBackground(CRStyles.BG_DARK_COLOR);
+		table.getTableHeader().setForeground(CRStyles.FG_DARK_COLOR);
+		table.setRowHeight(30);
+
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBackground(CRStyles.BG_LIGHT_COLOR);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder(
+			CRStyles.PANEL_PADDING_SMALL,
+			CRStyles.PANEL_PADDING_SMALL,
+			CRStyles.PANEL_PADDING_SMALL,
+			CRStyles.PANEL_PADDING_SMALL
+		));
+
+		JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
+		verticalBar.setUI(new javax.swing.plaf.basic.BasicScrollBarUI() {
+			@Override
+			protected void configureScrollBarColors() {
+				this.thumbColor = CRStyles.ACCENT_COLOR;
+				this.trackColor = CRStyles.BG_LIGHT_COLOR;
+			}
+			@Override
+			protected Dimension getMinimumThumbSize() {
+				return new Dimension(12, 40);
+			}
+		});
+		verticalBar.setPreferredSize(new Dimension(12, Integer.MAX_VALUE));
+
+		return scrollPane;
+	}
 }

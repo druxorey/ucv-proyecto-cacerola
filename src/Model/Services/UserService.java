@@ -198,4 +198,43 @@ public class UserService {
 		System.out.println("[RegisterController] Registration fields validated successfully for UserID: '" + userId + "'. Email: '" + email + "'");
 		return true;
 	}
+
+	public static class IncomingUserRequest {
+        public String userId;
+        public String email;
+		public String firstName;
+		public String lastName;
+
+
+        public IncomingUserRequest(String userId, String email, String firstName, String lastName) {
+            this.userId = userId;
+            this.email = email;
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+    }
+
+
+	@SuppressWarnings("unchecked")
+    public List<IncomingUserRequest> getIncomingUserRequests() {
+        List<IncomingUserRequest> requests = new ArrayList<>();
+        File dir = new File("Model/Data/Requests/");
+        File[] files = dir.listFiles((_, name) -> name.endsWith(".json"));
+        if (files == null) return requests;
+
+        JSONParser parser = new JSONParser();
+        for (File file : files) {
+            try (FileReader reader = new FileReader(file)) {
+                JSONObject obj = (JSONObject) parser.parse(reader);
+                String userId = (String) obj.getOrDefault("userId", "");
+                String email = (String) obj.getOrDefault("email", "");
+                String firstName = (String) obj.getOrDefault("firstName", "");
+                String lastName = (String) obj.getOrDefault("lastName", "");
+                requests.add(new IncomingUserRequest(userId, email, firstName, lastName));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return requests;
+    }
 }

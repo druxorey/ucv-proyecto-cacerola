@@ -7,7 +7,7 @@ public class CRStyles {
 	public static final String BG_LIGHT_HEX = "#fffcf2";
 	public static final String BG_DARK_HEX = "#403d39";
 	public static final String FG_LIGHT_HEX = "#252422";
-	public static final String FG_DARK_HEX = "#f5f2ed";
+	public static final String FG_DARK_HEX = "#ccc5b9";
 	public static final String ACCENT_HEX = "#eb5e28";
 	public static final String DEBUG_HEX = "#00ff00";
 

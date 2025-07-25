@@ -2,6 +2,9 @@ package View.Admin;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.DefaultTableModel;
 
 import Model.Entities.User;
 import Model.Services.UserService;
@@ -141,7 +144,6 @@ public class AdminView extends JFrame {
 		users.sort(Comparator.comparing(User::getUserId));
 
 		String[] columnNames = {"Cédula", "Nombre", "Apellido", "Correo", "Tipo de Usuario"};
-
 		String[][] data = new String[users.size()][5];
 
 		for (int i = 0; i < users.size(); i++) {
@@ -153,40 +155,14 @@ public class AdminView extends JFrame {
 			data[i][4] = (u.getUserType() == 0) ? "Estudiante" : "Profesor/Personal";
 		}
 
-		JTable table = new JTable(new DefaultTableModel(data, columnNames) {
+		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return true;
 			}
-		});
+		};
 
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setFillsViewportHeight(true);
-		table.setBackground(CRStyles.BG_LIGHT_COLOR);
-		table.setShowGrid(false);
-		table.setFont(CRStyles.FIELD_FONT);
-		table.getTableHeader().setFont(CRStyles.MAIN_FONT);
-		table.getTableHeader().setBackground(CRStyles.BG_DARK_COLOR);
-		table.getTableHeader().setForeground(CRStyles.FG_DARK_COLOR);
-		table.setRowHeight(30);
-
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBackground(CRStyles.BG_LIGHT_COLOR);
-		scrollPane.setBorder(BorderFactory.createEmptyBorder(CRStyles.PANEL_PADDING_SMALL, CRStyles.PANEL_PADDING_SMALL, CRStyles.PANEL_PADDING_SMALL, CRStyles.PANEL_PADDING_SMALL));
-
-		JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
-		verticalBar.setUI(new javax.swing.plaf.basic.BasicScrollBarUI() {
-			@Override
-			protected void configureScrollBarColors() {
-				this.thumbColor = CRStyles.ACCENT_COLOR;
-				this.trackColor = CRStyles.BG_LIGHT_COLOR;
-			}
-			@Override
-			protected Dimension getMinimumThumbSize() {
-				return new Dimension(12, 40);
-			}
-		});
-		verticalBar.setPreferredSize(new Dimension(12, Integer.MAX_VALUE));
+		JScrollPane scrollPane = CRElements.createStyledTableScrollPane(model);
 
 		panel.add(Box.createVerticalStrut(20));
 		panel.add(scrollPane);
@@ -198,7 +174,35 @@ public class AdminView extends JFrame {
 	private JPanel createIncomingUsersPanel() {
 		JPanel panel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 		panel.setOpaque(false);
-		panel.add(new JLabel("Vista de Solicitudes de Usuarios (temporal)"));
+
+		UserService userService = new UserService();
+		List<UserService.IncomingUserRequest> requests = userService.getIncomingUserRequests();
+
+		String[] columnNames = {"Cédula", "Correo", "Acción"};
+		Object[][] data = new Object[requests.size()][3];
+
+		for (int i = 0; i < requests.size(); i++) {
+			UserService.IncomingUserRequest req = requests.get(i);
+			data[i][0] = req.userId;
+			data[i][1] = req.email;
+			data[i][2] = "Registrar";
+		}
+
+		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return column == 2;
+			}
+		};
+
+		JScrollPane scrollPane = CRElements.createStyledTableScrollPane(model);
+		JTable table = (JTable) scrollPane.getViewport().getView();
+		table.getColumn("Acción").setCellRenderer(new ButtonRenderer());
+		table.getColumn("Acción").setCellEditor(new ButtonEditor(new JCheckBox(), this));
+
+		panel.add(Box.createVerticalStrut(20));
+		panel.add(scrollPane);
+
 		return panel;
 	}
 	
@@ -239,43 +243,43 @@ public class AdminView extends JFrame {
 	}
 
 
-	// private JPanel createUserPanel() {
-	// 	JPanel userPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+	protected JPanel createUserPanel() {
+		JPanel userPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
-	// 	JLabel userLabel = new JLabel("Gestión de Usuarios");
-	// 	userLabel.setFont(CRStyles.TITLE_FONT);
-	// 	userLabel.setForeground(CRStyles.FG_LIGHT_COLOR);
-	// 	userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JLabel userLabel = new JLabel("Gestión de Usuarios");
+		userLabel.setFont(CRStyles.TITLE_FONT);
+		userLabel.setForeground(CRStyles.FG_LIGHT_COLOR);
+		userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-	// 	firstNameField = (JTextField) CRElements.createInputField(null);
-	// 	lastNameField = (JTextField) CRElements.createInputField(null);
-	// 	userIdField = (JTextField) CRElements.createInputField(null);
-	// 	emailField = (JTextField) CRElements.createInputField(null);
-	// 	passwordField = (JPasswordField) CRElements.createPasswordField(null);
+		firstNameField = (JTextField) CRElements.createInputField(null);
+		lastNameField = (JTextField) CRElements.createInputField(null);
+		userIdField = (JTextField) CRElements.createInputField(null);
+		emailField = (JTextField) CRElements.createInputField(null);
+		passwordField = (JPasswordField) CRElements.createPasswordField(null);
 
-	// 	String[] userTypes = {"Estudiante", "Profesor/Personal"};
-	// 	userTypeComboBox = new JComboBox<>(userTypes);
-	// 	userTypeComboBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, CRStyles.FIELD_HEIGHT));
-	// 	userTypeComboBox.setBackground(CRStyles.BG_LIGHT_COLOR);
-	// 	userTypeComboBox.setFont(CRStyles.FIELD_FONT);
-	// 	userTypeComboBox.setBorder(BorderFactory.createLineBorder(CRStyles.FG_DARK_COLOR, 2));
+		String[] userTypes = {"Estudiante", "Profesor/Personal"};
+		userTypeComboBox = new JComboBox<>(userTypes);
+		userTypeComboBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, CRStyles.FIELD_HEIGHT));
+		userTypeComboBox.setBackground(CRStyles.BG_LIGHT_COLOR);
+		userTypeComboBox.setFont(CRStyles.FIELD_FONT);
+		userTypeComboBox.setBorder(BorderFactory.createLineBorder(CRStyles.FG_DARK_COLOR, 2));
 
-	// 	addUserButton = CRElements.createButton("Agregar", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
+		addUserButton = CRElements.createButton("Agregar", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
 
-	// 	userPanel.add(userLabel);
-	// 	userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
-	// 	addField(userPanel, "Nombre", firstNameField, "<html>Nombre del usuario a registrar.</html>");
-	// 	addField(userPanel, "Apellido", lastNameField, "<html>Apellido del usuario a registrar.</html>");
-	// 	addField(userPanel, "Cédula de Identidad", userIdField, "<html>Cédula o identificador único.</html>");
-	// 	addField(userPanel, "Email", emailField, "<html>Correo institucional o personal válido.</html>");
-	// 	addField(userPanel, "Contraseña", passwordField, "<html>Debe tener al menos 8 caracteres, incluir letras y números.</html>");
-	// 	addField(userPanel, "Tipo de Usuario", userTypeComboBox, "<html>Selecciona el tipo de usuario.</html>");
-	// 	userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
-	// 	addUserButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-	// 	userPanel.add(addUserButton);
+		userPanel.add(userLabel);
+		userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
+		addField(userPanel, "Nombre", firstNameField, "<html>Nombre del usuario a registrar.</html>");
+		addField(userPanel, "Apellido", lastNameField, "<html>Apellido del usuario a registrar.</html>");
+		addField(userPanel, "Cédula de Identidad", userIdField, "<html>Cédula o identificador único.</html>");
+		addField(userPanel, "Email", emailField, "<html>Correo institucional o personal válido.</html>");
+		addField(userPanel, "Contraseña", passwordField, "<html>Debe tener al menos 8 caracteres, incluir letras y números.</html>");
+		addField(userPanel, "Tipo de Usuario", userTypeComboBox, "<html>Selecciona el tipo de usuario.</html>");
+		userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
+		addUserButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		userPanel.add(addUserButton);
 
-	// 	return userPanel;
-	// }
+		return userPanel;
+	}
 
 
 	private void addField(JPanel panel, String labelText, JComponent field, String helpText) {
@@ -343,4 +347,51 @@ public class AdminView extends JFrame {
 		AdminView adminView = new AdminView();
 		adminView.setVisible(true);
 	}
+}
+
+
+class ButtonRenderer extends JButton implements javax.swing.table.TableCellRenderer {
+	public ButtonRenderer() {
+		setOpaque(true);
+	}
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+		setText((value == null) ? "" : value.toString());
+		return this;
+	}
+}
+
+
+class ButtonEditor extends DefaultCellEditor {
+    private JButton button;
+    private AdminView parent;
+    private boolean isPushed;
+
+    public ButtonEditor(JCheckBox checkBox, AdminView parent) {
+        super(checkBox);
+        this.parent = parent;
+        button = new JButton();
+        button.setOpaque(true);
+        button.addActionListener(_ -> fireEditingStopped());
+    }
+
+    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+        button.setText((value == null) ? "" : value.toString());
+        isPushed = true;
+        return button;
+    }
+
+    public Object getCellEditorValue() {
+        if (isPushed) {
+            SwingUtilities.invokeLater(() -> {
+                JFrame frame = new JFrame("Registrar Usuario");
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setSize(500, 600);
+                frame.setLocationRelativeTo(null);
+                frame.add(parent.createUserPanel());
+                frame.setVisible(true);
+            });
+        }
+        isPushed = false;
+        return button.getText();
+    }
 }
