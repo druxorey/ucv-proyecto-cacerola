@@ -3,16 +3,16 @@ package Controller.Start;
 import javax.swing.*;
 
 import Model.Services.UserService;
-import View.Start.RegisterView;
+import View.Start.AppointmentRequestView;
 import Controller.Common.ViewController;
 import Model.Services.RegisterService;
 
-public class RegisterController {
-	private RegisterView registerView;
+public class AppointmentRequestController {
+	private AppointmentRequestView registerView;
 	private ViewController viewController;
 
 
-	public RegisterController(RegisterView registerView) {
+	public AppointmentRequestController(AppointmentRequestView registerView) {
 		this.registerView = registerView;
 		this.viewController = new ViewController();
 

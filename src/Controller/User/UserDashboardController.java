@@ -1,13 +1,13 @@
 package Controller.User;
 
 import Controller.Common.ViewController;
-import View.User.UserView;
+import View.User.UserDashboardView;
 
-public class UserController {
-    private UserView userView;
+public class UserDashboardController {
+    private UserDashboardView userView;
 	private ViewController viewController;
 
-	public UserController(UserView userView, String firstName) {
+	public UserDashboardController(UserDashboardView userView, String firstName) {
 		this.userView = userView;
 		this.viewController = new ViewController();
 		

@@ -2,11 +2,11 @@ package Controller.Common;
 
 import javax.swing.JFrame;
 
-import Controller.Admin.AdminController;
-import Controller.Start.RegisterController;
-import Controller.User.UserController;
-import View.Admin.AdminView;
-import View.User.UserView;
+import Controller.Admin.AdminDashboardController;
+import Controller.Start.AppointmentRequestController;
+import Controller.User.UserDashboardController;
+import View.Admin.AdminDashboardView;
+import View.User.UserDashboardView;
 
 public class ViewController {
 
@@ -22,8 +22,8 @@ public class ViewController {
 	public void goToRegistrationView(JFrame currentView) {
 		System.out.println("[ViewController] Opening registration view.");
 		currentView.dispose();
-		View.Start.RegisterView registerView = new View.Start.RegisterView();
-		new RegisterController(registerView);
+		View.Start.AppointmentRequestView registerView = new View.Start.AppointmentRequestView();
+		new AppointmentRequestController(registerView);
 		registerView.setVisible(true);
 	}
 
@@ -31,8 +31,8 @@ public class ViewController {
     public void goToUserView(JFrame currentView, String userId) {
         System.out.println("[ViewController] Opening user view for: " + userId);
         currentView.dispose();
-        UserView userView = new UserView(userId);
-        new UserController(userView, userId);
+        UserDashboardView userView = new UserDashboardView(userId);
+        new UserDashboardController(userView, userId);
         userView.setVisible(true);
     }
 
@@ -40,8 +40,8 @@ public class ViewController {
     public void goToAdminView(JFrame currentView) {
         System.out.println("[ViewController] Opening admin view.");
         currentView.dispose();
-        AdminView adminView = new AdminView();
-        new AdminController(adminView);
+        AdminDashboardView adminView = new AdminDashboardView();
+        new AdminDashboardController(adminView);
         adminView.setVisible(true);
     }
 }

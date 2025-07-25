@@ -3,15 +3,15 @@ package Controller.Admin;
 import javax.swing.*;
 
 import Controller.Common.ViewController;
-import View.Admin.AdminView;
+import View.Admin.AdminDashboardView;
 import View.Admin.UserRegisterView;
 
-public class AdminController {
-	private AdminView adminView;
+public class AdminDashboardController {
+	private AdminDashboardView adminView;
 	private ViewController viewController;
 	private Model.Services.OperationalCostsService operationalCostsService;
 
-	public AdminController(AdminView adminView) {
+	public AdminDashboardController(AdminDashboardView adminView) {
 		this.adminView = adminView;
 		this.viewController = new ViewController();
 		this.operationalCostsService = new Model.Services.OperationalCostsService();

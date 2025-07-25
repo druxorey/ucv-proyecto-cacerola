@@ -14,7 +14,7 @@ import java.util.List;
 
 import View.Common.*;
 
-public class AdminView extends JFrame {
+public class AdminDashboardView extends JFrame {
 	private JPanel leftPanel;
 	private JPanel rightPanel;
 	private CardLayout cardLayout;
@@ -270,7 +270,7 @@ public class AdminView extends JFrame {
 	}
 
 
-	public AdminView() {
+	public AdminDashboardView() {
 		setTitle("Panel de Administrador");
 		setSize(CRStyles.WINDOW_WIDTH_INTERFACE, CRStyles.WINDOW_HEIGHT_INTERFACE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -298,7 +298,7 @@ public class AdminView extends JFrame {
 
 
 	public static void main(String[] args) {
-		AdminView adminView = new AdminView();
+		AdminDashboardView adminView = new AdminDashboardView();
 		adminView.setVisible(true);
 	}
 }
