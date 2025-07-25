@@ -1,7 +1,15 @@
 package View.Admin;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import Model.Entities.User;
+import Model.Services.UserService;
+
 import java.awt.*;
+import java.util.Comparator;
+import java.util.List;
+
 import View.Common.*;
 
 public class AdminView extends JFrame {
@@ -89,8 +97,6 @@ public class AdminView extends JFrame {
 		titleLabel.setFont(CRStyles.TITLE_FONT);
 		titleLabel.setForeground(CRStyles.FG_LIGHT_COLOR);
 		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		userManagementPanel.add(titleLabel);
-		userManagementPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
@@ -98,21 +104,105 @@ public class AdminView extends JFrame {
 
 		JButton actualUsersButton = CRElements.createButton("Usuarios", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
 		JButton incomingUsersButton = CRElements.createButton("Solicitudes", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
-		actualUsersButton.addActionListener(_ -> showCard("actualUsers"));
-		incomingUsersButton.addActionListener(_ -> showCard("incomingUsers"));
 
 		buttonsPanel.add(actualUsersButton);
 		buttonsPanel.add(Box.createHorizontalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		buttonsPanel.add(incomingUsersButton);
-
 		buttonsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		CardLayout userCardLayout = new CardLayout();
+		JPanel userCardsPanel = new JPanel(userCardLayout);
+		userCardsPanel.setBackground(CRStyles.BG_LIGHT_COLOR);
+
+		JPanel actualUsersPanel = createActualUsersPanel();
+		JPanel incomingUsersPanel = createIncomingUsersPanel();
+
+		userCardsPanel.add(actualUsersPanel, "actualUsers");
+		userCardsPanel.add(incomingUsersPanel, "incomingUsers");
+		actualUsersButton.addActionListener(_ -> userCardLayout.show(userCardsPanel, "actualUsers"));
+		incomingUsersButton.addActionListener(_ -> userCardLayout.show(userCardsPanel, "incomingUsers"));
+		
+		userManagementPanel.add(titleLabel);
+		userManagementPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		userManagementPanel.add(buttonsPanel);
 		userManagementPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
+		userManagementPanel.add(userCardsPanel);
 
 		return userManagementPanel;
 	}
 
+
+	private JPanel createActualUsersPanel() {
+		JPanel panel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+		panel.setOpaque(false);
+
+		UserService userService = new UserService();
+		List<User> users = userService.getAllUsers();
+		users.sort(Comparator.comparing(User::getUserId));
+
+		String[] columnNames = {"Cédula", "Nombre", "Apellido", "Correo", "Tipo de Usuario"};
+
+		String[][] data = new String[users.size()][5];
+
+		for (int i = 0; i < users.size(); i++) {
+			User u = users.get(i);
+			data[i][0] = u.getUserId();
+			data[i][1] = u.getUserFirstName();
+			data[i][2] = u.getUserLastName();
+			data[i][3] = u.getUserEmail();
+			data[i][4] = (u.getUserType() == 0) ? "Estudiante" : "Profesor/Personal";
+		}
+
+		JTable table = new JTable(new DefaultTableModel(data, columnNames) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return true;
+			}
+		});
+
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setFillsViewportHeight(true);
+		table.setBackground(CRStyles.BG_LIGHT_COLOR);
+		table.setShowGrid(false);
+		table.setFont(CRStyles.FIELD_FONT);
+		table.getTableHeader().setFont(CRStyles.MAIN_FONT);
+		table.getTableHeader().setBackground(CRStyles.BG_DARK_COLOR);
+		table.getTableHeader().setForeground(CRStyles.FG_DARK_COLOR);
+		table.setRowHeight(30);
+
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBackground(CRStyles.BG_LIGHT_COLOR);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder(CRStyles.PANEL_PADDING_SMALL, CRStyles.PANEL_PADDING_SMALL, CRStyles.PANEL_PADDING_SMALL, CRStyles.PANEL_PADDING_SMALL));
+
+		JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
+		verticalBar.setUI(new javax.swing.plaf.basic.BasicScrollBarUI() {
+			@Override
+			protected void configureScrollBarColors() {
+				this.thumbColor = CRStyles.ACCENT_COLOR;
+				this.trackColor = CRStyles.BG_LIGHT_COLOR;
+			}
+			@Override
+			protected Dimension getMinimumThumbSize() {
+				return new Dimension(12, 40);
+			}
+		});
+		verticalBar.setPreferredSize(new Dimension(12, Integer.MAX_VALUE));
+
+		panel.add(Box.createVerticalStrut(20));
+		panel.add(scrollPane);
+
+		return panel;
+	}
+
+
+	private JPanel createIncomingUsersPanel() {
+		JPanel panel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+		panel.setOpaque(false);
+		panel.add(new JLabel("Vista de Solicitudes de Usuarios (temporal)"));
+		return panel;
+	}
 	
+
 	@SuppressWarnings("unchecked")
 	private JPanel createShiftsPanel() {
 		JPanel shiftsPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);

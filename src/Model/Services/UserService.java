@@ -19,6 +19,10 @@ public class UserService {
 		return loadUsers().size();
 	}
 
+	public List<User> getAllUsers() {
+		return loadUsers();
+	}	
+
 
 	public List<String> getUserIds() {
 		List<String> userIds = new ArrayList<>();
