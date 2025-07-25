@@ -35,7 +35,7 @@ public class UserService {
 		if (userIds.isEmpty()) {
 			System.out.println("[UserService] No users found in the database.");
 		} else {
-			System.out.println("[UserService] User IDs loaded successfully: " + userIds);
+			System.out.println("[UserService] User IDs loaded successfully.");
 		}
 
 		return userIds;

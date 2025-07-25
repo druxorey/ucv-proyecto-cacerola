@@ -4,7 +4,7 @@ import javax.swing.*;
 
 import Controller.Common.ViewController;
 import View.Admin.AdminView;
-import View.Admin.AdminUserRegisterView;
+import View.Admin.UserRegisterView;
 
 public class AdminController {
 	private AdminView adminView;
@@ -41,8 +41,8 @@ public class AdminController {
 	}
 
 	public void openUserRegisterView(String firstName, String lastName, String userId, String email) {
-		AdminUserRegisterView registerView = new AdminUserRegisterView(firstName, lastName, userId, email);
-		new AdminUserRegisterController(registerView);
+		UserRegisterView registerView = new UserRegisterView(firstName, lastName, userId, email);
+		new UserRegisterController(registerView);
 		registerView.setVisible(true);
 	}
 }

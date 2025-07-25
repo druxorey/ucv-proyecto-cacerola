@@ -1,16 +1,16 @@
 package Controller.Admin;
 
-import View.Admin.AdminUserRegisterView;
+import View.Admin.UserRegisterView;
 import Model.Entities.User;
 import Model.Services.UserService;
 
 import javax.swing.*;
 
-public class AdminUserRegisterController {
-    private AdminUserRegisterView view;
+public class UserRegisterController {
+    private UserRegisterView view;
     private UserService userService;
 
-    public AdminUserRegisterController(AdminUserRegisterView view) {
+    public UserRegisterController(UserRegisterView view) {
         this.view = view;
         this.userService = new UserService();
 

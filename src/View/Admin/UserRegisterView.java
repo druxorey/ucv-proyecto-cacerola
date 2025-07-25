@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import View.Common.*;
 
-public class AdminUserRegisterView extends JFrame {
+public class UserRegisterView extends JFrame {
     public JTextField firstNameField;
     public JTextField lastNameField;
     public JTextField userIdField;
@@ -13,7 +13,7 @@ public class AdminUserRegisterView extends JFrame {
     public JComboBox<String> userTypeComboBox;
     public JButton addUserButton;
 
-    public AdminUserRegisterView(String firstName, String lastName, String userId, String email) {
+    public UserRegisterView(String firstName, String lastName, String userId, String email) {
         setTitle("Registrar Usuario");
         setSize(500, 600);
         setLocationRelativeTo(null);
