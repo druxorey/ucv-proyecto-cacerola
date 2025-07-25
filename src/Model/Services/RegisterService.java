@@ -136,10 +136,10 @@ public class RegisterService {
 					String lastName = (String) data.get("lastName");
 					String date = (String) data.get("date");
 					String subject = "Confirmación de cita - Universidad Central de Venezuela";
-					String body = "Hola " + firstName + " " + lastName + ",\n\n"
-						+ "Su cita ha sido registrada exitosamente.\n"
-						+ "Día de la cita: " + date + "\n"
-						+ "Lugar: Oficina de Solicitudes de la Universidad Central de Venezuela\n\n"
+					String body = "Hola " + firstName + " " + lastName + ",<br><br>"
+						+ "Su cita ha sido registrada exitosamente.<br>"
+						+ "Día de la cita: " + date + "<br>"
+						+ "Lugar: <a href='https://maps.app.goo.gl/GLQibH9gsA9pEwTY6'>Oficina de la Secretaría, Universidad Central de Venezuela</a><br><br>"
 						+ "Gracias por su solicitud.";
 					EmailService.sendEmail(subject, body, email);
 					return;
