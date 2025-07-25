@@ -26,12 +26,7 @@ public class UserRegisterController {
         String email = view.emailField.getText().trim();
         int type = view.userTypeComboBox.getSelectedIndex();
 
-        if (firstName.isEmpty() || lastName.isEmpty() || userId.isEmpty() || password.isEmpty() || email.isEmpty()) {
-            JOptionPane.showMessageDialog(view, "Todos los campos son obligatorios.");
-            return;
-        }
-
-        boolean valid = UserService.validateRegistrationFields(view, firstName, lastName, email, userId);
+        boolean valid = UserService.validateRegistrationFields(view, firstName, lastName, email, userId, password);
         if (!valid) {
             return;
         }

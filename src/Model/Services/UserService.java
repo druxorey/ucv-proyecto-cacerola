@@ -156,7 +156,12 @@ public class UserService {
 
 
 	public static boolean validateRegistrationFields(JFrame currentView, String firstName, String lastName, String email, String userId) {
-		if (email.isEmpty() || userId.isEmpty() || firstName.isEmpty() || lastName.isEmpty()) {
+		return validateRegistrationFields(currentView, firstName, lastName, email, userId, "123456789");
+	}
+
+	
+	public static boolean validateRegistrationFields(JFrame currentView, String firstName, String lastName, String email, String userId, String password) {
+		if (email.isEmpty() || userId.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || password.isEmpty()) {
 			System.err.println("[RegisterController] Registration failed: One or more fields are empty. Email: '" + email + "', UserID: '" + userId + "'");
 			JOptionPane.showMessageDialog(currentView, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
@@ -192,6 +197,12 @@ public class UserService {
 		if (!validDomain) {
 			System.err.println("[RegisterController] Registration failed: Email domain not allowed. Email: '" + email + "'");
 			JOptionPane.showMessageDialog(currentView, "Solo se permiten correos de los dominios: @gmail.com, @ciens.ucv.ve, @ucv.ve", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+
+		if (password.length() < 8) {
+			System.err.println("[RegisterController] Registration failed: Password too short.");
+			JOptionPane.showMessageDialog(currentView, "La contraseña debe tener al menos 8 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 

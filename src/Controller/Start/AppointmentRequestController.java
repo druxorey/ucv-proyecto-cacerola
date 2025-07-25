@@ -38,7 +38,7 @@ public class AppointmentRequestController {
 			RegisterService.saveRegistrationRequest(firstName, lastName, email, userId);
 			RegisterService.sendAppointmentEmail(userId);
 			System.out.println("[RegisterController] Registration request saved successfully for UserID: '" + userId + "'. Email: '" + email + "'.");
-			JOptionPane.showMessageDialog(registerView, "¡Solicitud guardada correctamente!", "Registro", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(registerView, "<html>¡Solicitud guardada correctamente!<br>Se ha enviado un correo con los detalles de la cita.</html>", "Registro", JOptionPane.INFORMATION_MESSAGE);
 			viewController.goToLoginView(registerView);
 		} catch (Exception e1) {
 			System.err.println("[RegisterController] Error saving registration request for UserID: '" + userId + "'. Email: '" + email + "'. Error: " + e1.getMessage());
@@ -46,6 +46,4 @@ public class AppointmentRequestController {
 			e1.printStackTrace();
 		}
 	}
-
-	
 }
