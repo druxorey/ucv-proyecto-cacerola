@@ -3,6 +3,7 @@ package Model.Services;
 import Model.Entities.User;
 import java.io.*;
 import java.util.*;
+import java.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -227,25 +228,28 @@ public class UserService {
 
 
 	@SuppressWarnings("unchecked")
-    public List<IncomingUserRequest> getIncomingUserRequests() {
-        List<IncomingUserRequest> requests = new ArrayList<>();
-        File dir = new File("Model/Data/Requests/");
-        File[] files = dir.listFiles((_, name) -> name.endsWith(".json"));
-        if (files == null) return requests;
+	public List<IncomingUserRequest> getIncomingUserRequests() {
+		List<IncomingUserRequest> requests = new ArrayList<>();
+		File dir = new File("Model/Data/Requests/");
+		File[] files = dir.listFiles((_, name) -> name.endsWith(".json"));
+		if (files == null) return requests;
 
-        JSONParser parser = new JSONParser();
-        for (File file : files) {
-            try (FileReader reader = new FileReader(file)) {
-                JSONObject obj = (JSONObject) parser.parse(reader);
-                String userId = (String) obj.getOrDefault("userId", "");
-                String email = (String) obj.getOrDefault("email", "");
-                String firstName = (String) obj.getOrDefault("firstName", "");
-                String lastName = (String) obj.getOrDefault("lastName", "");
-                requests.add(new IncomingUserRequest(userId, email, firstName, lastName));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return requests;
-    }
+		JSONParser parser = new JSONParser();
+		String today = LocalDate.now().toString();
+		for (File file : files) {
+			try (FileReader reader = new FileReader(file)) {
+				JSONObject obj = (JSONObject) parser.parse(reader);
+				String date = (String) obj.getOrDefault("date", "");
+				if (!today.equals(date)) continue; // Just get today's requests
+				String userId = (String) obj.getOrDefault("userId", "");
+				String email = (String) obj.getOrDefault("email", "");
+				String firstName = (String) obj.getOrDefault("firstName", "");
+				String lastName = (String) obj.getOrDefault("lastName", "");
+				requests.add(new IncomingUserRequest(userId, email, firstName, lastName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return requests;
+	}
 }
