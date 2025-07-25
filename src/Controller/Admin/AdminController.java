@@ -37,10 +37,8 @@ public class AdminController {
 
 			boolean ok = operationalCostsService.saveOperationalCosts(totalFixedCosts, variableCosts, numberOfTrays, wastePercentage);
 			if (ok) {
-				System.out.println("[AdminController] Operational costs saved successfully.");
 				JOptionPane.showMessageDialog(adminView, "Costos guardados correctamente.");
 			} else {
-				System.err.println("[AdminController] Error saving operational costs.");
 				JOptionPane.showMessageDialog(adminView, "Error al guardar los costos.");
 			}
 		} catch (Exception ex) {

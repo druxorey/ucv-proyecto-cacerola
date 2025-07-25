@@ -43,18 +43,15 @@ public class UserService {
 		for (User user : users) {
 			if (user.getUserId().equals(userId) && user.getUserPassword().equals(password)) {
 				if (user.getUserType() == 0) {
-					System.out.println("[UserService] User authenticated successfully. UserID: '" + userId + "' (Role: User)");
-					return 2;
+					return 0;
 				}
 				if (user.getUserType() == 1) {
-					System.out.println("[UserService] Admin authenticated successfully. UserID: '" + userId + "' (Role: Admin)");
-					return 3;
+					return 1;
 				}
-				return 1;
 			}	
 		}	
 		System.err.println("[UserService] Authentication failed for UserID: '" + userId + "'. Invalid credentials.");
-		return 0;
+		return -1;
 	}	
 	
 
