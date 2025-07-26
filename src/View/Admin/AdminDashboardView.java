@@ -1,10 +1,20 @@
 package View.Admin;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import Model.Entities.User;
+import Model.Services.UserService;
+import View.Common.ButtonRenderer;
+import View.Common.ButtonEditor;
+
 import java.awt.*;
+import java.util.Comparator;
+import java.util.List;
+
 import View.Common.*;
 
-public class AdminView extends JFrame {
+public class AdminDashboardView extends JFrame {
 	private JPanel leftPanel;
 	private JPanel rightPanel;
 	private CardLayout cardLayout;
@@ -13,12 +23,6 @@ public class AdminView extends JFrame {
 	
 	public JButton logOutButton;
 	public JButton addUserButton;
-	public JTextField firstNameField;
-	public JTextField lastNameField;
-	public JTextField userIdField;
-	public JPasswordField passwordField;
-	public JTextField emailField;
-	public JComboBox<String> userTypeComboBox;
 	public JButton saveButton;
 	public JTextField totalFixedCostsField;
 	public JTextField variableCostsField;
@@ -89,8 +93,6 @@ public class AdminView extends JFrame {
 		titleLabel.setFont(CRStyles.TITLE_FONT);
 		titleLabel.setForeground(CRStyles.FG_LIGHT_COLOR);
 		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		userManagementPanel.add(titleLabel);
-		userManagementPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
@@ -98,21 +100,107 @@ public class AdminView extends JFrame {
 
 		JButton actualUsersButton = CRElements.createButton("Usuarios", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
 		JButton incomingUsersButton = CRElements.createButton("Solicitudes", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
-		actualUsersButton.addActionListener(_ -> showCard("actualUsers"));
-		incomingUsersButton.addActionListener(_ -> showCard("incomingUsers"));
 
 		buttonsPanel.add(actualUsersButton);
 		buttonsPanel.add(Box.createHorizontalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		buttonsPanel.add(incomingUsersButton);
-
 		buttonsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		CardLayout userCardLayout = new CardLayout();
+		JPanel userCardsPanel = new JPanel(userCardLayout);
+		userCardsPanel.setBackground(CRStyles.BG_LIGHT_COLOR);
+
+		JPanel actualUsersPanel = createActualUsersPanel();
+		JPanel incomingUsersPanel = createIncomingUsersPanel();
+
+		userCardsPanel.add(actualUsersPanel, "actualUsers");
+		userCardsPanel.add(incomingUsersPanel, "incomingUsers");
+		actualUsersButton.addActionListener(_ -> userCardLayout.show(userCardsPanel, "actualUsers"));
+		incomingUsersButton.addActionListener(_ -> userCardLayout.show(userCardsPanel, "incomingUsers"));
+		
+		userManagementPanel.add(titleLabel);
+		userManagementPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
 		userManagementPanel.add(buttonsPanel);
 		userManagementPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
+		userManagementPanel.add(userCardsPanel);
 
 		return userManagementPanel;
 	}
 
+
+	private JPanel createActualUsersPanel() {
+		JPanel panel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+		panel.setOpaque(false);
+
+		UserService userService = new UserService();
+		List<User> users = userService.getAllUsers();
+		users.sort(Comparator.comparing(User::getUserId));
+
+		String[] columnNames = {"Cédula", "Nombre", "Apellido", "Correo", "Tipo de Usuario"};
+		String[][] data = new String[users.size()][5];
+
+		for (int i = 0; i < users.size(); i++) {
+			User u = users.get(i);
+			data[i][0] = u.getUserId();
+			data[i][1] = u.getUserFirstName();
+			data[i][2] = u.getUserLastName();
+			data[i][3] = u.getUserEmail();
+			data[i][4] = (u.getUserType() == 0) ? "Estudiante" : "Profesor/Personal";
+		}
+
+		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return true;
+			}
+		};
+
+		JScrollPane scrollPane = CRElements.createStyledTableScrollPane(model);
+
+		panel.add(Box.createVerticalStrut(20));
+		panel.add(scrollPane);
+
+		return panel;
+	}
+
+
+	private JPanel createIncomingUsersPanel() {
+		JPanel panel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
+		panel.setOpaque(false);
+
+		UserService userService = new UserService();
+		List<UserService.IncomingUserRequest> requests = userService.getIncomingUserRequests();
+
+		String[] columnNames = {"Cédula", "Correo", "Acción"};
+		Object[][] data = new Object[requests.size()][3];
+
+		for (int i = 0; i < requests.size(); i++) {
+			UserService.IncomingUserRequest req = requests.get(i);
+			data[i][0] = req.userId;
+			data[i][1] = req.email;
+			data[i][2] = "Registrar";
+		}
+
+		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return column == 2;
+			}
+		};
+
+		JScrollPane scrollPane = CRElements.createStyledTableScrollPane(model);
+		JTable table = (JTable) scrollPane.getViewport().getView();
+		table.getColumn("Acción").setCellRenderer(new ButtonRenderer());
+		table.getColumn("Acción").setCellEditor(new ButtonEditor(new JCheckBox(), this));
+
+		panel.add(Box.createVerticalStrut(20));
+		panel.add(scrollPane);
+
+		return panel;
+	}
 	
+
+	@SuppressWarnings("unchecked")
 	private JPanel createShiftsPanel() {
 		JPanel shiftsPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
 
@@ -138,53 +226,14 @@ public class AdminView extends JFrame {
 		shiftsPanel.add(saveButton);
 
 		Model.Services.OperationalCostsService operationalCostsService = new Model.Services.OperationalCostsService();
-		org.json.JSONObject operationalCosts = operationalCostsService.loadOperationalCosts();
-		totalFixedCostsField.setText(String.valueOf(operationalCosts.optDouble("totalFixedCosts", 0)));
-		variableCostsField.setText(String.valueOf(operationalCosts.optDouble("variableCosts", 0)));
-		numberOfTraysField.setText(String.valueOf(operationalCosts.optInt("numberOfTrays", 0)));
-		wastePercentageField.setText(String.valueOf(operationalCosts.optDouble("wastePercentage", 0)));
+		org.json.simple.JSONObject operationalCosts = operationalCostsService.loadOperationalCosts();
+		totalFixedCostsField.setText(String.valueOf(operationalCosts.getOrDefault("totalFixedCosts", 0)));
+		variableCostsField.setText(String.valueOf(operationalCosts.getOrDefault("variableCosts", 0)));
+		numberOfTraysField.setText(String.valueOf(operationalCosts.getOrDefault("numberOfTrays", 0)));
+		wastePercentageField.setText(String.valueOf(operationalCosts.getOrDefault("wastePercentage", 0)));
 
 		return shiftsPanel;
 	}
-
-
-	// private JPanel createUserPanel() {
-	// 	JPanel userPanel = CRElements.createBasePanel(CRStyles.BG_LIGHT_COLOR, BoxLayout.Y_AXIS);
-
-	// 	JLabel userLabel = new JLabel("Gestión de Usuarios");
-	// 	userLabel.setFont(CRStyles.TITLE_FONT);
-	// 	userLabel.setForeground(CRStyles.FG_LIGHT_COLOR);
-	// 	userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-	// 	firstNameField = (JTextField) CRElements.createInputField(null);
-	// 	lastNameField = (JTextField) CRElements.createInputField(null);
-	// 	userIdField = (JTextField) CRElements.createInputField(null);
-	// 	emailField = (JTextField) CRElements.createInputField(null);
-	// 	passwordField = (JPasswordField) CRElements.createPasswordField(null);
-
-	// 	String[] userTypes = {"Estudiante", "Profesor/Personal"};
-	// 	userTypeComboBox = new JComboBox<>(userTypes);
-	// 	userTypeComboBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, CRStyles.FIELD_HEIGHT));
-	// 	userTypeComboBox.setBackground(CRStyles.BG_LIGHT_COLOR);
-	// 	userTypeComboBox.setFont(CRStyles.FIELD_FONT);
-	// 	userTypeComboBox.setBorder(BorderFactory.createLineBorder(CRStyles.FG_DARK_COLOR, 2));
-
-	// 	addUserButton = CRElements.createButton("Agregar", CRStyles.ACCENT_COLOR, Color.WHITE, false, 120);
-
-	// 	userPanel.add(userLabel);
-	// 	userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
-	// 	addField(userPanel, "Nombre", firstNameField, "<html>Nombre del usuario a registrar.</html>");
-	// 	addField(userPanel, "Apellido", lastNameField, "<html>Apellido del usuario a registrar.</html>");
-	// 	addField(userPanel, "Cédula de Identidad", userIdField, "<html>Cédula o identificador único.</html>");
-	// 	addField(userPanel, "Email", emailField, "<html>Correo institucional o personal válido.</html>");
-	// 	addField(userPanel, "Contraseña", passwordField, "<html>Debe tener al menos 8 caracteres, incluir letras y números.</html>");
-	// 	addField(userPanel, "Tipo de Usuario", userTypeComboBox, "<html>Selecciona el tipo de usuario.</html>");
-	// 	userPanel.add(Box.createVerticalStrut(CRStyles.VERTICAL_GAP_MEDIUM));
-	// 	addUserButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-	// 	userPanel.add(addUserButton);
-
-	// 	return userPanel;
-	// }
 
 
 	private void addField(JPanel panel, String labelText, JComponent field, String helpText) {
@@ -221,7 +270,7 @@ public class AdminView extends JFrame {
 	}
 
 
-	public AdminView() {
+	public AdminDashboardView() {
 		setTitle("Panel de Administrador");
 		setSize(CRStyles.WINDOW_WIDTH_INTERFACE, CRStyles.WINDOW_HEIGHT_INTERFACE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -249,7 +298,7 @@ public class AdminView extends JFrame {
 
 
 	public static void main(String[] args) {
-		AdminView adminView = new AdminView();
+		AdminDashboardView adminView = new AdminDashboardView();
 		adminView.setVisible(true);
 	}
 }

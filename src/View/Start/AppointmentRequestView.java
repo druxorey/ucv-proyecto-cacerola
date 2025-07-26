@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import View.Common.*;
 
-public class RegisterView extends JFrame {
+public class AppointmentRequestView extends JFrame {
 	public JTextField firstNameField;
 	public JTextField lastNameField;
 	public JTextField emailField;
@@ -13,7 +13,7 @@ public class RegisterView extends JFrame {
 	public JButton submitRegistrationButton;
 
 
-	public RegisterView() {
+	public AppointmentRequestView() {
 		setTitle("Registro de Usuario");
 		setSize(CRStyles.WINDOW_WIDTH_LOGIN, CRStyles.WINDOW_HEIGHT_LOGIN);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -125,7 +125,7 @@ public class RegisterView extends JFrame {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
-			RegisterView registerView = new RegisterView();
+			AppointmentRequestView registerView = new AppointmentRequestView();
 			registerView.setVisible(true);
 		});
 	}

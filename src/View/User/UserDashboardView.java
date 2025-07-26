@@ -8,7 +8,7 @@ import Model.Entities.WalletMovement;
 import java.util.List;
 import java.text.SimpleDateFormat;
 
-public class UserView extends JFrame {
+public class UserDashboardView extends JFrame {
 	private JPanel leftPanel;
 	private JPanel rightPanel;
 	private CardLayout cardLayout;
@@ -18,7 +18,7 @@ public class UserView extends JFrame {
 	public JButton logOutButton;
 
 	
-	public UserView(String userId) {
+	public UserDashboardView(String userId) {
 		setTitle("Panel de Usuario");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(CRStyles.WINDOW_WIDTH_INTERFACE, CRStyles.WINDOW_HEIGHT_INTERFACE);
@@ -217,7 +217,7 @@ public class UserView extends JFrame {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
-			new UserView("").setVisible(true);
+			new UserDashboardView("").setVisible(true);
 		});
 	}
 }

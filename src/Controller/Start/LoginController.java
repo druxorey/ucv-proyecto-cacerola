@@ -50,17 +50,17 @@ public class LoginController {
 			return;
 		}
 
-		short authenticated = userService.authenticate(userId, password);
+		short authenticated = userService.validateUserCredentials(userId, password);
 		ViewController viewController = new ViewController();
 
-		if (authenticated == 1) {
+		if (authenticated == 0) {
+			System.out.println("[LoginController] Admin login successful. UserID: '" + userId + "' (Role: Admin)");
+			viewController.goToAdminView(loginView);
+			
+		} else if (authenticated == 1) {
 			System.out.println("[LoginController] User login successful. UserID: '" + userId + "' (Role: User)");
 			userService.generateUserCache(userId);
 			viewController.goToUserView(loginView, userId);
-
-		} else if (authenticated == 2) {
-			System.out.println("[LoginController] Admin login successful. UserID: '" + userId + "' (Role: Admin)");
-			viewController.goToAdminView(loginView);
 
 		} else {
 			System.err.println("[LoginController] Login failed: Incorrect ID or password.");

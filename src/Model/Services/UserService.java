@@ -3,94 +3,113 @@ package Model.Services;
 import Model.Entities.User;
 import java.io.*;
 import java.util.*;
+import java.time.LocalDate;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class UserService {
-	private static final String USERS_FILE = "Model/Data/users.enc";
+	private static final String USERS_FILE = "Model/Data/users.json";
 	private static final String[] ALLOWED_DOMAINS = {"@gmail.com", "@ciens.ucv.ve", "@ucv.ve"};
 
 
 	public int getUserCount() {
-		int count = 0;
-		try (InputStream in = getClass().getResourceAsStream(USERS_FILE)) {
-			if (in != null) {
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				while (br.readLine() != null) {
-					count++;
-				}
-			} else {
-				System.err.println("User file not found in resources: " + USERS_FILE);
-			}
-		} catch (IOException e) {
-			System.err.println("Error reading user file: " + e.getMessage());
-		}
-		return count;
+		return loadUsers().size();
 	}
+
+	public List<User> getAllUsers() {
+		return loadUsers();
+	}	
 
 
 	public List<String> getUserIds() {
 		List<String> userIds = new ArrayList<>();
 		List<User> users = loadUsers();
+		
 		for (User user : users) {
 			userIds.add(user.getUserId());
 		}
+
+		if (userIds.isEmpty()) {
+			System.out.println("[UserService] No users found in the database.");
+		} else {
+			System.out.println("[UserService] User IDs loaded successfully.");
+		}
+
 		return userIds;
 	}
 
 
-	public short authenticate(String userId, String password) {
+	public short validateUserCredentials(String userId, String password) {
 		List<User> users = loadUsers();
 		for (User user : users) {
 			if (user.getUserId().equals(userId) && user.getUserPassword().equals(password)) {
 				if (user.getUserType() == 0) {
-					return 2;
+					return 0;
 				}
-				return 1;
+				if (user.getUserType() == 1) {
+					return 1;
+				}
 			}	
 		}	
-		return 0;
+		System.err.println("[UserService] Authentication failed for UserID: '" + userId + "'. Invalid credentials.");
+		return -1;
 	}	
 	
 
 	private List<User> loadUsers() {
 		List<User> users = new ArrayList<>();
-		try (InputStream in = getClass().getResourceAsStream(USERS_FILE)) {
-			if (in != null) {
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				String line;
-				while ((line = br.readLine()) != null) {
-					String[] parts = line.split(",");
-					if (parts.length == 6) {
-						String userId = parts[0];
-						String password = parts[1];
-						int type = Integer.parseInt(parts[2]);
-						String email = parts[3];
-						String nombre = parts[4];
-						String apellido = parts[5];
-						users.add(new User(userId, password, type, email, nombre, apellido));
-					}
-				}
-			} else {
-				System.err.println("User file not found in resources: " + USERS_FILE);
+
+		try (FileReader reader = new FileReader(USERS_FILE)) {
+			JSONParser parser = new JSONParser();
+			JSONArray arr = (JSONArray) parser.parse(reader);
+			for (Object o : arr) {
+				JSONObject obj = (JSONObject) o;
+				String userId = (String) obj.get("userId");
+				String password = (String) obj.get("password");
+				int type = ((Long) obj.get("userType")).intValue();
+				String email = (String) obj.get("email");
+				String firstName = (String) obj.get("firstName");
+				String lastName = (String) obj.get("lastName");
+				users.add(new User(userId, password, type, email, firstName, lastName));
 			}
-		} catch (IOException e) {
-			System.err.println("Error loading users: " + e.getMessage());
+			System.out.println("[UserService] Users loaded successfully from file: " + USERS_FILE);
+		} catch (FileNotFoundException e) {
+			System.err.println("[UserService] Users file not found: " + USERS_FILE);
 		} catch (Exception e) {
-			System.err.println("Unexpected error: " + e.getMessage());
+			System.err.println("[UserService] Error loading users from file: " + USERS_FILE);
+			e.printStackTrace();
 		}
+
 		return users;
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public boolean addUserToDatabase(User user) {
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(USERS_FILE, true))) {
-			String line = String.format("%s,%s,%d,%s,%s,%s", user.getUserId(), user.getUserPassword(), user.getUserType(), user.getUserEmail(), user.getUserFirstName(), user.getUserLastName());
-			bw.write(line);
-			bw.newLine();
+		List<User> users = loadUsers();
+		users.add(user);
+		JSONArray arr = new JSONArray();
+		for (User u : users) {
+			JSONObject obj = new JSONObject();
+			obj.put("userId", u.getUserId());
+			obj.put("password", u.getUserPassword());
+			obj.put("userType", u.getUserType());
+			obj.put("email", u.getUserEmail());
+			obj.put("firstName", u.getUserFirstName());
+			obj.put("lastName", u.getUserLastName());
+			arr.add(obj);
+		}
+		try (FileWriter writer = new FileWriter(USERS_FILE)) {
+			writer.write(arr.toJSONString());
+			System.out.println("[UserService] User added successfully to database: " + user.getUserId());
 			return true;
 		} catch (IOException e) {
+			System.err.println("[UserService] Error saving user to database: " + e.getMessage());
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Error al guardar usuario: " + e.getMessage());
 			return false;
 		}
@@ -138,7 +157,12 @@ public class UserService {
 
 
 	public static boolean validateRegistrationFields(JFrame currentView, String firstName, String lastName, String email, String userId) {
-		if (email.isEmpty() || userId.isEmpty() || firstName.isEmpty() || lastName.isEmpty()) {
+		return validateRegistrationFields(currentView, firstName, lastName, email, userId, "123456789");
+	}
+
+	
+	public static boolean validateRegistrationFields(JFrame currentView, String firstName, String lastName, String email, String userId, String password) {
+		if (email.isEmpty() || userId.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || password.isEmpty()) {
 			System.err.println("[RegisterController] Registration failed: One or more fields are empty. Email: '" + email + "', UserID: '" + userId + "'");
 			JOptionPane.showMessageDialog(currentView, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
@@ -177,7 +201,55 @@ public class UserService {
 			return false;
 		}
 
+		if (password.length() < 8) {
+			System.err.println("[RegisterController] Registration failed: Password too short.");
+			JOptionPane.showMessageDialog(currentView, "La contraseña debe tener al menos 8 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+
 		System.out.println("[RegisterController] Registration fields validated successfully for UserID: '" + userId + "'. Email: '" + email + "'");
 		return true;
+	}
+
+	public static class IncomingUserRequest {
+        public String userId;
+        public String email;
+		public String firstName;
+		public String lastName;
+
+
+        public IncomingUserRequest(String userId, String email, String firstName, String lastName) {
+            this.userId = userId;
+            this.email = email;
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+    }
+
+
+	@SuppressWarnings("unchecked")
+	public List<IncomingUserRequest> getIncomingUserRequests() {
+		List<IncomingUserRequest> requests = new ArrayList<>();
+		File dir = new File("Model/Data/Requests/");
+		File[] files = dir.listFiles((_, name) -> name.endsWith(".json"));
+		if (files == null) return requests;
+
+		JSONParser parser = new JSONParser();
+		String today = LocalDate.now().toString();
+		for (File file : files) {
+			try (FileReader reader = new FileReader(file)) {
+				JSONObject obj = (JSONObject) parser.parse(reader);
+				String date = (String) obj.getOrDefault("date", "");
+				if (!today.equals(date)) continue; // Just get today's requests
+				String userId = (String) obj.getOrDefault("userId", "");
+				String email = (String) obj.getOrDefault("email", "");
+				String firstName = (String) obj.getOrDefault("firstName", "");
+				String lastName = (String) obj.getOrDefault("lastName", "");
+				requests.add(new IncomingUserRequest(userId, email, firstName, lastName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return requests;
 	}
 }
