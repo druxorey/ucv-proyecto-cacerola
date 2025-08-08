@@ -1,0 +1,314 @@
+[
+  {
+    "firstName": "Maria",
+    "lastName": "Pérez",
+    "password": "dos",
+    "userType": 2,
+    "userId": "12345678",
+    "email": "maria.perez@gmail.com"
+  },
+  {
+    "firstName": "Juan",
+    "lastName": "García",
+    "password": "tres",
+    "userType": 3,
+    "userId": "87654321",
+    "email": "juan.garcia@gmail.com"
+  },
+  {
+    "firstName": "Ana",
+    "lastName": "López",
+    "password": "contrase123",
+    "userType": 0,
+    "userId": "31691234",
+    "email": "ana.lopez@gmail.com"
+  },
+  {
+    "firstName": "Luis",
+    "lastName": "Martínez",
+    "password": "segura4567",
+    "userType": 0,
+    "userId": "31567891",
+    "email": "luis.martinez@gmail.com"
+  },
+  {
+    "firstName": "Sofía",
+    "lastName": "Fernández",
+    "password": "clave2024x",
+    "userType": 0,
+    "userId": "31489276",
+    "email": "sofia.fernandez@gmail.com"
+  },
+  {
+    "firstName": "Carlos",
+    "lastName": "Gómez",
+    "password": "password88",
+    "userType": 0,
+    "userId": "31023456",
+    "email": "carlos.gomez@gmail.com"
+  },
+  {
+    "firstName": "Laura",
+    "lastName": "Sánchez",
+    "password": "segura2025",
+    "userType": 0,
+    "userId": "29987654",
+    "email": "laura.sanchez@gmail.com"
+  },
+  {
+    "firstName": "José",
+    "lastName": "Torres",
+    "password": "claveclave",
+    "userType": 0,
+    "userId": "28912345",
+    "email": "jose.torres@gmail.com"
+  },
+  {
+    "firstName": "Andrea",
+    "lastName": "Ruiz",
+    "password": "pass123456",
+    "userType": 0,
+    "userId": "27345678",
+    "email": "andrea.ruiz@gmail.com"
+  },
+  {
+    "firstName": "Miguel",
+    "lastName": "Ramírez",
+    "password": "contrasegura",
+    "userType": 0,
+    "userId": "25123456",
+    "email": "miguel.ramirez@gmail.com"
+  },
+  {
+    "firstName": "Valentina",
+    "lastName": "Moreno",
+    "password": "clave2025",
+    "userType": 1,
+    "userId": "20123456",
+    "email": "valentina.moreno@gmail.com"
+  },
+  {
+    "firstName": "Daniel",
+    "lastName": "Ortiz",
+    "password": "segura2023",
+    "userType": 1,
+    "userId": "18234567",
+    "email": "daniel.ortiz@gmail.com"
+  },
+  {
+    "firstName": "Camila",
+    "lastName": "Silva",
+    "password": "password99",
+    "userType": 1,
+    "userId": "16891234",
+    "email": "camila.silva@gmail.com"
+  },
+  {
+    "firstName": "Alejandro",
+    "lastName": "Méndez",
+    "password": "claveclave2",
+    "userType": 1,
+    "userId": "15432109",
+    "email": "alejandro.mendez@gmail.com"
+  },
+  {
+    "firstName": "Paula",
+    "lastName": "Castro",
+    "password": "segura2022",
+    "userType": 1,
+    "userId": "14345678",
+    "email": "paula.castro@gmail.com"
+  },
+  {
+    "firstName": "Fernando",
+    "lastName": "Ríos",
+    "password": "passw0rd33",
+    "userType": 1,
+    "userId": "13298765",
+    "email": "fernando.rios@gmail.com"
+  },
+  {
+    "firstName": "Isabella",
+    "lastName": "Vargas",
+    "password": "contrasegura2",
+    "userType": 1,
+    "userId": "12123456",
+    "email": "isabella.vargas@gmail.com"
+  },
+  {
+    "firstName": "Sebastián",
+    "lastName": "Molina",
+    "password": "clave2023",
+    "userType": 1,
+    "userId": "10098765",
+    "email": "sebastian.molina@gmail.com"
+  },
+  {
+    "firstName": "Martina",
+    "lastName": "Soto",
+    "password": "segura2021",
+    "userType": 1,
+    "userId": "9087654",
+    "email": "martina.soto@gmail.com"
+  },
+  {
+    "firstName": "Lucía",
+    "lastName": "Méndez",
+    "password": "passSegura1",
+    "userType": 0,
+    "userId": "31987412",
+    "email": "lucia.mendez@gmail.com"
+  },
+  {
+    "firstName": "Ricardo",
+    "lastName": "Salas",
+    "password": "claveFuerte2",
+    "userType": 0,
+    "userId": "31765439",
+    "email": "ricardo.salas@gmail.com"
+  },
+  {
+    "firstName": "Patricia",
+    "lastName": "Vera",
+    "password": "seguraPass3",
+    "userType": 0,
+    "userId": "31598247",
+    "email": "patricia.vera@gmail.com"
+  },
+  {
+    "firstName": "Jorge",
+    "lastName": "Castro",
+    "password": "contrasegura4",
+    "userType": 0,
+    "userId": "31456783",
+    "email": "jorge.castro@gmail.com"
+  },
+  {
+    "firstName": "Mónica",
+    "lastName": "Ríos",
+    "password": "clave2025x",
+    "userType": 0,
+    "userId": "31239874",
+    "email": "monica.rios@gmail.com"
+  },
+  {
+    "firstName": "Adrián",
+    "lastName": "Mora",
+    "password": "passw0rd55",
+    "userType": 0,
+    "userId": "30987651",
+    "email": "adrian.mora@gmail.com"
+  },
+  {
+    "firstName": "Gabriela",
+    "lastName": "Paz",
+    "password": "segura2026",
+    "userType": 0,
+    "userId": "29876513",
+    "email": "gabriela.paz@gmail.com"
+  },
+  {
+    "firstName": "Francisco",
+    "lastName": "Vera",
+    "password": "claveclave3",
+    "userType": 0,
+    "userId": "28765419",
+    "email": "francisco.vera@gmail.com"
+  },
+  {
+    "firstName": "Mariana",
+    "lastName": "Arias",
+    "password": "pass123789",
+    "userType": 0,
+    "userId": "27654321",
+    "email": "mariana.arias@gmail.com"
+  },
+  {
+    "firstName": "Roberto",
+    "lastName": "Soto",
+    "password": "contrasegura5",
+    "userType": 0,
+    "userId": "26543218",
+    "email": "roberto.soto@gmail.com"
+  },
+  {
+    "firstName": "Elena",
+    "lastName": "Martín",
+    "password": "clave2027",
+    "userType": 0,
+    "userId": "25432187",
+    "email": "elena.martin@gmail.com"
+  },
+  {
+    "firstName": "Julián",
+    "lastName": "Cano",
+    "password": "segura2028",
+    "userType": 1,
+    "userId": "21234567",
+    "email": "julian.cano@gmail.com"
+  },
+  {
+    "firstName": "Valeria",
+    "lastName": "Mesa",
+    "password": "passw0rd44",
+    "userType": 1,
+    "userId": "19876543",
+    "email": "valeria.mesa@gmail.com"
+  },
+  {
+    "firstName": "Santiago",
+    "lastName": "Peña",
+    "password": "claveclave4",
+    "userType": 1,
+    "userId": "18765432",
+    "email": "santiago.pena@gmail.com"
+  },
+  {
+    "firstName": "Martina",
+    "lastName": "Ríos",
+    "password": "segura2029",
+    "userType": 1,
+    "userId": "17654329",
+    "email": "martina.rios@gmail.com"
+  },
+  {
+    "firstName": "Alejandro",
+    "lastName": "Vera",
+    "password": "contrasegura6",
+    "userType": 1,
+    "userId": "16543218",
+    "email": "alejandro.vera@gmail.com"
+  },
+  {
+    "firstName": "Camila",
+    "lastName": "Mora",
+    "password": "clave2028",
+    "userType": 1,
+    "userId": "15432187",
+    "email": "camila.mora@gmail.com"
+  },
+  {
+    "firstName": "Daniel",
+    "lastName": "Salas",
+    "password": "passw0rd77",
+    "userType": 1,
+    "userId": "14321876",
+    "email": "daniel.salas@gmail.com"
+  },
+  {
+    "firstName": "Sofía",
+    "lastName": "Castro",
+    "password": "segura2030",
+    "userType": 1,
+    "userId": "13218765",
+    "email": "sofia.castro@gmail.com"
+  },
+  {
+    "firstName": "Miguel",
+    "lastName": "Paz",
+    "password": "claveclave5",
+    "userType": 1,
+    "userId": "12098765",
+    "email": "miguel.paz@gmail.com"
+  }
+]
